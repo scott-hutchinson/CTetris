@@ -8,6 +8,7 @@ struct Tetris *Tetris_create(void)
     tetris->buffer = Buffer_create();
     fillBuffer(tetris->buffer, 0);
     tetris->currentBlock = Block_create();
+    tetris->ghostBlock = Block_create();
     tetris->currentBlock->x = 5;
     tetris->currentBlock->y = 0;
     setBlockType(tetris->currentBlock, getRandomBlockType(), 0);
@@ -32,6 +33,9 @@ struct Tetris *Tetris_create(void)
     tetris->buffer->content[ROW_SCORE][0] = 1;
     tetris->buffer->content[ROW_LEVEL][0] = 1;
     drawGameBorder(tetris->buffer);
+
+    setGhostBlock(tetris);
+
     tetris->buffer->dirty = 1;
 
     return tetris;
@@ -41,6 +45,7 @@ void Tetris_destroy(struct Tetris *tetris)
 {
     Buffer_destroy(tetris->buffer);
     Block_destroy(tetris->currentBlock);
+    Block_destroy(tetris->ghostBlock);
     free(tetris);
     cleanupScreen();
 }
@@ -128,27 +133,31 @@ void update(struct Tetris *tetris)
         }
         else if (tetris->currentKey == KEY_UP && rotateCollision(tetris->currentBlock, tetris->buffer) != 1) {
             rotateBlock(tetris->currentBlock);
+            setGhostBlock(tetris);
             tetris->buffer->dirty = 1;
         }
         else if (tetris->currentKey == KEY_LEFT
             && !collision(LEFT_COLLISION, tetris->currentBlock, tetris->buffer)) {
             tetris->currentBlock->x--;
+            setGhostBlock(tetris);
             tetris->buffer->dirty = 1;
         }
         else if (tetris->currentKey == KEY_RIGHT
                 && !collision(RIGHT_COLLISION, tetris->currentBlock, tetris->buffer)
         ) {
             tetris->currentBlock->x++;
+            setGhostBlock(tetris);
             tetris->buffer->dirty = 1;
         }
         else if (tetris->currentKey == KEY_DOWN
                 && !collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)
         ) {
             tetris->currentBlock->y++;
+            setGhostBlock(tetris);
             tetris->score++;
 
             //if (this->enableGhostBlock) {
-                //this->setGhostBlock();
+                setGhostBlock(tetris);
             //}
             tetris->buffer->dirty = 1;
         }
@@ -160,6 +169,7 @@ void drawFrame(struct Tetris *tetris)
     drawGame(
         tetris->buffer,
         tetris->currentBlock,
+        tetris->ghostBlock,
         tetris->colorMode,
         tetris->linesCompleted,
         tetris->score,
@@ -280,7 +290,7 @@ void nextBlock(struct Tetris *tetris)
     setBlockType(tetris->currentBlock, getRandomBlockType(), 0);
 
     //if (this->enableGhostBlock) {
-        //this->setGhostBlock();
+        setGhostBlock(tetris);
     //}
 }
 
@@ -288,6 +298,17 @@ int getRandomBlockType(void)
 {
     int min = 1, max = 7;
     return min + (rand() % (int)(max - min + 1));
+}
+
+void setGhostBlock(struct Tetris *tetris)
+{
+    tetris->ghostBlock->x = tetris->currentBlock->x;
+    tetris->ghostBlock->y = tetris->currentBlock->y;
+    setBlockType(tetris->ghostBlock, tetris->currentBlock->type, tetris->currentBlock->rotate);
+    tetris->ghostBlock->fillType = FILL_GHOST;
+    while (!collision(BOTTOM_COLLISION, tetris->ghostBlock, tetris->buffer)) {
+        tetris->ghostBlock->y++;
+    }
 }
 
 void updateScore(struct Tetris *tetris, int lineCount)

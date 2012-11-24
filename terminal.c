@@ -78,8 +78,11 @@ void setColor(int colorMode, int textColor, int backgroundColor, int bold)
                 break;
             case WHITE:
                 printf(";%d", XTERM_WHITE);
+                break;
             case NONE:
+                break;
             default:
+                printf(";%d", textColor);
                 break;
         }
         switch (backgroundColor) {
@@ -106,8 +109,11 @@ void setColor(int colorMode, int textColor, int backgroundColor, int bold)
                 break;
             case WHITE:
                 printf(";%d", XTERM_WHITE + 10);
+                break;
             case NONE:
+                break;
             default:
+                printf(";%d", backgroundColor);
                 break;
         }
     }
@@ -136,8 +142,11 @@ void setColor(int colorMode, int textColor, int backgroundColor, int bold)
                 break;
             case WHITE:
                 printf(";38;5;%d", XTERM_256_ORANGE);
+                break;
             case NONE:
+                break;
             default:
+                printf(";38;5;%d", textColor);
                 break;
         }
         switch (backgroundColor) {
@@ -164,8 +173,11 @@ void setColor(int colorMode, int textColor, int backgroundColor, int bold)
                 break;
             case ORANGE:
                 printf(";48;5;%d", XTERM_256_ORANGE);
+                break;
             case NONE:
+                break;
             default:
+                printf(";48;5;%d", backgroundColor);
                 break;
         }
     }

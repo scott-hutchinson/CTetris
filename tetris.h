@@ -12,7 +12,7 @@
 
 struct Tetris {
     struct Buffer *buffer;
-    struct Block *currentBlock;
+    struct Block *currentBlock, *ghostBlock;
     int currentKey, currentKeySequence [3], blockX, blockY, linesUntilLevelUp;
     uint32_t linesCompleted, score, level;
     uint8_t gameState, bufferDirty, colorMode, gravityFrameCounter, movementFrameCounter, gravityFrameDelay, movementFrameDelay;
@@ -45,6 +45,7 @@ int drawCollision(struct Block *, struct Buffer *);
 
 void nextBlock(struct Tetris *);
 int getRandomBlockType(void);
+void setGhostBlock(struct Tetris *);
 
 void updateScore(struct Tetris *, int);
 void updateLevel(struct Tetris *);

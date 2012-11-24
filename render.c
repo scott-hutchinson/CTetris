@@ -1,10 +1,11 @@
 #include "render.h"
 
 
-void drawGame(struct Buffer *buffer, struct Block *block, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level)
+void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level)
 {
     buffer->dirty = 0;
 
+    drawBlock(buffer, ghostBlock);
     drawBlock(buffer, block);
 
     int x, y;
@@ -46,7 +47,8 @@ void drawGame(struct Buffer *buffer, struct Block *block, int colorMode, unsigne
                     setColor(XTERM_256, GRAY, 0, 1);
                 }
                 else if (currentCell == FILL_GHOST) {
-                    setColor(XTERM_256, 244, 244, 0);
+                    setColor(XTERM_256, 0, 244, 0);
+                    //setColor(XTERM_256, 0, GRAY, 0);
                 }
                 else if (currentCell == FILL_1) {
                     setColor(XTERM_256, CYAN, CYAN, 0);
@@ -89,6 +91,7 @@ void drawGame(struct Buffer *buffer, struct Block *block, int colorMode, unsigne
 
     }
 
+    eraseBlock(buffer, ghostBlock);
     eraseBlock(buffer, block);
 
     clearScreen(0);
@@ -96,14 +99,14 @@ void drawGame(struct Buffer *buffer, struct Block *block, int colorMode, unsigne
 
 void drawGameBorder(struct Buffer *buffer)
 {
-    int i, j;
-    for (i = 0; i < BUFFER_WIDTH; i+= BUFFER_WIDTH-1) {
-        for (j = 0; j < ROW_FLOOR; j++) {
-            setCell(buffer, i, j, FILL_WALL);
+    int x, y;
+    for (x = 0; x < BUFFER_WIDTH; x+= BUFFER_WIDTH-1) {
+        for (y = 0; y < ROW_FLOOR; y++) {
+            setCell(buffer, x, y, FILL_WALL);
         }
     }
-    for (i = 0; i < BUFFER_WIDTH; i++) {
-        setCell(buffer, i, ROW_FLOOR, FILL_FLOOR);
+    for (x = 0; x < BUFFER_WIDTH; x++) {
+        setCell(buffer, x, ROW_FLOOR, FILL_FLOOR);
     }
 }
 
