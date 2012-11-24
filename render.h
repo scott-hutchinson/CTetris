@@ -1,6 +1,7 @@
 #ifndef _render_h
 #define _render_h
 
+#include <stdint.h>
 #include "buffer.h"
 #include "block.h"
 #include "terminal.h"

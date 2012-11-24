@@ -3,19 +3,20 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 #include "coordinate.h"
 
 struct Block {
-    unsigned char x, y, type, rotate, fillType;
+    uint8_t x, y, type, rotate, fillType;
     struct Coordinate coords [4], leftCollisionCoords [4], rightCollisionCoords [4], bottomCollisionCoords [4];
 };
 
 struct Block *Block_create(void);
 void Block_destroy(struct Block *);
 
-void setBlockType(struct Block *, unsigned char, unsigned char);
+void setBlockType(struct Block *, uint8_t, uint8_t);
 void rotateBlock(struct Block *);
-void setBlockRotate(struct Block *, unsigned char);
+void setBlockRotate(struct Block *, uint8_t);
 
 void clearCollisionCoords(struct Block *);
 int getCoordX(struct Block *, int, int);
@@ -40,14 +41,6 @@ enum coordinateTypes {
 };
 
 enum fillTypes {
-    //FILL_1     = 101,
-    //FILL_2     = 102,
-    //FILL_3     = 103,
-    //FILL_4     = 104,
-    //FILL_5     = 105,
-    //FILL_6     = 106,
-    //FILL_7     = 107,
-    //FILL_GHOST = 108,
     FILL_1 = 1,
     FILL_2 = 2,
     FILL_3 = 3,

@@ -5,12 +5,12 @@ struct Block *Block_create(void)
     struct Block *block = malloc(sizeof(struct Block));
     int i;
     for (i = 0; i < 4; i++) {
-        block->coords[i].x = 0;
-        block->coords[i].y = 0;
-        block->leftCollisionCoords[i].x = 0;
-        block->leftCollisionCoords[i].y = 0;
-        block->rightCollisionCoords[i].x = 0;
-        block->rightCollisionCoords[i].y = 0;
+        block->coords[i].x                = 0;
+        block->coords[i].y                = 0;
+        block->leftCollisionCoords[i].x   = 0;
+        block->leftCollisionCoords[i].y   = 0;
+        block->rightCollisionCoords[i].x  = 0;
+        block->rightCollisionCoords[i].y  = 0;
         block->bottomCollisionCoords[i].x = 0;
         block->bottomCollisionCoords[i].y = 0;
     }
@@ -47,7 +47,7 @@ void rotateBlock(struct Block *block)
     setBlockType(block, block->type, block->rotate);
 }
 
-void setBlockRotate(struct Block *block, unsigned char rotate)
+void setBlockRotate(struct Block *block, uint8_t rotate)
 {
     if (block->type == BLOCK_O) {
         return;
@@ -72,7 +72,7 @@ void setBlockRotate(struct Block *block, unsigned char rotate)
     setBlockType(block, block->type, block->rotate);
 }
 
-void setBlockType(struct Block *block, unsigned char type, unsigned char rotate)
+void setBlockType(struct Block *block, uint8_t type, uint8_t rotate)
 {
     clearCollisionCoords(block);
     block->type = type;

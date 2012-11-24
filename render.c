@@ -39,7 +39,7 @@ void drawGame(struct Buffer *buffer, struct Block *block, int colorMode, unsigne
         }
         else {
             for (x = 0; x < BUFFER_WIDTH; x++) {
-                unsigned char currentCell = buffer->content[y][x];
+                uint8_t currentCell = buffer->content[y][x];
                 if ((x == 0 || x == BUFFER_WIDTH-1 || y == ROW_FLOOR)
                     && y <= ROW_FLOOR
                 ) {

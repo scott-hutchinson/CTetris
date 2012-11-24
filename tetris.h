@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 #include "terminal.h"
 #include "input.h"
 #include "buffer.h"
@@ -13,8 +14,8 @@ struct Tetris {
     struct Buffer *buffer;
     struct Block *currentBlock;
     int currentKey, currentKeySequence [3], blockX, blockY, linesUntilLevelUp;
-    unsigned int linesCompleted, score, level;
-    unsigned char gameState, bufferDirty, colorMode, gravityFrameCounter, movementFrameCounter, gravityFrameDelay, movementFrameDelay;
+    uint32_t linesCompleted, score, level;
+    uint8_t gameState, bufferDirty, colorMode, gravityFrameCounter, movementFrameCounter, gravityFrameDelay, movementFrameDelay;
 };
 
 enum gameStates {

@@ -4,9 +4,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 
 struct Coordinate {
-    char x, y;
+    int8_t x, y;
 };
 
 struct Coordinate *Coordinate_create(void);
