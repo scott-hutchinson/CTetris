@@ -41,14 +41,14 @@ enum coordinateTypes {
 };
 
 enum fillTypes {
-    FILL_1 = 1,
-    FILL_2 = 2,
-    FILL_3 = 3,
-    FILL_4 = 4,
-    FILL_5 = 5,
-    FILL_6 = 6,
-    FILL_7 = 7,
-    FILL_GHOST,
+    FILL_1     = 1,
+    FILL_2     = 2,
+    FILL_3     = 3,
+    FILL_4     = 4,
+    FILL_5     = 5,
+    FILL_6     = 6,
+    FILL_7     = 7,
+    FILL_GHOST = 8,
 };
 
 #endif

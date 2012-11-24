@@ -171,7 +171,7 @@ int checkCompleteLines(struct Tetris *tetris)
 {
     int emptyCellCount = 0, lineCount = 0;
     int checkCount, x, y;
-    for(checkCount = 0; checkCount < 4; checkCount++) {
+    for (checkCount = 0; checkCount < 4; checkCount++) {
         for (y = ROW_FLOOR-1; y > 0; y--) {
             for (x = 1; x < BUFFER_WIDTH-1; x++) {
                 if (tetris->buffer->content[y][x] == EMPTY) {
@@ -278,7 +278,6 @@ void nextBlock(struct Tetris *tetris)
     tetris->currentBlock->x = 5;
     tetris->currentBlock->y = 0;
     setBlockType(tetris->currentBlock, getRandomBlockType(), 0);
-    //setBlockType(tetris->currentBlock, BLOCK_I, 1);
 
     //if (this->enableGhostBlock) {
         //this->setGhostBlock();
@@ -309,7 +308,6 @@ void updateScore(struct Tetris *tetris, int lineCount)
         tetris->score += 800 * tetris->level;
         tetris->linesUntilLevelUp -= 8;
     }
-    //tetris->buffer->content[ROW_SCORE][0] = tetris->score;
 }
 
 void updateLevel(struct Tetris *tetris)
@@ -317,7 +315,6 @@ void updateLevel(struct Tetris *tetris)
     if (tetris->linesUntilLevelUp <= 0) {
         tetris->linesUntilLevelUp += 10;
         tetris->level++;
-        //tetris->buffer->content[ROW_LEVEL][0] = tetris->level;
         if (tetris->gravityFrameDelay > 1) {
             tetris->gravityFrameDelay--;
         }
@@ -328,7 +325,7 @@ void updateLevel(struct Tetris *tetris)
 void checkGameOver(struct Tetris *tetris)
 {
     if (drawCollision(tetris->currentBlock, tetris->buffer)) {
-        //this->renderer->drawGameOver();
+        //drawGameOver();
         Tetris_destroy(tetris);
         exit(0);
     }

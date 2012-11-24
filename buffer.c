@@ -52,7 +52,7 @@ void fillBuffer(struct Buffer *buffer, uint8_t fillChar)
 
 int getCell(struct Buffer *buffer, int x, int y)
 {
-    if(x >= 0 && x < BUFFER_WIDTH && y >= 0 && y < BUFFER_HEIGHT) {
+    if (x >= 0 && x < BUFFER_WIDTH && y >= 0 && y < BUFFER_HEIGHT) {
         return buffer->content[y][x];
     }
     return -1;
@@ -60,7 +60,7 @@ int getCell(struct Buffer *buffer, int x, int y)
 
 int setCell(struct Buffer *buffer, int x, int y, uint8_t content)
 {
-    if(x >= 0 && x < BUFFER_WIDTH && y >= 0 && y < BUFFER_HEIGHT) {
+    if (x >= 0 && x < BUFFER_WIDTH && y >= 0 && y < BUFFER_HEIGHT) {
         buffer->content[y][x] = content;
         return 1;
     }
