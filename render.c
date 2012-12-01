@@ -1,11 +1,12 @@
 #include "render.h"
 
 
-void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level)
+void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level, uint8_t enableGhostBlock)
 {
     buffer->dirty = 0;
-
-    drawBlock(buffer, ghostBlock);
+    if (enableGhostBlock == 1) {
+        drawBlock(buffer, ghostBlock);
+    }
     drawBlock(buffer, block);
 
     int x, y;
@@ -81,6 +82,18 @@ void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlo
                 else if (currentCell == FILL_FLOOR) {
                     printf("::");
                 }
+                // else if (currentCell == GAMEOVER_0) {
+                    // printf("GA");
+                // }
+                // else if (currentCell == GAMEOVER_1) {
+                    // printf("ME");
+                // }
+                // else if (currentCell == GAMEOVER_2) {
+                    // printf("OV");
+                // }
+                // else if (currentCell == GAMEOVER_3) {
+                    // printf("ER");
+                // }
                 else {
                     printf("  ");
                 }
@@ -91,7 +104,9 @@ void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlo
 
     }
 
-    eraseBlock(buffer, ghostBlock);
+    if (enableGhostBlock == 1) {
+        eraseBlock(buffer, ghostBlock);
+    }
     eraseBlock(buffer, block);
 
     clearScreen(0);
@@ -108,6 +123,55 @@ void drawGameBorder(struct Buffer *buffer)
     for (x = 0; x < BUFFER_WIDTH; x++) {
         setCell(buffer, x, ROW_FLOOR, FILL_FLOOR);
     }
+}
+
+void drawGameOver(struct Buffer *buffer)
+{
+    int x, y;
+    for (x = 4, y = 0; y < ROW_FLOOR; y++) {
+        msleep(50);
+        setCell(buffer, x, y, GAMEOVER_0);
+        setCell(buffer, x+1, y, GAMEOVER_1);
+        int i, j;
+        for (i = 0; i < BUFFER_HEIGHT; i++) {
+            for (j = 0; j < BUFFER_WIDTH; j++) {
+                uint8_t currentCell = buffer->content[i][j];
+                if (currentCell == GAMEOVER_0) {
+                    printf("GA");
+                }
+                else if (currentCell == GAMEOVER_1) {
+                    printf("ME");
+                }
+                else if (currentCell == GAMEOVER_2) {
+                    printf("OV");
+                }
+                else if (currentCell == GAMEOVER_3) {
+                    printf("ER");
+                }
+                else {
+                    printf("  ");
+                }
+                // disableColor();
+            }
+        }
+        if (y != ROW_FLOOR -1) {
+            setCell(buffer, x, y, EMPTY);
+            setCell(buffer, x+1, y, EMPTY);
+        }
+        clearScreen(0);
+    }
+    // for (x += 2, y = 0; y <ROW_FLOOR; y++) {
+        // msleep(50);
+        // buffer->setCell(x, y, GAMEOVER_2);
+        // buffer->setCell(x+1, y, GAMEOVER_3);
+        // drawBuffer();
+        // if (y !=ROW_FLOOR -1) {
+            // buffer->setCell(x, y, EMPTY);
+            // buffer->setCell(x+1, y, EMPTY);
+        // }
+        // clearScreen(0);
+    // }
+    // msleep(700);
 }
 
 

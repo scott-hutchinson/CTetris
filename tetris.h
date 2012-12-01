@@ -15,7 +15,7 @@ struct Tetris {
     struct Block *currentBlock, *ghostBlock;
     int currentKey, currentKeySequence [3], blockX, blockY, linesUntilLevelUp;
     uint32_t linesCompleted, score, level;
-    uint8_t gameState, bufferDirty, colorMode, gravityFrameCounter, movementFrameCounter, gravityFrameDelay, movementFrameDelay;
+    uint8_t gameState, bufferDirty, colorMode, enableGhostBlock, gravityFrameCounter, movementFrameCounter, gravityFrameDelay, movementFrameDelay;
 };
 
 enum gameStates {

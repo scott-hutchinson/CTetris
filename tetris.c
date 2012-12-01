@@ -13,6 +13,7 @@ struct Tetris *Tetris_create(void)
     tetris->currentBlock->y = 0;
     setBlockType(tetris->currentBlock, getRandomBlockType(), 0);
 
+    tetris->enableGhostBlock     = 1;
     tetris->gravityFrameCounter  = 0;
     tetris->movementFrameCounter = 0;
     tetris->movementFrameDelay   = 10;
@@ -34,7 +35,9 @@ struct Tetris *Tetris_create(void)
     tetris->buffer->content[ROW_LEVEL][0] = 1;
     drawGameBorder(tetris->buffer);
 
-    setGhostBlock(tetris);
+    if (tetris->enableGhostBlock == 1) {
+        setGhostBlock(tetris);
+    }
 
     tetris->buffer->dirty = 1;
 
@@ -113,6 +116,18 @@ void update(struct Tetris *tetris)
             erasePauseMessage(tetris->buffer);
         }
     }
+    else if (tetris->currentKey == KEY_G) {
+        if (tetris->enableGhostBlock) {
+            tetris->enableGhostBlock = 0;
+        }
+        else {
+            tetris->enableGhostBlock = 1;
+            if (tetris->enableGhostBlock == 1) {
+                setGhostBlock(tetris);
+            }
+        }
+        tetris->buffer->dirty = 1;
+    }
 
 
     if (tetris->gameState != PAUSED) {
@@ -133,32 +148,40 @@ void update(struct Tetris *tetris)
         }
         else if (tetris->currentKey == KEY_UP && rotateCollision(tetris->currentBlock, tetris->buffer) != 1) {
             rotateBlock(tetris->currentBlock);
-            setGhostBlock(tetris);
+            if (tetris->enableGhostBlock == 1) {
+                setGhostBlock(tetris);
+            }
             tetris->buffer->dirty = 1;
         }
         else if (tetris->currentKey == KEY_LEFT
             && !collision(LEFT_COLLISION, tetris->currentBlock, tetris->buffer)) {
             tetris->currentBlock->x--;
-            setGhostBlock(tetris);
+            if (tetris->enableGhostBlock == 1) {
+                setGhostBlock(tetris);
+            }
             tetris->buffer->dirty = 1;
         }
         else if (tetris->currentKey == KEY_RIGHT
                 && !collision(RIGHT_COLLISION, tetris->currentBlock, tetris->buffer)
         ) {
             tetris->currentBlock->x++;
-            setGhostBlock(tetris);
+            if (tetris->enableGhostBlock == 1) {
+                setGhostBlock(tetris);
+            }
             tetris->buffer->dirty = 1;
         }
         else if (tetris->currentKey == KEY_DOWN
                 && !collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)
         ) {
             tetris->currentBlock->y++;
-            setGhostBlock(tetris);
+            if (tetris->enableGhostBlock == 1) {
+                setGhostBlock(tetris);
+            }
             tetris->score++;
 
-            //if (this->enableGhostBlock) {
-                setGhostBlock(tetris);
-            //}
+//          if (tetris->enableGhostBlock == 1) {
+//              setGhostBlock(tetris);
+//          }
             tetris->buffer->dirty = 1;
         }
     }
@@ -173,7 +196,8 @@ void drawFrame(struct Tetris *tetris)
         tetris->colorMode,
         tetris->linesCompleted,
         tetris->score,
-        tetris->level
+        tetris->level,
+        tetris->enableGhostBlock
     );
 }
 
@@ -289,9 +313,9 @@ void nextBlock(struct Tetris *tetris)
     tetris->currentBlock->y = 0;
     setBlockType(tetris->currentBlock, getRandomBlockType(), 0);
 
-    //if (this->enableGhostBlock) {
+    if (tetris->enableGhostBlock == 1) {
         setGhostBlock(tetris);
-    //}
+    }
 }
 
 int getRandomBlockType(void)
@@ -346,7 +370,7 @@ void updateLevel(struct Tetris *tetris)
 void checkGameOver(struct Tetris *tetris)
 {
     if (drawCollision(tetris->currentBlock, tetris->buffer)) {
-        //drawGameOver();
+        //drawGameOver(tetris->buffer);
         Tetris_destroy(tetris);
         exit(0);
     }

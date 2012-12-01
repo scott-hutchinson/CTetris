@@ -7,8 +7,9 @@
 #include "terminal.h"
 #include "tetris.h"
 
-void drawGame(struct Buffer *, struct Block *, struct Block *, int, unsigned int, unsigned int, unsigned int);
+void drawGame(struct Buffer *, struct Block *, struct Block *, int, unsigned int, unsigned int, unsigned int, uint8_t);
 void drawGameBorder(struct Buffer *);
+void drawGameOver(struct Buffer *);
 void drawBlock(struct Buffer *, struct Block *);
 void eraseBlock(struct Buffer *, struct Block *);
 void drawPauseMessage(struct Buffer *);
