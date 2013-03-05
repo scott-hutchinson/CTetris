@@ -370,7 +370,7 @@ void updateLevel(struct Tetris *tetris)
 void checkGameOver(struct Tetris *tetris)
 {
     if (drawCollision(tetris->currentBlock, tetris->buffer)) {
-        //drawGameOver(tetris->buffer);
+        drawGameOver(tetris->buffer);
         Tetris_destroy(tetris);
         exit(0);
     }

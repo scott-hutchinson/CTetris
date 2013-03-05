@@ -127,51 +127,52 @@ void drawGameBorder(struct Buffer *buffer)
 
 void drawGameOver(struct Buffer *buffer)
 {
-    int x, y;
-    for (x = 4, y = 0; y < ROW_FLOOR; y++) {
-        msleep(50);
-        setCell(buffer, x, y, GAMEOVER_0);
-        setCell(buffer, x+1, y, GAMEOVER_1);
-        int i, j;
-        for (i = 0; i < BUFFER_HEIGHT; i++) {
-            for (j = 0; j < BUFFER_WIDTH; j++) {
-                uint8_t currentCell = buffer->content[i][j];
-                if (currentCell == GAMEOVER_0) {
-                    printf("GA");
-                }
-                else if (currentCell == GAMEOVER_1) {
-                    printf("ME");
-                }
-                else if (currentCell == GAMEOVER_2) {
-                    printf("OV");
-                }
-                else if (currentCell == GAMEOVER_3) {
-                    printf("ER");
-                }
-                else {
-                    printf("  ");
-                }
-                // disableColor();
-            }
-        }
-        if (y != ROW_FLOOR -1) {
-            setCell(buffer, x, y, EMPTY);
-            setCell(buffer, x+1, y, EMPTY);
-        }
-        clearScreen(0);
-    }
-    // for (x += 2, y = 0; y <ROW_FLOOR; y++) {
-        // msleep(50);
-        // buffer->setCell(x, y, GAMEOVER_2);
-        // buffer->setCell(x+1, y, GAMEOVER_3);
-        // drawBuffer();
-        // if (y !=ROW_FLOOR -1) {
-            // buffer->setCell(x, y, EMPTY);
-            // buffer->setCell(x+1, y, EMPTY);
-        // }
-        // clearScreen(0);
-    // }
-    // msleep(700);
+	buffer->dirty = 0;
+    fillBuffer(buffer, 0);
+    drawGameBorder(buffer);
+
+    int i, j, x, y;
+	for (j = 4, i = 0; i < ROW_FLOOR; i++) {
+		setCell(buffer, j, i, GAMEOVER_0);
+		setCell(buffer, j+1, i, GAMEOVER_1);
+		setCell(buffer, j+2, i, GAMEOVER_2);
+		setCell(buffer, j+3, i, GAMEOVER_3);
+		for (y = 0; y < ROW_FLOOR; y++) {
+			for (x = 0; x < BUFFER_WIDTH; x++) {
+				uint8_t currentCell = buffer->content[y][x];
+				if (currentCell == FILL_WALL) {
+					printf("||");
+				}
+				else if (currentCell == FILL_FLOOR) {
+					printf("::");
+				}
+				else if (currentCell == GAMEOVER_0) {
+					printf("GA");
+				}
+				else if (currentCell == GAMEOVER_1) {
+					printf("ME");
+				}
+				else if (currentCell == GAMEOVER_2) {
+					printf("OV");
+				}
+				else if (currentCell == GAMEOVER_3) {
+					printf("ER");
+				}
+				else {
+					printf("  ");
+				}
+				disableColor();
+			}
+			printf("\n");
+		}
+		setCell(buffer, j, i, 0);
+		setCell(buffer, j+1, i, 0);
+		setCell(buffer, j+2, i, 0);
+		setCell(buffer, j+3, i, 0);
+		clearScreen(0);
+		msleep(50);
+	}
+	msleep(800);
 }
 
 

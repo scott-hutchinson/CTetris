@@ -29,10 +29,10 @@ enum bufferFillTypes {
     EMPTY,
     FILL_WALL,
     FILL_FLOOR,
-    GAMEOVER_0,
-    GAMEOVER_1,
-    GAMEOVER_2,
-    GAMEOVER_3,
+    GAMEOVER_0 = 101,
+    GAMEOVER_1 = 102,
+    GAMEOVER_2 = 103,
+    GAMEOVER_3 = 104,
     //PAUSED,
 };
 
