@@ -4,10 +4,12 @@
 void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level, uint8_t enableGhostBlock)
 {
     buffer->dirty = 0;
-    if (enableGhostBlock == 1) {
+    if (ghostBlock != NULL && enableGhostBlock == 1) {
         drawBlock(buffer, ghostBlock);
     }
-    drawBlock(buffer, block);
+    if (block != NULL) {
+        drawBlock(buffer, block);
+    }
 
     int x, y;
     for (y = 0; y < BUFFER_HEIGHT; y++) {
@@ -82,18 +84,18 @@ void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlo
                 else if (currentCell == FILL_FLOOR) {
                     printf("::");
                 }
-                // else if (currentCell == GAMEOVER_0) {
-                    // printf("GA");
-                // }
-                // else if (currentCell == GAMEOVER_1) {
-                    // printf("ME");
-                // }
-                // else if (currentCell == GAMEOVER_2) {
-                    // printf("OV");
-                // }
-                // else if (currentCell == GAMEOVER_3) {
-                    // printf("ER");
-                // }
+                else if (currentCell == GAMEOVER_0) {
+                    printf("GA");
+                }
+                else if (currentCell == GAMEOVER_1) {
+                    printf("ME");
+                }
+                else if (currentCell == GAMEOVER_2) {
+                    printf("OV");
+                }
+                else if (currentCell == GAMEOVER_3) {
+                    printf("ER");
+                }
                 else {
                     printf("  ");
                 }
@@ -104,10 +106,12 @@ void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlo
 
     }
 
-    if (enableGhostBlock == 1) {
+    if (ghostBlock != NULL && enableGhostBlock == 1) {
         eraseBlock(buffer, ghostBlock);
     }
-    eraseBlock(buffer, block);
+    if (block != NULL) {
+        eraseBlock(buffer, block);
+    }
 
     clearScreen(0);
 }
@@ -125,53 +129,63 @@ void drawGameBorder(struct Buffer *buffer)
     }
 }
 
-void drawGameOver(struct Buffer *buffer)
+void drawGameOver(struct Buffer *buffer, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level)
 {
-	buffer->dirty = 0;
-    fillBuffer(buffer, 0);
+    buffer->dirty = 0;
     drawGameBorder(buffer);
 
-    int i, j, x, y;
-	for (j = 4, i = 0; i < ROW_FLOOR; i++) {
-		setCell(buffer, j, i, GAMEOVER_0);
-		setCell(buffer, j+1, i, GAMEOVER_1);
-		setCell(buffer, j+2, i, GAMEOVER_2);
-		setCell(buffer, j+3, i, GAMEOVER_3);
-		for (y = 0; y < ROW_FLOOR; y++) {
-			for (x = 0; x < BUFFER_WIDTH; x++) {
-				uint8_t currentCell = buffer->content[y][x];
-				if (currentCell == FILL_WALL) {
-					printf("||");
-				}
-				else if (currentCell == FILL_FLOOR) {
-					printf("::");
-				}
-				else if (currentCell == GAMEOVER_0) {
-					printf("GA");
-				}
-				else if (currentCell == GAMEOVER_1) {
-					printf("ME");
-				}
-				else if (currentCell == GAMEOVER_2) {
-					printf("OV");
-				}
-				else if (currentCell == GAMEOVER_3) {
-					printf("ER");
-				}
-				else {
-					printf("  ");
-				}
-				disableColor();
-			}
-			printf("\n");
-		}
-		setCell(buffer, j, i, 0);
-		setCell(buffer, j+1, i, 0);
-		setCell(buffer, j+2, i, 0);
-		setCell(buffer, j+3, i, 0);
-		clearScreen(0);
-		msleep(50);
+    int x, y;
+	for (x = 4, y = 0; y < ROW_FLOOR; y++) {
+        msleep(50);
+
+		setCell(buffer, x, y, GAMEOVER_0);
+		setCell(buffer, x+1, y, GAMEOVER_1);
+
+        drawGame(
+            buffer,
+            NULL,
+            NULL,
+            colorMode,
+            linesCompleted,
+            score,
+            level,
+            0
+        );
+
+        if (y != ROW_FLOOR - 1) {
+            setCell(buffer, x, y, EMPTY);
+            setCell(buffer, x+1, y, EMPTY);
+        }
+
+        clearScreen(0);
 	}
+
+    for (x += 2, y = 0; y < ROW_FLOOR; y++) {
+        msleep(50);
+
+        setCell(buffer, x, y, GAMEOVER_2);
+        setCell(buffer, x+1, y, GAMEOVER_3);
+
+        drawGame(
+            buffer,
+            NULL,
+            NULL,
+            colorMode,
+            linesCompleted,
+            score,
+            level,
+            0
+        );
+
+        if (y != ROW_FLOOR - 1) {
+            setCell(buffer, x, y, EMPTY);
+            setCell(buffer, x+1, y, EMPTY);
+        }
+
+
+        clearScreen(0);
+    }
+
 	msleep(800);
 }
 
