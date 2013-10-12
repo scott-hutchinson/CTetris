@@ -7,9 +7,10 @@
 typedef struct {
     uint8_t **data;
     uint8_t dirty;
+    unsigned int width, height;
 } Buffer;
 
-Buffer *Buffer_create(void);
+Buffer *Buffer_create(unsigned int, unsigned int);
 void Buffer_destroy(Buffer *);
 
 void fillBuffer(Buffer *buffer, uint8_t);

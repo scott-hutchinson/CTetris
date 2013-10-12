@@ -7,10 +7,11 @@
 #include "input.h"
 #include "buffer.h"
 #include "block.h"
-#include "render.h"
+#include "renderer.h"
 
 
 typedef struct {
+    Renderer *renderer;
     Buffer *buffer;
     Block *currentBlock, *ghostBlock;
     int currentKey, currentKeySequence [3], blockX, blockY, linesUntilLevelUp;

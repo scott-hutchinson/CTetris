@@ -1,11 +1,19 @@
-#ifndef _render_h
-#define _render_h
+#ifndef _renderer_h
+#define _renderer_h
 
 #include <stdint.h>
 
 #include "buffer.h"
 #include "block.h"
 
+
+typedef struct {
+    Buffer *buffer;
+    unsigned char color_mode;
+} Renderer;
+
+Renderer *Renderer_create(unsigned int, unsigned int, unsigned char);
+void Renderer_destroy(Renderer *);
 
 void drawGame(Buffer *, Block *, Block *, int, unsigned int, unsigned int, unsigned int, uint8_t);
 void drawGameBorder(Buffer *);

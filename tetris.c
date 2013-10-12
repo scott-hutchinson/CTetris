@@ -8,7 +8,11 @@ Tetris *Tetris_create(void)
     srand(time(NULL));
     initScreen();
     Tetris *tetris = malloc(sizeof(Tetris));
-    tetris->buffer = Buffer_create();
+
+    tetris->renderer = Renderer_create(12, 24, XTERM_256);
+
+
+    tetris->buffer = Buffer_create(12, 24);
     fillBuffer(tetris->buffer, 0);
     tetris->currentBlock = Block_create();
     tetris->ghostBlock = Block_create();
@@ -49,6 +53,7 @@ Tetris *Tetris_create(void)
 
 void Tetris_destroy(Tetris *tetris)
 {
+    Renderer_destroy(tetris->renderer);
     Buffer_destroy(tetris->buffer);
     Block_destroy(tetris->currentBlock);
     Block_destroy(tetris->ghostBlock);

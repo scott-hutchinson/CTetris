@@ -4,21 +4,21 @@
 #include <stdio.h>
 
 
-Buffer *Buffer_create(void)
+Buffer *Buffer_create(unsigned int width, unsigned int height)
 {
     Buffer *buffer = malloc(sizeof(Buffer));
-    buffer->data = malloc(BUFFER_HEIGHT * sizeof(uint8_t *));
+    buffer->data = malloc(height * sizeof(uint8_t *));
     int y;
-    for (y = 0; y < BUFFER_HEIGHT; y++) {
-        if (y == BUFFER_HEIGHT - 3
-            || y == BUFFER_HEIGHT - 2
-            || y == BUFFER_HEIGHT - 1
+    for (y = 0; y < height; y++) {
+        if (y == height - 3
+            || y == height - 2
+            || y == height - 1
         ) {
             buffer->data[y] = malloc(sizeof(uint8_t));
             buffer->data[y][0] = 0;
         }
         else {
-            buffer->data[y] = malloc(BUFFER_WIDTH * sizeof(uint8_t));
+            buffer->data[y] = malloc(width * sizeof(uint8_t));
         }
     }
     buffer->dirty = 0;

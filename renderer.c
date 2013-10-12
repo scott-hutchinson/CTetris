@@ -1,10 +1,29 @@
-#include "render.h"
+#include "renderer.h"
 
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "terminal.h"
 #include "tetris.h"
 
+
+Renderer *Renderer_create(unsigned int width, unsigned int height, unsigned char color_mode)
+{
+    Renderer *renderer = malloc(sizeof(Renderer));
+
+    renderer->buffer = Buffer_create(width, width);
+
+    renderer->color_mode = color_mode;
+
+    return renderer;
+}
+
+void Renderer_destroy(Renderer *renderer)
+{
+    Buffer_destroy(renderer->buffer);
+
+    free(renderer);
+}
 
 void drawGame(Buffer *buffer, Block *block, Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level, uint8_t enableGhostBlock)
 {
