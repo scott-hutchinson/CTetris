@@ -3,7 +3,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int getKey(int *keySequence) {
+
+int Input_get_key(int *keySequence) {
     int i;
     for (i = 0; i < 3; i++) {
         keySequence[i] = ASCII_NULL;
@@ -14,7 +15,7 @@ int getKey(int *keySequence) {
     if (keySequence[1] == ASCII_NULL
         && keySequence[2] == ASCII_NULL
     ) {
-        return getKeyAlias(keySequence[0]);
+        return Input_get_key_alias(keySequence[0]);
     }
     else if (keySequence[0] == ASCII_ESCAPE
             && keySequence[1] == ASCII_SQUARE_BRACKET_LEFT
@@ -36,7 +37,7 @@ int getKey(int *keySequence) {
     return 0;
 }
 
-int getKeyAlias(int keyCode)
+int Input_get_key_alias(int keyCode)
 {
     switch (keyCode) {
         case ASCII_LOWER_Q:

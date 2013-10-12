@@ -1,24 +1,25 @@
 #include "tetris.h"
 
 #include <stdlib.h>
+#include <time.h>
 
 
 Tetris *Tetris_create(void)
 {
     srand(time(NULL));
-    initScreen();
+    Tetris_init_screen();
     Tetris *tetris = malloc(sizeof(Tetris));
 
     tetris->renderer = Renderer_create(12, 24, XTERM_256);
 
 
     tetris->buffer = Buffer_create(12, 24);
-    fillBuffer(tetris->buffer, 0);
+    Buffer_fill(tetris->buffer, 0);
     tetris->currentBlock = Block_create();
     tetris->ghostBlock = Block_create();
     tetris->currentBlock->x = 5;
     tetris->currentBlock->y = 0;
-    setBlockType(tetris->currentBlock, getRandomBlockType(), 0);
+    Block_set_type(tetris->currentBlock, Tetris_get_random_block_type(), 0);
 
     tetris->enableGhostBlock     = 1;
     tetris->gravityFrameCounter  = 0;
@@ -40,10 +41,10 @@ Tetris *Tetris_create(void)
     tetris->buffer->data[ROW_LINE_COUNTER][0] = 1;
     tetris->buffer->data[ROW_SCORE][0] = 1;
     tetris->buffer->data[ROW_LEVEL][0] = 1;
-    drawGameBorder(tetris->buffer);
+    Renderer_draw_game_border(tetris->buffer);
 
     if (tetris->enableGhostBlock == 1) {
-        setGhostBlock(tetris);
+        Tetris_set_ghost_block(tetris);
     }
 
     tetris->buffer->dirty = 1;
@@ -58,52 +59,52 @@ void Tetris_destroy(Tetris *tetris)
     Block_destroy(tetris->currentBlock);
     Block_destroy(tetris->ghostBlock);
     free(tetris);
-    cleanupScreen();
+    Tetris_cleanup_screen();
 }
 
-void initScreen(void)
+void Tetris_init_screen(void)
 {
-    beginRawMode();
-    setCursor(0);
-    clearScreen(1);
+    Terminal_begin_raw_mode();
+    Terminal_set_cursor(0);
+    Terminal_clear_screen(1);
 }
 
-void cleanupScreen(void)
+void Tetris_cleanup_screen(void)
 {
-    setCursor(1);
-    endRawMode();
-    clearScreen(1);
+    Terminal_set_cursor(1);
+    Terminal_end_raw_mode();
+    Terminal_clear_screen(1);
 }
 
-void gameLoop(Tetris *tetris)
+void Tetris_game_loop(Tetris *tetris)
 {
     while (1) {
-        getKeyInput(tetris);
-        update(tetris);
+        Tetris_get_key_input(tetris);
+        Tetris_update(tetris);
         if (tetris->buffer->dirty) {
-            drawFrame(tetris);
+            Tetris_draw_frame(tetris);
         }
-        msleep(50);
+        Tetris_sleep_ms(50);
     }
 }
 
-void getKeyInput(Tetris *tetris)
+void Tetris_get_key_input(Tetris *tetris)
 {
-    tetris->currentKey = getKey(tetris->currentKeySequence);
+    tetris->currentKey = Input_get_key(tetris->currentKeySequence);
 }
 
-void update(Tetris *tetris)
+void Tetris_update(Tetris *tetris)
 {
-    if (collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)) {
+    if (Tetris_collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)) {
         tetris->movementFrameCounter++;
         if (tetris->movementFrameCounter == tetris->movementFrameDelay) {
             tetris->movementFrameCounter = 0;
-            drawBlock(tetris->buffer, tetris->currentBlock);
-            nextBlock(tetris);
-            int completeLines = checkCompleteLines(tetris);
-            checkGameOver(tetris);
-            updateScore(tetris, completeLines);
-            updateLevel(tetris);
+            Renderer_draw_block(tetris->buffer, tetris->currentBlock);
+            Tetris_next_block(tetris);
+            int completeLines = Tetris_check_complete_lines(tetris);
+            Tetris_check_game_over(tetris);
+            Tetris_update_score(tetris, completeLines);
+            Tetris_update_level(tetris);
             tetris->buffer->dirty = 1;
         }
     }
@@ -117,11 +118,11 @@ void update(Tetris *tetris)
     else if (tetris->currentKey == KEY_P) {
         if (tetris->gameState == RUNNING) {
             tetris->gameState = PAUSED;
-            drawPauseMessage(tetris->buffer);
+            Renderer_draw_pause_message(tetris->buffer);
         }
         else if (tetris->gameState == PAUSED) {
             tetris->gameState = RUNNING;
-            erasePauseMessage(tetris->buffer);
+            Renderer_erase_pause_message(tetris->buffer);
         }
     }
     else if (tetris->currentKey == KEY_G) {
@@ -131,7 +132,7 @@ void update(Tetris *tetris)
         else {
             tetris->enableGhostBlock = 1;
             if (tetris->enableGhostBlock == 1) {
-                setGhostBlock(tetris);
+                Tetris_set_ghost_block(tetris);
             }
         }
         tetris->buffer->dirty = 1;
@@ -139,7 +140,7 @@ void update(Tetris *tetris)
 
 
     if (tetris->gameState != PAUSED) {
-        if (!collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)) {
+        if (!Tetris_collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)) {
             tetris->gravityFrameCounter++;
             if (tetris->gravityFrameCounter == tetris->gravityFrameDelay) {
                 tetris->gravityFrameCounter = 0;
@@ -148,56 +149,56 @@ void update(Tetris *tetris)
             }
         }
         if (tetris->currentKey == KEY_SPACE) {
-            while (!collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)) {
+            while (!Tetris_collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)) {
                 tetris->currentBlock->y++;
                 tetris->score += 2;
             }
             tetris->buffer->dirty = 1;
         }
-        else if (tetris->currentKey == KEY_UP && rotateCollision(tetris->currentBlock, tetris->buffer) != 1) {
-            rotateBlock(tetris->currentBlock);
+        else if (tetris->currentKey == KEY_UP && Tetris_rotate_collision(tetris->currentBlock, tetris->buffer) != 1) {
+            Block_rotate(tetris->currentBlock);
             if (tetris->enableGhostBlock == 1) {
-                setGhostBlock(tetris);
+                Tetris_set_ghost_block(tetris);
             }
             tetris->buffer->dirty = 1;
         }
         else if (tetris->currentKey == KEY_LEFT
-            && !collision(LEFT_COLLISION, tetris->currentBlock, tetris->buffer)) {
+            && !Tetris_collision(LEFT_COLLISION, tetris->currentBlock, tetris->buffer)) {
             tetris->currentBlock->x--;
             if (tetris->enableGhostBlock == 1) {
-                setGhostBlock(tetris);
+                Tetris_set_ghost_block(tetris);
             }
             tetris->buffer->dirty = 1;
         }
         else if (tetris->currentKey == KEY_RIGHT
-                && !collision(RIGHT_COLLISION, tetris->currentBlock, tetris->buffer)
+                && !Tetris_collision(RIGHT_COLLISION, tetris->currentBlock, tetris->buffer)
         ) {
             tetris->currentBlock->x++;
             if (tetris->enableGhostBlock == 1) {
-                setGhostBlock(tetris);
+                Tetris_set_ghost_block(tetris);
             }
             tetris->buffer->dirty = 1;
         }
         else if (tetris->currentKey == KEY_DOWN
-                && !collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)
+                && !Tetris_collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)
         ) {
             tetris->currentBlock->y++;
             if (tetris->enableGhostBlock == 1) {
-                setGhostBlock(tetris);
+                Tetris_set_ghost_block(tetris);
             }
             tetris->score++;
 
 //          if (tetris->enableGhostBlock == 1) {
-//              setGhostBlock(tetris);
+//              Tetris_set_ghost_block(tetris);
 //          }
             tetris->buffer->dirty = 1;
         }
     }
 }
 
-void drawFrame(Tetris *tetris)
+void Tetris_draw_frame(Tetris *tetris)
 {
-    drawGame(
+    Renderer_draw_game(
         tetris->buffer,
         tetris->currentBlock,
         tetris->ghostBlock,
@@ -209,7 +210,7 @@ void drawFrame(Tetris *tetris)
     );
 }
 
-int checkCompleteLines(Tetris *tetris)
+int Tetris_check_complete_lines(Tetris *tetris)
 {
     int emptyCellCount = 0, lineCount = 0;
     int checkCount, x, y;
@@ -222,7 +223,7 @@ int checkCompleteLines(Tetris *tetris)
             }
             if (emptyCellCount == 0) {
                 lineCount++;
-                eraseLine(tetris->buffer, y);
+                Tetris_erase_line(tetris->buffer, y);
                 tetris->linesCompleted++;
             }
             emptyCellCount = 0;
@@ -233,42 +234,42 @@ int checkCompleteLines(Tetris *tetris)
 }
 
 
-void eraseLine(Buffer *buffer, int lineNumber)
+void Tetris_erase_line(Buffer *buffer, int lineNumber)
 {
     int i;
     for (i = 1; i < BUFFER_WIDTH-1; i++) {
-        setCell(buffer, i, lineNumber, EMPTY);
+        Buffer_set_cell(buffer, i, lineNumber, EMPTY);
     }
     for (i = 1; i < ROW_FLOOR-1; i++) {
         if (lineNumber - i > 0) {
-            dropLine(buffer, lineNumber - i);
+            Tetris_drop_line(buffer, lineNumber - i);
         }
     }
 }
 
-void dropLine(Buffer *buffer, int lineNumber)
+void Tetris_drop_line(Buffer *buffer, int lineNumber)
 {
     int i;
     for (i = 1; i < BUFFER_WIDTH-1; i++) {
-        setCell(buffer, i, lineNumber+1, buffer->data[lineNumber][i]);
-        setCell(buffer, i, lineNumber, EMPTY);
+        Buffer_set_cell(buffer, i, lineNumber+1, buffer->data[lineNumber][i]);
+        Buffer_set_cell(buffer, i, lineNumber, EMPTY);
     }
 }
 
-int collision(int collisionType, Block *block, Buffer *buffer)
+int Tetris_collision(int Tetris_collisionType, Block *block, Buffer *buffer)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        if (getCoordX(block, collisionType, i) == IGNORE
-            || getCoordY(block, collisionType, i) == IGNORE
-            || block->y + getCoordY(block, collisionType, i) < 0
+        if (Block_get_coord_x(block, Tetris_collisionType, i) == IGNORE
+            || Block_get_coord_y(block, Tetris_collisionType, i) == IGNORE
+            || block->y + Block_get_coord_y(block, Tetris_collisionType, i) < 0
         ) {
             continue;
         }
-        if (getCell(
+        if (Buffer_get_cell(
                 buffer,
-                block->x + getCoordX(block, collisionType, i),
-                block->y + getCoordY(block, collisionType, i)
+                block->x + Block_get_coord_x(block, Tetris_collisionType, i),
+                block->y + Block_get_coord_y(block, Tetris_collisionType, i)
             ) != EMPTY
         ) {
             return 1;
@@ -277,36 +278,36 @@ int collision(int collisionType, Block *block, Buffer *buffer)
     return 0;
 }
 
-int rotateCollision(Block *block, Buffer *buffer)
+int Tetris_rotate_collision(Block *block, Buffer *buffer)
 {
     if (block->type == BLOCK_O) {
         return 0;
     }
     int originalRotate = block->rotate;
-    rotateBlock(block);
-    if (collision(BOTTOM_COLLISION, block, buffer)
-        || drawCollision(block, buffer)
+    Block_rotate(block);
+    if (Tetris_collision(BOTTOM_COLLISION, block, buffer)
+        || Tetris_draw_collision(block, buffer)
     ) {
-        setBlockRotate(block, originalRotate);
+        Block_set_rotate(block, originalRotate);
         return 1;
     }
-    setBlockRotate(block, originalRotate);
+    Block_set_rotate(block, originalRotate);
     return 0;
 }
 
-int drawCollision(Block *block, Buffer *buffer)
+int Tetris_draw_collision(Block *block, Buffer *buffer)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        if (getCell(
+        if (Buffer_get_cell(
                 buffer,
-                block->x + getCoordX(block, MAIN, i),
-                block->y + getCoordY(block, MAIN, i)
+                block->x + Block_get_coord_x(block, MAIN, i),
+                block->y + Block_get_coord_y(block, MAIN, i)
             ) != EMPTY
-            && getCell(
+            && Buffer_get_cell(
                 buffer,
-                block->x + getCoordX(block, MAIN, i),
-                block->y + getCoordY(block, MAIN, i)
+                block->x + Block_get_coord_x(block, MAIN, i),
+                block->y + Block_get_coord_y(block, MAIN, i)
             ) != -1
         ) {
             return 1;
@@ -315,35 +316,35 @@ int drawCollision(Block *block, Buffer *buffer)
     return 0;
 }
 
-void nextBlock(Tetris *tetris)
+void Tetris_next_block(Tetris *tetris)
 {
     tetris->currentBlock->x = 5;
     tetris->currentBlock->y = 0;
-    setBlockType(tetris->currentBlock, getRandomBlockType(), 0);
+    Block_set_type(tetris->currentBlock, Tetris_get_random_block_type(), 0);
 
     if (tetris->enableGhostBlock == 1) {
-        setGhostBlock(tetris);
+        Tetris_set_ghost_block(tetris);
     }
 }
 
-int getRandomBlockType(void)
+int Tetris_get_random_block_type(void)
 {
     int min = 1, max = 7;
     return min + (rand() % (int)(max - min + 1));
 }
 
-void setGhostBlock(Tetris *tetris)
+void Tetris_set_ghost_block(Tetris *tetris)
 {
     tetris->ghostBlock->x = tetris->currentBlock->x;
     tetris->ghostBlock->y = tetris->currentBlock->y;
-    setBlockType(tetris->ghostBlock, tetris->currentBlock->type, tetris->currentBlock->rotate);
+    Block_set_type(tetris->ghostBlock, tetris->currentBlock->type, tetris->currentBlock->rotate);
     tetris->ghostBlock->fillType = FILL_GHOST;
-    while (!collision(BOTTOM_COLLISION, tetris->ghostBlock, tetris->buffer)) {
+    while (!Tetris_collision(BOTTOM_COLLISION, tetris->ghostBlock, tetris->buffer)) {
         tetris->ghostBlock->y++;
     }
 }
 
-void updateScore(Tetris *tetris, int lineCount)
+void Tetris_update_score(Tetris *tetris, int lineCount)
 {
     if (lineCount == 1) {
         tetris->score += 100 * tetris->level;
@@ -363,7 +364,7 @@ void updateScore(Tetris *tetris, int lineCount)
     }
 }
 
-void updateLevel(Tetris *tetris)
+void Tetris_update_level(Tetris *tetris)
 {
     if (tetris->linesUntilLevelUp <= 0) {
         tetris->linesUntilLevelUp += 10;
@@ -375,10 +376,10 @@ void updateLevel(Tetris *tetris)
 }
 
 
-void checkGameOver(Tetris *tetris)
+void Tetris_check_game_over(Tetris *tetris)
 {
-    if (drawCollision(tetris->currentBlock, tetris->buffer)) {
-        drawGameOver(
+    if (Tetris_draw_collision(tetris->currentBlock, tetris->buffer)) {
+        Renderer_draw_game_over(
             tetris->buffer,
             tetris->colorMode,
             tetris->linesCompleted,
@@ -389,4 +390,15 @@ void checkGameOver(Tetris *tetris)
         Tetris_destroy(tetris);
         exit(0);
     }
+}
+
+
+void Tetris_sleep_ms(unsigned int milliseconds)
+{
+    struct timespec req = {0};
+
+    req.tv_sec = 0;
+    req.tv_nsec = milliseconds * 1000000L;
+
+    while (nanosleep(&req, &req) == -1);
 }

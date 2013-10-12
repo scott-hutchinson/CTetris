@@ -36,7 +36,7 @@ void Buffer_destroy(Buffer *buffer)
     free(buffer);
 }
 
-void fillBuffer(Buffer *buffer, uint8_t fillChar)
+void Buffer_fill(Buffer *buffer, uint8_t fillChar)
 {
     int x, y;
     for (y = 0; y < BUFFER_HEIGHT; y++) {
@@ -54,7 +54,7 @@ void fillBuffer(Buffer *buffer, uint8_t fillChar)
     }
 }
 
-int getCell(Buffer *buffer, int x, int y)
+int Buffer_get_cell(Buffer *buffer, int x, int y)
 {
     if (x >= 0 && x < BUFFER_WIDTH && y >= 0 && y < BUFFER_HEIGHT) {
         return buffer->data[y][x];
@@ -62,7 +62,7 @@ int getCell(Buffer *buffer, int x, int y)
     return -1;
 }
 
-int setCell(Buffer *buffer, int x, int y, uint8_t data)
+int Buffer_set_cell(Buffer *buffer, int x, int y, uint8_t data)
 {
     if (x >= 0 && x < BUFFER_WIDTH && y >= 0 && y < BUFFER_HEIGHT) {
         buffer->data[y][x] = data;

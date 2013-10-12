@@ -13,10 +13,10 @@ typedef struct {
 Buffer *Buffer_create(unsigned int, unsigned int);
 void Buffer_destroy(Buffer *);
 
-void fillBuffer(Buffer *buffer, uint8_t);
+void Buffer_fill(Buffer *buffer, uint8_t);
 
-int getCell(Buffer *buffer, int, int);
-int setCell(Buffer *buffer, int, int, uint8_t);
+int Buffer_get_cell(Buffer *buffer, int, int);
+int Buffer_set_cell(Buffer *buffer, int, int, uint8_t);
 
 enum config {
     BUFFER_WIDTH  = 12,

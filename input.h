@@ -2,8 +2,8 @@
 #define _input_h
 
 
-int getKey(int *);
-int getKeyAlias(int);
+int Input_get_key(int *);
+int Input_get_key_alias(int);
 
 enum keyAliases {
     KEY_NONE,

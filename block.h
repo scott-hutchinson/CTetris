@@ -8,19 +8,22 @@
 
 typedef struct {
     uint8_t x, y, type, rotate, fillType;
-    Coordinate coords [4], leftCollisionCoords [4], rightCollisionCoords [4], bottomCollisionCoords [4];
+    Coordinate coords [4];
+    Coordinate leftCollisionCoords [4];
+    Coordinate rightCollisionCoords [4];
+    Coordinate bottomCollisionCoords [4];
 } Block;
 
 Block *Block_create(void);
 void Block_destroy(Block *);
 
-void setBlockType(Block *, uint8_t, uint8_t);
-void rotateBlock(Block *);
-void setBlockRotate(Block *, uint8_t);
+void Block_set_type(Block *, uint8_t, uint8_t);
+void Block_rotate(Block *);
+void Block_set_rotate(Block *, uint8_t);
 
-void clearCollisionCoords(Block *);
-int getCoordX(Block *, int, int);
-int getCoordY(Block *, int, int);
+void Block_clear_collision_coords(Block *);
+int Block_get_coord_x(Block *, int, int);
+int Block_get_coord_y(Block *, int, int);
 
 enum blockType {
     BLOCK_I = 1,

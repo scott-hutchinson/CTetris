@@ -26,7 +26,7 @@ void Block_destroy(Block *block)
     free(block);
 }
 
-void rotateBlock(Block *block)
+void Block_rotate(Block *block)
 {
     if (block->type == BLOCK_O) {
         return;
@@ -38,20 +38,20 @@ void rotateBlock(Block *block)
     ) {
         if (block->rotate == 1) {
             block->rotate = 0;
-            setBlockType(block, block->type, block->rotate);
+            Block_set_type(block, block->type, block->rotate);
             return;
         }
     }
     else if (block->rotate == 3) {
         block->rotate = 0;
-        setBlockType(block, block->type, block->rotate);
+        Block_set_type(block, block->type, block->rotate);
         return;
     }
     block->rotate++;
-    setBlockType(block, block->type, block->rotate);
+    Block_set_type(block, block->type, block->rotate);
 }
 
-void setBlockRotate(Block *block, uint8_t rotate)
+void Block_set_rotate(Block *block, uint8_t rotate)
 {
     if (block->type == BLOCK_O) {
         return;
@@ -63,22 +63,22 @@ void setBlockRotate(Block *block, uint8_t rotate)
     ) {
         if (rotate > 1) {
             block->rotate = 0;
-            setBlockType(block, block->type, block->rotate);
+            Block_set_type(block, block->type, block->rotate);
             return;
         }
     }
     else if (rotate > 3) {
         block->rotate = 0;
-        setBlockType(block, block->type, block->rotate);
+        Block_set_type(block, block->type, block->rotate);
         return;
     }
     block->rotate = rotate;
-    setBlockType(block, block->type, block->rotate);
+    Block_set_type(block, block->type, block->rotate);
 }
 
-void setBlockType(Block *block, uint8_t type, uint8_t rotate)
+void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
 {
-    clearCollisionCoords(block);
+    Block_clear_collision_coords(block);
     block->type = type;
     block->rotate = rotate;
     switch (type) {
@@ -641,7 +641,7 @@ void setBlockType(Block *block, uint8_t type, uint8_t rotate)
     }
 }
 
-void clearCollisionCoords(Block *block)
+void Block_clear_collision_coords(Block *block)
 {
     int i;
     for (i = 0; i < 4; i++){
@@ -657,7 +657,7 @@ void clearCollisionCoords(Block *block)
 }
 
 
-int getCoordX(Block *block, int coordinateType, int partNumber)
+int Block_get_coord_x(Block *block, int coordinateType, int partNumber)
 {
     if (coordinateType == MAIN) {
         return block->coords[partNumber].x;
@@ -674,7 +674,7 @@ int getCoordX(Block *block, int coordinateType, int partNumber)
     return 0;
 }
 
-int getCoordY(Block *block, int coordinateType, int partNumber)
+int Block_get_coord_y(Block *block, int coordinateType, int partNumber)
 {
     if (coordinateType == MAIN) {
         return block->coords[partNumber].y;

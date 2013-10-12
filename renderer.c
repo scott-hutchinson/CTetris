@@ -25,20 +25,22 @@ void Renderer_destroy(Renderer *renderer)
     free(renderer);
 }
 
-void drawGame(Buffer *buffer, Block *block, Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level, uint8_t enableGhostBlock)
+void Renderer_draw_game(Buffer *buffer, Block *block, Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level, uint8_t enableGhostBlock)
 {
     buffer->dirty = 0;
+
     if (ghostBlock != NULL && enableGhostBlock == 1) {
-        drawBlock(buffer, ghostBlock);
+        Renderer_draw_block(buffer, ghostBlock);
     }
+
     if (block != NULL) {
-        drawBlock(buffer, block);
+        Renderer_draw_block(buffer, block);
     }
 
     int x, y;
     for (y = 0; y < BUFFER_HEIGHT; y++) {
         if (y > ROW_FLOOR) {
-            setColor(XTERM, WHITE, 0, 1);
+            Terminal_set_color(XTERM, WHITE, 0, 1);
             if (y == ROW_LINE_COUNTER) {
                 if (buffer->data[y][0] == 1) {
                     printf("Lines: %d       ", linesCompleted);
@@ -63,7 +65,7 @@ void drawGame(Buffer *buffer, Block *block, Block *ghostBlock, int colorMode, un
                     printf("                 ");
                 }
             }
-            disableColor();
+            Terminal_disable_color();
         }
         else {
             for (x = 0; x < BUFFER_WIDTH; x++) {
@@ -71,35 +73,35 @@ void drawGame(Buffer *buffer, Block *block, Block *ghostBlock, int colorMode, un
                 if ((x == 0 || x == BUFFER_WIDTH-1 || y == ROW_FLOOR)
                     && y <= ROW_FLOOR
                 ) {
-                    setColor(XTERM_256, GRAY, 0, 1);
+                    Terminal_set_color(XTERM_256, GRAY, 0, 1);
                 }
                 else if (currentCell == FILL_GHOST) {
-                    setColor(XTERM_256, 0, 244, 0);
-                    //setColor(XTERM_256, 0, GRAY, 0);
+                    Terminal_set_color(XTERM_256, 0, 244, 0);
+                    //Terminal_set_color(XTERM_256, 0, GRAY, 0);
                 }
                 else if (currentCell == FILL_1) {
-                    setColor(XTERM_256, CYAN, CYAN, 0);
+                    Terminal_set_color(XTERM_256, CYAN, CYAN, 0);
                 }
                 else if (currentCell == FILL_2) {
-                    setColor(XTERM_256, BLUE, BLUE, 0);
+                    Terminal_set_color(XTERM_256, BLUE, BLUE, 0);
                 }
                 else if (currentCell == FILL_3 && colorMode == XTERM) {
-                    setColor(XTERM, WHITE, WHITE, 0);
+                    Terminal_set_color(XTERM, WHITE, WHITE, 0);
                 }
                 else if (currentCell == FILL_3 && colorMode == XTERM_256) {
-                    setColor(XTERM_256, ORANGE, ORANGE, 0);
+                    Terminal_set_color(XTERM_256, ORANGE, ORANGE, 0);
                 }
                 else if (currentCell == FILL_4) {
-                    setColor(XTERM_256, YELLOW, YELLOW, 0);
+                    Terminal_set_color(XTERM_256, YELLOW, YELLOW, 0);
                 }
                 else if (currentCell == FILL_5) {
-                    setColor(XTERM_256, RED, RED, 0);
+                    Terminal_set_color(XTERM_256, RED, RED, 0);
                 }
                 else if (currentCell == FILL_6) {
-                    setColor(XTERM_256, PURPLE, PURPLE, 0);
+                    Terminal_set_color(XTERM_256, PURPLE, PURPLE, 0);
                 }
                 else if (currentCell == FILL_7) {
-                    setColor(XTERM_256, GREEN, GREEN, 0);
+                    Terminal_set_color(XTERM_256, GREEN, GREEN, 0);
                 }
 
                 if (currentCell == FILL_WALL) {
@@ -123,7 +125,7 @@ void drawGame(Buffer *buffer, Block *block, Block *ghostBlock, int colorMode, un
                 else {
                     printf("  ");
                 }
-                disableColor();
+                Terminal_disable_color();
             }
         }
         printf("\n");
@@ -131,41 +133,41 @@ void drawGame(Buffer *buffer, Block *block, Block *ghostBlock, int colorMode, un
     }
 
     if (ghostBlock != NULL && enableGhostBlock == 1) {
-        eraseBlock(buffer, ghostBlock);
+        Renderer_erase_block(buffer, ghostBlock);
     }
     if (block != NULL) {
-        eraseBlock(buffer, block);
+        Renderer_erase_block(buffer, block);
     }
 
-    clearScreen(0);
+    Terminal_clear_screen(0);
 }
 
-void drawGameBorder(Buffer *buffer)
+void Renderer_draw_game_border(Buffer *buffer)
 {
     int x, y;
     for (x = 0; x < BUFFER_WIDTH; x+= BUFFER_WIDTH-1) {
         for (y = 0; y < ROW_FLOOR; y++) {
-            setCell(buffer, x, y, FILL_WALL);
+            Buffer_set_cell(buffer, x, y, FILL_WALL);
         }
     }
     for (x = 0; x < BUFFER_WIDTH; x++) {
-        setCell(buffer, x, ROW_FLOOR, FILL_FLOOR);
+        Buffer_set_cell(buffer, x, ROW_FLOOR, FILL_FLOOR);
     }
 }
 
-void drawGameOver(Buffer *buffer, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level)
+void Renderer_draw_game_over(Buffer *buffer, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level)
 {
     buffer->dirty = 0;
-    drawGameBorder(buffer);
+    Renderer_draw_game_border(buffer);
 
     int x, y;
 	for (x = 4, y = 0; y < ROW_FLOOR; y++) {
-        msleep(50);
+        Tetris_sleep_ms(50);
 
-		setCell(buffer, x, y, GAMEOVER_0);
-		setCell(buffer, x+1, y, GAMEOVER_1);
+		Buffer_set_cell(buffer, x, y, GAMEOVER_0);
+		Buffer_set_cell(buffer, x+1, y, GAMEOVER_1);
 
-        drawGame(
+        Renderer_draw_game(
             buffer,
             NULL,
             NULL,
@@ -177,20 +179,20 @@ void drawGameOver(Buffer *buffer, int colorMode, unsigned int linesCompleted, un
         );
 
         if (y != ROW_FLOOR - 1) {
-            setCell(buffer, x, y, EMPTY);
-            setCell(buffer, x+1, y, EMPTY);
+            Buffer_set_cell(buffer, x, y, EMPTY);
+            Buffer_set_cell(buffer, x+1, y, EMPTY);
         }
 
-        clearScreen(0);
+        Terminal_clear_screen(0);
 	}
 
     for (x += 2, y = 0; y < ROW_FLOOR; y++) {
-        msleep(50);
+        Tetris_sleep_ms(50);
 
-        setCell(buffer, x, y, GAMEOVER_2);
-        setCell(buffer, x+1, y, GAMEOVER_3);
+        Buffer_set_cell(buffer, x, y, GAMEOVER_2);
+        Buffer_set_cell(buffer, x+1, y, GAMEOVER_3);
 
-        drawGame(
+        Renderer_draw_game(
             buffer,
             NULL,
             NULL,
@@ -202,45 +204,45 @@ void drawGameOver(Buffer *buffer, int colorMode, unsigned int linesCompleted, un
         );
 
         if (y != ROW_FLOOR - 1) {
-            setCell(buffer, x, y, EMPTY);
-            setCell(buffer, x+1, y, EMPTY);
+            Buffer_set_cell(buffer, x, y, EMPTY);
+            Buffer_set_cell(buffer, x+1, y, EMPTY);
         }
 
 
-        clearScreen(0);
+        Terminal_clear_screen(0);
     }
 
-	msleep(800);
+	Tetris_sleep_ms(800);
 }
 
 
-void drawBlock(Buffer *buffer, Block *block)
+void Renderer_draw_block(Buffer *buffer, Block *block)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        setCell(
+        Buffer_set_cell(
             buffer,
-            block->x + getCoordX(block, MAIN, i),
-            block->y + getCoordY(block, MAIN, i),
+            block->x + Block_get_coord_x(block, MAIN, i),
+            block->y + Block_get_coord_y(block, MAIN, i),
             block->fillType
         );
     }
 }
 
-void eraseBlock(Buffer *buffer, Block *block)
+void Renderer_erase_block(Buffer *buffer, Block *block)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        setCell(
+        Buffer_set_cell(
             buffer,
-            block->x + getCoordX(block, MAIN, i),
-            block->y + getCoordY(block, MAIN, i),
+            block->x + Block_get_coord_x(block, MAIN, i),
+            block->y + Block_get_coord_y(block, MAIN, i),
             0
         );
     }
 }
 
-void drawPauseMessage(Buffer *buffer)
+void Renderer_draw_pause_message(Buffer *buffer)
 {
     buffer->data[ROW_LINE_COUNTER][0] = 0;
     buffer->data[ROW_SCORE][0] = 0;
@@ -248,7 +250,7 @@ void drawPauseMessage(Buffer *buffer)
     buffer->dirty = 1;
 }
 
-void erasePauseMessage(Buffer *buffer)
+void Renderer_erase_pause_message(Buffer *buffer)
 {
     buffer->data[ROW_LINE_COUNTER][0] = 1;
     buffer->data[ROW_SCORE][0] = 1;

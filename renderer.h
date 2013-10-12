@@ -15,13 +15,13 @@ typedef struct {
 Renderer *Renderer_create(unsigned int, unsigned int, unsigned char);
 void Renderer_destroy(Renderer *);
 
-void drawGame(Buffer *, Block *, Block *, int, unsigned int, unsigned int, unsigned int, uint8_t);
-void drawGameBorder(Buffer *);
-void drawGameOver(Buffer *, int, unsigned int, unsigned int, unsigned int);
-void drawBlock(Buffer *, Block *);
-void eraseBlock(Buffer *, Block *);
-void drawPauseMessage(Buffer *);
-void erasePauseMessage(Buffer *);
+void Renderer_draw_game(Buffer *, Block *, Block *, int, unsigned int, unsigned int, unsigned int, uint8_t);
+void Renderer_draw_game_border(Buffer *);
+void Renderer_draw_game_over(Buffer *, int, unsigned int, unsigned int, unsigned int);
+void Renderer_draw_block(Buffer *, Block *);
+void Renderer_erase_block(Buffer *, Block *);
+void Renderer_draw_pause_message(Buffer *);
+void Renderer_erase_pause_message(Buffer *);
 
 enum gameConfig {
     LEFT_WALL          = 1,

@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void beginRawMode(void)
+
+void Terminal_begin_raw_mode(void)
 {
     tcgetattr(fileno(stdin), &origTermAttr);
 
@@ -16,12 +17,12 @@ void beginRawMode(void)
     tcsetattr(fileno(stdin), TCSANOW, &rawTermAttr);
 }
 
-void endRawMode(void)
+void Terminal_end_raw_mode(void)
 {
     tcsetattr(fileno(stdin), TCSANOW, &origTermAttr);
 }
 
-void clearScreen(int mode)
+void Terminal_clear_screen(int mode)
 {
     if (mode == 0) {
         printf("\033[H\033[1J");
@@ -31,7 +32,7 @@ void clearScreen(int mode)
     }
 }
 
-void setCursor(int mode)
+void Terminal_set_cursor(int mode)
 {
     if (mode == 0) {
         printf("\033[?25l");
@@ -41,7 +42,7 @@ void setCursor(int mode)
     }
 }
 
-void moveCursor(int direction, int delta)
+void Terminal_move_cursor(int direction, int delta)
 {
     char directionCode = ((direction == 0) ? 'A' :
                          ((direction == 1) ? 'B' :
@@ -53,7 +54,7 @@ void moveCursor(int direction, int delta)
     }
 }
 
-void setColor(int colorMode, int textColor, int backgroundColor, int bold)
+void Terminal_set_color(int colorMode, int textColor, int backgroundColor, int bold)
 {
     printf("\033[");
 
@@ -194,17 +195,7 @@ void setColor(int colorMode, int textColor, int backgroundColor, int bold)
     printf("m");
 }
 
-void disableColor(void)
+void Terminal_disable_color(void)
 {
     printf("\033[0m");
-}
-
-void msleep(unsigned int milliseconds)
-{
-    struct timespec req = {0};
-
-    req.tv_sec = 0;
-    req.tv_nsec = milliseconds * 1000000L;
-
-    while (nanosleep(&req, &req) == -1);
 }

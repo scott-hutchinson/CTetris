@@ -2,22 +2,19 @@
 #define _terminal_h
 
 #include <termios.h>
-#include <time.h>
 
 
 struct termios origTermAttr, rawTermAttr;
 
-void beginRawMode(void);
-void endRawMode(void);
+void Terminal_begin_raw_mode(void);
+void Terminal_end_raw_mode(void);
 
-void clearScreen(int);
-void setCursor(int);
-void moveCursor(int, int);
+void Terminal_clear_screen(int);
+void Terminal_set_cursor(int);
+void Terminal_move_cursor(int, int);
 
-void setColor(int, int, int, int);
-void disableColor(void);
-
-void msleep(unsigned int);
+void Terminal_set_color(int, int, int, int);
+void Terminal_disable_color(void);
 
 enum colorModes {
     XTERM     = 2,
