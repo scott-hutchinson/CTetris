@@ -1,26 +1,26 @@
 #ifndef _block_h
 #define _block_h
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <stdint.h>
+
 #include "coordinate.h"
 
-struct Block {
+
+typedef struct {
     uint8_t x, y, type, rotate, fillType;
-    struct Coordinate coords [4], leftCollisionCoords [4], rightCollisionCoords [4], bottomCollisionCoords [4];
-};
+    Coordinate coords [4], leftCollisionCoords [4], rightCollisionCoords [4], bottomCollisionCoords [4];
+} Block;
 
-struct Block *Block_create(void);
-void Block_destroy(struct Block *);
+Block *Block_create(void);
+void Block_destroy(Block *);
 
-void setBlockType(struct Block *, uint8_t, uint8_t);
-void rotateBlock(struct Block *);
-void setBlockRotate(struct Block *, uint8_t);
+void setBlockType(Block *, uint8_t, uint8_t);
+void rotateBlock(Block *);
+void setBlockRotate(Block *, uint8_t);
 
-void clearCollisionCoords(struct Block *);
-int getCoordX(struct Block *, int, int);
-int getCoordY(struct Block *, int, int);
+void clearCollisionCoords(Block *);
+int getCoordX(Block *, int, int);
+int getCoordY(Block *, int, int);
 
 enum blockType {
     BLOCK_I = 1,

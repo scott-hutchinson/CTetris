@@ -1,10 +1,13 @@
 #include "tetris.h"
 
-struct Tetris *Tetris_create(void)
+#include <stdlib.h>
+
+
+Tetris *Tetris_create(void)
 {
     srand(time(NULL));
     initScreen();
-    struct Tetris *tetris = malloc(sizeof(struct Tetris));
+    Tetris *tetris = malloc(sizeof(Tetris));
     tetris->buffer = Buffer_create();
     fillBuffer(tetris->buffer, 0);
     tetris->currentBlock = Block_create();
@@ -29,10 +32,10 @@ struct Tetris *Tetris_create(void)
     }
 
     tetris->gameState = RUNNING;
-    tetris->colorMode = DEFAULT_COLOR_MODE;
-    tetris->buffer->content[ROW_LINE_COUNTER][0] = 1;
-    tetris->buffer->content[ROW_SCORE][0] = 1;
-    tetris->buffer->content[ROW_LEVEL][0] = 1;
+    tetris->colorMode = XTERM_256;
+    tetris->buffer->data[ROW_LINE_COUNTER][0] = 1;
+    tetris->buffer->data[ROW_SCORE][0] = 1;
+    tetris->buffer->data[ROW_LEVEL][0] = 1;
     drawGameBorder(tetris->buffer);
 
     if (tetris->enableGhostBlock == 1) {
@@ -44,7 +47,7 @@ struct Tetris *Tetris_create(void)
     return tetris;
 }
 
-void Tetris_destroy(struct Tetris *tetris)
+void Tetris_destroy(Tetris *tetris)
 {
     Buffer_destroy(tetris->buffer);
     Block_destroy(tetris->currentBlock);
@@ -67,7 +70,7 @@ void cleanupScreen(void)
     clearScreen(1);
 }
 
-void gameLoop(struct Tetris *tetris)
+void gameLoop(Tetris *tetris)
 {
     while (1) {
         getKeyInput(tetris);
@@ -79,12 +82,12 @@ void gameLoop(struct Tetris *tetris)
     }
 }
 
-void getKeyInput(struct Tetris *tetris)
+void getKeyInput(Tetris *tetris)
 {
     tetris->currentKey = getKey(tetris->currentKeySequence);
 }
 
-void update(struct Tetris *tetris)
+void update(Tetris *tetris)
 {
     if (collision(BOTTOM_COLLISION, tetris->currentBlock, tetris->buffer)) {
         tetris->movementFrameCounter++;
@@ -187,7 +190,7 @@ void update(struct Tetris *tetris)
     }
 }
 
-void drawFrame(struct Tetris *tetris)
+void drawFrame(Tetris *tetris)
 {
     drawGame(
         tetris->buffer,
@@ -201,14 +204,14 @@ void drawFrame(struct Tetris *tetris)
     );
 }
 
-int checkCompleteLines(struct Tetris *tetris)
+int checkCompleteLines(Tetris *tetris)
 {
     int emptyCellCount = 0, lineCount = 0;
     int checkCount, x, y;
     for (checkCount = 0; checkCount < 4; checkCount++) {
         for (y = ROW_FLOOR-1; y > 0; y--) {
             for (x = 1; x < BUFFER_WIDTH-1; x++) {
-                if (tetris->buffer->content[y][x] == EMPTY) {
+                if (tetris->buffer->data[y][x] == EMPTY) {
                     emptyCellCount++;
                 }
             }
@@ -225,7 +228,7 @@ int checkCompleteLines(struct Tetris *tetris)
 }
 
 
-void eraseLine(struct Buffer *buffer, int lineNumber)
+void eraseLine(Buffer *buffer, int lineNumber)
 {
     int i;
     for (i = 1; i < BUFFER_WIDTH-1; i++) {
@@ -238,16 +241,16 @@ void eraseLine(struct Buffer *buffer, int lineNumber)
     }
 }
 
-void dropLine(struct Buffer *buffer, int lineNumber)
+void dropLine(Buffer *buffer, int lineNumber)
 {
     int i;
     for (i = 1; i < BUFFER_WIDTH-1; i++) {
-        setCell(buffer, i, lineNumber+1, buffer->content[lineNumber][i]);
+        setCell(buffer, i, lineNumber+1, buffer->data[lineNumber][i]);
         setCell(buffer, i, lineNumber, EMPTY);
     }
 }
 
-int collision(int collisionType, struct Block *block, struct Buffer *buffer)
+int collision(int collisionType, Block *block, Buffer *buffer)
 {
     int i;
     for (i = 0; i < 4; i++) {
@@ -269,7 +272,7 @@ int collision(int collisionType, struct Block *block, struct Buffer *buffer)
     return 0;
 }
 
-int rotateCollision(struct Block *block, struct Buffer *buffer)
+int rotateCollision(Block *block, Buffer *buffer)
 {
     if (block->type == BLOCK_O) {
         return 0;
@@ -286,7 +289,7 @@ int rotateCollision(struct Block *block, struct Buffer *buffer)
     return 0;
 }
 
-int drawCollision(struct Block *block, struct Buffer *buffer)
+int drawCollision(Block *block, Buffer *buffer)
 {
     int i;
     for (i = 0; i < 4; i++) {
@@ -307,7 +310,7 @@ int drawCollision(struct Block *block, struct Buffer *buffer)
     return 0;
 }
 
-void nextBlock(struct Tetris *tetris)
+void nextBlock(Tetris *tetris)
 {
     tetris->currentBlock->x = 5;
     tetris->currentBlock->y = 0;
@@ -324,7 +327,7 @@ int getRandomBlockType(void)
     return min + (rand() % (int)(max - min + 1));
 }
 
-void setGhostBlock(struct Tetris *tetris)
+void setGhostBlock(Tetris *tetris)
 {
     tetris->ghostBlock->x = tetris->currentBlock->x;
     tetris->ghostBlock->y = tetris->currentBlock->y;
@@ -335,7 +338,7 @@ void setGhostBlock(struct Tetris *tetris)
     }
 }
 
-void updateScore(struct Tetris *tetris, int lineCount)
+void updateScore(Tetris *tetris, int lineCount)
 {
     if (lineCount == 1) {
         tetris->score += 100 * tetris->level;
@@ -355,7 +358,7 @@ void updateScore(struct Tetris *tetris, int lineCount)
     }
 }
 
-void updateLevel(struct Tetris *tetris)
+void updateLevel(Tetris *tetris)
 {
     if (tetris->linesUntilLevelUp <= 0) {
         tetris->linesUntilLevelUp += 10;
@@ -367,7 +370,7 @@ void updateLevel(struct Tetris *tetris)
 }
 
 
-void checkGameOver(struct Tetris *tetris)
+void checkGameOver(Tetris *tetris)
 {
     if (drawCollision(tetris->currentBlock, tetris->buffer)) {
         drawGameOver(

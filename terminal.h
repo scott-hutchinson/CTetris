@@ -1,8 +1,6 @@
 #ifndef _terminal_h
 #define _terminal_h
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <termios.h>
 #include <time.h>
 
@@ -17,7 +15,7 @@ void setCursor(int);
 void moveCursor(int, int);
 
 void setColor(int, int, int, int);
-void disableColor();
+void disableColor(void);
 
 void msleep(unsigned int);
 

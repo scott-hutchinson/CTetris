@@ -1,13 +1,18 @@
 #include "terminal.h"
-#include "buffer.h"
+
+#include <stdio.h>
+#include <stdlib.h>
 
 void beginRawMode(void)
 {
     tcgetattr(fileno(stdin), &origTermAttr);
+
     rawTermAttr = origTermAttr;
+
     rawTermAttr.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
     rawTermAttr.c_cc[VTIME] = 0;
     rawTermAttr.c_cc[VMIN] = 0;
+
     tcsetattr(fileno(stdin), TCSANOW, &rawTermAttr);
 }
 
@@ -42,6 +47,7 @@ void moveCursor(int direction, int delta)
                          ((direction == 1) ? 'B' :
                          ((direction == 2) ? 'D' :
                          ((direction == 3) ? 'C' : 0))));
+
     if (directionCode != 0) {
         printf("\033[%d%c", delta, directionCode);
     }
@@ -50,9 +56,11 @@ void moveCursor(int direction, int delta)
 void setColor(int colorMode, int textColor, int backgroundColor, int bold)
 {
     printf("\033[");
+
     if (bold == 1) {
         printf("1");
     }
+
     if (colorMode == XTERM) {
         switch (textColor) {
             case GRAY:
@@ -85,6 +93,7 @@ void setColor(int colorMode, int textColor, int backgroundColor, int bold)
                 printf(";%d", textColor);
                 break;
         }
+
         switch (backgroundColor) {
             case GRAY:
                 printf(";%d", XTERM_GRAY + 10);
@@ -149,6 +158,7 @@ void setColor(int colorMode, int textColor, int backgroundColor, int bold)
                 printf(";38;5;%d", textColor);
                 break;
         }
+
         switch (backgroundColor) {
             case GRAY:
                 printf(";48;5;%d", XTERM_256_GRAY);
@@ -192,9 +202,9 @@ void disableColor(void)
 void msleep(unsigned int milliseconds)
 {
     struct timespec req = {0};
+
     req.tv_sec = 0;
     req.tv_nsec = milliseconds * 1000000L;
-    while (nanosleep(&req, &req) == -1) {
-        continue;
-    }
+
+    while (nanosleep(&req, &req) == -1);
 }

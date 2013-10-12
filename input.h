@@ -1,8 +1,6 @@
 #ifndef _input_h
 #define _input_h
 
-#include <unistd.h>
-#include <stdio.h>
 
 int getKey(int *);
 int getKeyAlias(int);

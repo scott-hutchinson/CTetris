@@ -1,12 +1,17 @@
 #include "coordinate.h"
 
-struct Coordinate *Coordinate_create(void)
+#include <stdlib.h>
+#include <stdio.h>
+
+
+Coordinate *Coordinate_create(void)
 {
-    struct Coordinate *block = malloc(sizeof(struct Coordinate));
+    Coordinate *block = malloc(sizeof(Coordinate));
+
     return block;
 }
 
-void Coordinate_destroy(struct Coordinate *block)
+void Coordinate_destroy(Coordinate *block)
 {
     free(block);
 }

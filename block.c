@@ -1,8 +1,12 @@
 #include "block.h"
 
-struct Block *Block_create(void)
+#include <stdlib.h>
+#include <stdio.h>
+
+
+Block *Block_create(void)
 {
-    struct Block *block = malloc(sizeof(struct Block));
+    Block *block = malloc(sizeof(Block));
     int i;
     for (i = 0; i < 4; i++) {
         block->coords[i].x                = 0;
@@ -17,12 +21,12 @@ struct Block *Block_create(void)
     return block;
 }
 
-void Block_destroy(struct Block *block)
+void Block_destroy(Block *block)
 {
     free(block);
 }
 
-void rotateBlock(struct Block *block)
+void rotateBlock(Block *block)
 {
     if (block->type == BLOCK_O) {
         return;
@@ -47,7 +51,7 @@ void rotateBlock(struct Block *block)
     setBlockType(block, block->type, block->rotate);
 }
 
-void setBlockRotate(struct Block *block, uint8_t rotate)
+void setBlockRotate(Block *block, uint8_t rotate)
 {
     if (block->type == BLOCK_O) {
         return;
@@ -72,7 +76,7 @@ void setBlockRotate(struct Block *block, uint8_t rotate)
     setBlockType(block, block->type, block->rotate);
 }
 
-void setBlockType(struct Block *block, uint8_t type, uint8_t rotate)
+void setBlockType(Block *block, uint8_t type, uint8_t rotate)
 {
     clearCollisionCoords(block);
     block->type = type;
@@ -637,7 +641,7 @@ void setBlockType(struct Block *block, uint8_t type, uint8_t rotate)
     }
 }
 
-void clearCollisionCoords(struct Block *block)
+void clearCollisionCoords(Block *block)
 {
     int i;
     for (i = 0; i < 4; i++){
@@ -653,7 +657,7 @@ void clearCollisionCoords(struct Block *block)
 }
 
 
-int getCoordX(struct Block *block, int coordinateType, int partNumber)
+int getCoordX(Block *block, int coordinateType, int partNumber)
 {
     if (coordinateType == MAIN) {
         return block->coords[partNumber].x;
@@ -670,7 +674,7 @@ int getCoordX(struct Block *block, int coordinateType, int partNumber)
     return 0;
 }
 
-int getCoordY(struct Block *block, int coordinateType, int partNumber)
+int getCoordY(Block *block, int coordinateType, int partNumber)
 {
     if (coordinateType == MAIN) {
         return block->coords[partNumber].y;

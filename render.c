@@ -1,7 +1,12 @@
 #include "render.h"
 
+#include <stdio.h>
 
-void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level, uint8_t enableGhostBlock)
+#include "terminal.h"
+#include "tetris.h"
+
+
+void drawGame(Buffer *buffer, Block *block, Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level, uint8_t enableGhostBlock)
 {
     buffer->dirty = 0;
     if (ghostBlock != NULL && enableGhostBlock == 1) {
@@ -16,7 +21,7 @@ void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlo
         if (y > ROW_FLOOR) {
             setColor(XTERM, WHITE, 0, 1);
             if (y == ROW_LINE_COUNTER) {
-                if (buffer->content[y][0] == 1) {
+                if (buffer->data[y][0] == 1) {
                     printf("Lines: %d       ", linesCompleted);
                 }
                 else {
@@ -24,7 +29,7 @@ void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlo
                 }
             }
             else if (y == ROW_SCORE) {
-                if (buffer->content[y][0] == 1) {
+                if (buffer->data[y][0] == 1) {
                     printf("Score: %d                ", score);
                 }
                 else {
@@ -32,7 +37,7 @@ void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlo
                 }
             }
             else if (y == ROW_LEVEL) {
-                if (buffer->content[y][0] == 1) {
+                if (buffer->data[y][0] == 1) {
                     printf("Level: %d", level);
                 }
                 else {
@@ -43,7 +48,7 @@ void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlo
         }
         else {
             for (x = 0; x < BUFFER_WIDTH; x++) {
-                uint8_t currentCell = buffer->content[y][x];
+                uint8_t currentCell = buffer->data[y][x];
                 if ((x == 0 || x == BUFFER_WIDTH-1 || y == ROW_FLOOR)
                     && y <= ROW_FLOOR
                 ) {
@@ -116,7 +121,7 @@ void drawGame(struct Buffer *buffer, struct Block *block, struct Block *ghostBlo
     clearScreen(0);
 }
 
-void drawGameBorder(struct Buffer *buffer)
+void drawGameBorder(Buffer *buffer)
 {
     int x, y;
     for (x = 0; x < BUFFER_WIDTH; x+= BUFFER_WIDTH-1) {
@@ -129,7 +134,7 @@ void drawGameBorder(struct Buffer *buffer)
     }
 }
 
-void drawGameOver(struct Buffer *buffer, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level)
+void drawGameOver(Buffer *buffer, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level)
 {
     buffer->dirty = 0;
     drawGameBorder(buffer);
@@ -190,7 +195,7 @@ void drawGameOver(struct Buffer *buffer, int colorMode, unsigned int linesComple
 }
 
 
-void drawBlock(struct Buffer *buffer, struct Block *block)
+void drawBlock(Buffer *buffer, Block *block)
 {
     int i;
     for (i = 0; i < 4; i++) {
@@ -203,7 +208,7 @@ void drawBlock(struct Buffer *buffer, struct Block *block)
     }
 }
 
-void eraseBlock(struct Buffer *buffer, struct Block *block)
+void eraseBlock(Buffer *buffer, Block *block)
 {
     int i;
     for (i = 0; i < 4; i++) {
@@ -216,18 +221,18 @@ void eraseBlock(struct Buffer *buffer, struct Block *block)
     }
 }
 
-void drawPauseMessage(struct Buffer *buffer)
+void drawPauseMessage(Buffer *buffer)
 {
-    buffer->content[ROW_LINE_COUNTER][0] = 0;
-    buffer->content[ROW_SCORE][0] = 0;
-    buffer->content[ROW_LEVEL][0] = 0;
+    buffer->data[ROW_LINE_COUNTER][0] = 0;
+    buffer->data[ROW_SCORE][0] = 0;
+    buffer->data[ROW_LEVEL][0] = 0;
     buffer->dirty = 1;
 }
 
-void erasePauseMessage(struct Buffer *buffer)
+void erasePauseMessage(Buffer *buffer)
 {
-    buffer->content[ROW_LINE_COUNTER][0] = 1;
-    buffer->content[ROW_SCORE][0] = 1;
-    buffer->content[ROW_LEVEL][0] = 1;
+    buffer->data[ROW_LINE_COUNTER][0] = 1;
+    buffer->data[ROW_SCORE][0] = 1;
+    buffer->data[ROW_LEVEL][0] = 1;
     buffer->dirty = 1;
 }

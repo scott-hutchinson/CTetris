@@ -1,5 +1,8 @@
 #include "input.h"
 
+#include <unistd.h>
+#include <stdio.h>
+
 int getKey(int *keySequence) {
     int i;
     for (i = 0; i < 3; i++) {
@@ -7,6 +10,7 @@ int getKey(int *keySequence) {
         read(0, &keySequence[i], 1);
         keySequence[i] &= 255;
     }
+
     if (keySequence[1] == ASCII_NULL
         && keySequence[2] == ASCII_NULL
     ) {
@@ -28,6 +32,7 @@ int getKey(int *keySequence) {
             return KEY_DOWN;
         }
     }
+
     return 0;
 }
 
