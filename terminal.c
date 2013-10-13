@@ -54,7 +54,7 @@ void Terminal_move_cursor(int direction, int delta)
     }
 }
 
-void Terminal_set_color(COLOR_MODE color_mode, COLOR_CODE text_color, COLOR_CODE background_color, int bold)
+void Terminal_set_color(int text_color, int background_color, int bold)
 {
     printf("\033[");
 
@@ -62,135 +62,12 @@ void Terminal_set_color(COLOR_MODE color_mode, COLOR_CODE text_color, COLOR_CODE
         printf("1");
     }
 
-    if (color_mode == XTERM) {
-        switch (text_color) {
-            case GRAY:
-                printf(";%d", XTERM_GRAY);
-                break;
-            case RED:
-                printf(";%d", XTERM_RED);
-                break;
-            case GREEN:
-                printf(";%d", XTERM_GREEN);
-                break;
-            case YELLOW:
-                printf(";%d", XTERM_YELLOW);
-                break;
-            case BLUE:
-                printf(";%d", XTERM_BLUE);
-                break;
-            case PURPLE:
-                printf(";%d", XTERM_PURPLE);
-                break;
-            case CYAN:
-                printf(";%d", XTERM_CYAN);
-                break;
-            case WHITE:
-                printf(";%d", XTERM_WHITE);
-                break;
-            case NONE:
-                break;
-            default:
-                printf(";%d", text_color);
-                break;
-        }
-
-        switch (background_color) {
-            case GRAY:
-                printf(";%d", XTERM_GRAY + 10);
-                break;
-            case RED:
-                printf(";%d", XTERM_RED + 10);
-                break;
-            case GREEN:
-                printf(";%d", XTERM_GREEN + 10);
-                break;
-            case YELLOW:
-                printf(";%d", XTERM_YELLOW + 10);
-                break;
-            case BLUE:
-                printf(";%d", XTERM_BLUE + 10);
-                break;
-            case PURPLE:
-                printf(";%d", XTERM_PURPLE + 10);
-                break;
-            case CYAN:
-                printf(";%d", XTERM_CYAN + 10);
-                break;
-            case WHITE:
-                printf(";%d", XTERM_WHITE + 10);
-                break;
-            case NONE:
-                break;
-            default:
-                printf(";%d", background_color);
-                break;
-        }
+    if (text_color > 0) {
+        printf(";38;5;%d", text_color);
     }
-    else if (color_mode == XTERM_256) {
-        switch (text_color) {
-            case GRAY:
-                printf(";38;5;%d", XTERM_256_GRAY);
-                break;
-            case RED:
-                printf(";38;5;%d", XTERM_256_RED);
-                break;
-            case GREEN:
-                printf(";38;5;%d", XTERM_256_GREEN);
-                break;
-            case YELLOW:
-                printf(";38;5;%d", XTERM_256_YELLOW);
-                break;
-            case BLUE:
-                printf(";38;5;%d", XTERM_256_BLUE);
-                break;
-            case PURPLE:
-                printf(";38;5;%d", XTERM_256_PURPLE);
-                break;
-            case CYAN:
-                printf(";38;5;%d", XTERM_256_CYAN);
-                break;
-            case WHITE:
-                printf(";38;5;%d", XTERM_256_ORANGE);
-                break;
-            case NONE:
-                break;
-            default:
-                printf(";38;5;%d", text_color);
-                break;
-        }
 
-        switch (background_color) {
-            case GRAY:
-                printf(";48;5;%d", XTERM_256_GRAY);
-                break;
-            case RED:
-                printf(";48;5;%d", XTERM_256_RED);
-                break;
-            case GREEN:
-                printf(";48;5;%d", XTERM_256_GREEN);
-                break;
-            case YELLOW:
-                printf(";48;5;%d", XTERM_256_YELLOW);
-                break;
-            case BLUE:
-                printf(";48;5;%d", XTERM_256_BLUE);
-                break;
-            case PURPLE:
-                printf(";48;5;%d", XTERM_256_PURPLE);
-                break;
-            case CYAN:
-                printf(";48;5;%d", XTERM_256_CYAN);
-                break;
-            case ORANGE:
-                printf(";48;5;%d", XTERM_256_ORANGE);
-                break;
-            case NONE:
-                break;
-            default:
-                printf(";48;5;%d", background_color);
-                break;
-        }
+    if (background_color > 0) {
+        printf(";48;5;%d", background_color);
     }
 
     printf("m");

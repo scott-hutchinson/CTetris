@@ -51,7 +51,7 @@ void Renderer_draw_game(Renderer *renderer, Block *block, Block *ghost_block, un
     int x, y;
     for (y = 0; y < renderer->buffer->height; y++) {
         if (y > renderer->row_floor) {
-            Terminal_set_color(XTERM, WHITE, 0, 1);
+            Terminal_set_color(XTERM_256_WHITE, 0, 1);
             if (y == renderer->row_line_counter) {
                 if (renderer->buffer->data[y][0] == 1) {
                     printf("Lines: %d       ", lines_completed);
@@ -84,35 +84,35 @@ void Renderer_draw_game(Renderer *renderer, Block *block, Block *ghost_block, un
                 if ((x == 0 || x == renderer->buffer->width-1 || y == renderer->row_floor)
                     && y <= renderer->row_floor
                 ) {
-                    Terminal_set_color(XTERM_256, GRAY, 0, 1);
+                    Terminal_set_color(XTERM_256_GRAY, -1, 1);
                 }
                 else if (current_cell == FILL_GHOST) {
-                    Terminal_set_color(XTERM_256, 0, 244, 0);
-                    //Terminal_set_color(XTERM_256, 0, GRAY, 0);
+                    Terminal_set_color(0, 244, 0);
+                    //Terminal_set_color(0, XTERM_256_GRAY, 0);
                 }
                 else if (current_cell == FILL_1) {
-                    Terminal_set_color(XTERM_256, CYAN, CYAN, 0);
+                    Terminal_set_color(XTERM_256_CYAN, XTERM_256_CYAN, 0);
                 }
                 else if (current_cell == FILL_2) {
-                    Terminal_set_color(XTERM_256, BLUE, BLUE, 0);
+                    Terminal_set_color(XTERM_256_BLUE, XTERM_256_BLUE, 0);
                 }
                 else if (current_cell == FILL_3 && renderer->color_mode == XTERM) {
-                    Terminal_set_color(XTERM, WHITE, WHITE, 0);
+                    Terminal_set_color(XTERM_256_WHITE, XTERM_256_WHITE, 0);
                 }
                 else if (current_cell == FILL_3 && renderer->color_mode == XTERM_256) {
-                    Terminal_set_color(XTERM_256, ORANGE, ORANGE, 0);
+                    Terminal_set_color(XTERM_256_ORANGE, XTERM_256_ORANGE, 0);
                 }
                 else if (current_cell == FILL_4) {
-                    Terminal_set_color(XTERM_256, YELLOW, YELLOW, 0);
+                    Terminal_set_color(XTERM_256_YELLOW, XTERM_256_YELLOW, 0);
                 }
                 else if (current_cell == FILL_5) {
-                    Terminal_set_color(XTERM_256, RED, RED, 0);
+                    Terminal_set_color(XTERM_256_RED, XTERM_256_RED, 0);
                 }
                 else if (current_cell == FILL_6) {
-                    Terminal_set_color(XTERM_256, PURPLE, PURPLE, 0);
+                    Terminal_set_color(XTERM_256_PURPLE, XTERM_256_PURPLE, 0);
                 }
                 else if (current_cell == FILL_7) {
-                    Terminal_set_color(XTERM_256, GREEN, GREEN, 0);
+                    Terminal_set_color(XTERM_256_GREEN, XTERM_256_GREEN, 0);
                 }
 
                 if (current_cell == FILL_WALL) {

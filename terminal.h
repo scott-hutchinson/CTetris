@@ -34,6 +34,7 @@ typedef enum {
     XTERM_CYAN       = 36,
     XTERM_WHITE      = 37,
 
+    XTERM_256_WHITE  = 254,
     XTERM_256_GRAY   = 240,
     XTERM_256_RED    = 34,
     XTERM_256_GREEN  = 160,
@@ -51,7 +52,7 @@ void Terminal_clear_screen(int);
 void Terminal_set_cursor(int);
 void Terminal_move_cursor(int, int);
 
-void Terminal_set_color(COLOR_MODE, COLOR_CODE, COLOR_CODE, int);
+void Terminal_set_color(int, int, int);
 void Terminal_disable_color(void);
 
 #endif

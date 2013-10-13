@@ -6,24 +6,26 @@
 #include "coordinate.h"
 
 typedef enum {
-    BLOCK_I = 1,
-    BLOCK_J = 2,
-    BLOCK_L = 3,
-    BLOCK_O = 4,
-    BLOCK_S = 5,
-    BLOCK_T = 6,
-    BLOCK_Z = 7,
+    BLOCK_NONE,
+    BLOCK_I,
+    BLOCK_J,
+    BLOCK_L,
+    BLOCK_O,
+    BLOCK_S,
+    BLOCK_T,
+    BLOCK_Z,
 } BLOCK_TYPE;
 
 typedef enum {
-    FILL_1     = 1,
-    FILL_2     = 2,
-    FILL_3     = 3,
-    FILL_4     = 4,
-    FILL_5     = 5,
-    FILL_6     = 6,
-    FILL_7     = 7,
-    FILL_GHOST = 8,
+    FILL_NONE,
+    FILL_1,
+    FILL_2,
+    FILL_3,
+    FILL_4,
+    FILL_5,
+    FILL_6,
+    FILL_7,
+    FILL_GHOST,
 } FILL_TYPE;
 
 typedef struct {
