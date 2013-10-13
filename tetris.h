@@ -17,10 +17,10 @@ typedef struct {
     uint8_t game_state, buffer_dirty, color_mode, enable_ghost_block, gravity_frame_counter, movement_frame_counter, gravity_frame_delay, movement_frame_delay;
 } Tetris;
 
-enum game_states {
+typedef enum {
     RUNNING,
     PAUSED,
-};
+} GAME_STATE;
 
 Tetris *Tetris_create(void);
 void Tetris_destroy(Tetris *);

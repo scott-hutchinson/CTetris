@@ -6,22 +6,12 @@
 
 struct termios orig_term_attr, raw_term_attr;
 
-void Terminal_begin_raw_mode(void);
-void Terminal_end_raw_mode(void);
-
-void Terminal_clear_screen(int);
-void Terminal_set_cursor(int);
-void Terminal_move_cursor(int, int);
-
-void Terminal_set_color(int, int, int, int);
-void Terminal_disable_color(void);
-
-enum color_modes {
+typedef enum {
     XTERM     = 2,
     XTERM_256 = 4,
-};
+} COLOR_MODE;
 
-enum color_aliases {
+typedef enum {
     NONE,
     GRAY,
     RED,
@@ -32,9 +22,9 @@ enum color_aliases {
     CYAN,
     WHITE,
     ORANGE,
-};
+} COLOR_ALIAS;
 
-enum color_codes {
+typedef enum {
     XTERM_GRAY       = 30,
     XTERM_RED        = 31,
     XTERM_GREEN      = 32,
@@ -52,6 +42,16 @@ enum color_codes {
     XTERM_256_PURPLE = 129,
     XTERM_256_CYAN   = 45,
     XTERM_256_ORANGE = 166,
-};
+} COLOR_CODE;
+
+void Terminal_begin_raw_mode(void);
+void Terminal_end_raw_mode(void);
+
+void Terminal_clear_screen(int);
+void Terminal_set_cursor(int);
+void Terminal_move_cursor(int, int);
+
+void Terminal_set_color(COLOR_MODE, COLOR_CODE, COLOR_CODE, int);
+void Terminal_disable_color(void);
 
 #endif

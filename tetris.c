@@ -92,7 +92,7 @@ void Tetris_get_key_input(Tetris *tetris)
 
 void Tetris_update(Tetris *tetris)
 {
-    if (Tetris_collision(BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
+    if (Tetris_collision(COORDINATE_BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
         tetris->movement_frame_counter++;
         if (tetris->movement_frame_counter == tetris->movement_frame_delay) {
             tetris->movement_frame_counter = 0;
@@ -137,7 +137,7 @@ void Tetris_update(Tetris *tetris)
 
 
     if (tetris->game_state != PAUSED) {
-        if (!Tetris_collision(BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
+        if (!Tetris_collision(COORDINATE_BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
             tetris->gravity_frame_counter++;
             if (tetris->gravity_frame_counter == tetris->gravity_frame_delay) {
                 tetris->gravity_frame_counter = 0;
@@ -146,7 +146,7 @@ void Tetris_update(Tetris *tetris)
             }
         }
         if (tetris->current_key == KEY_SPACE) {
-            while (!Tetris_collision(BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
+            while (!Tetris_collision(COORDINATE_BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
                 tetris->current_block->y++;
                 tetris->score += 2;
             }
@@ -160,7 +160,7 @@ void Tetris_update(Tetris *tetris)
             tetris->renderer->buffer->dirty = 1;
         }
         else if (tetris->current_key == KEY_LEFT
-                 && !Tetris_collision(LEFT_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
+                 && !Tetris_collision(COORDINATE_LEFT_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
             tetris->current_block->x--;
             if (tetris->enable_ghost_block == 1) {
                 Tetris_set_ghost_block(tetris);
@@ -168,7 +168,7 @@ void Tetris_update(Tetris *tetris)
             tetris->renderer->buffer->dirty = 1;
         }
         else if (tetris->current_key == KEY_RIGHT
-                 && !Tetris_collision(RIGHT_COLLISION, tetris->current_block, tetris->renderer->buffer)
+                 && !Tetris_collision(COORDINATE_RIGHT_COLLISION, tetris->current_block, tetris->renderer->buffer)
         ) {
             tetris->current_block->x++;
             if (tetris->enable_ghost_block == 1) {
@@ -177,7 +177,7 @@ void Tetris_update(Tetris *tetris)
             tetris->renderer->buffer->dirty = 1;
         }
         else if (tetris->current_key == KEY_DOWN
-                 && !Tetris_collision(BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)
+                 && !Tetris_collision(COORDINATE_BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)
         ) {
             tetris->current_block->y++;
             if (tetris->enable_ghost_block == 1) {
@@ -255,8 +255,8 @@ int Tetris_collision(int collision_type, Block *block, Buffer *buffer)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        if (Block_get_coord_x(block, collision_type, i) == IGNORE
-            || Block_get_coord_y(block, collision_type, i) == IGNORE
+        if (Block_get_coord_x(block, collision_type, i) == COORDINATE_IGNORE
+            || Block_get_coord_y(block, collision_type, i) == COORDINATE_IGNORE
             || block->y + Block_get_coord_y(block, collision_type, i) < 0
         ) {
             continue;
@@ -280,7 +280,7 @@ int Tetris_rotate_collision(Block *block, Buffer *buffer)
     }
     int original_rotate = block->rotate;
     Block_rotate(block);
-    if (Tetris_collision(BOTTOM_COLLISION, block, buffer)
+    if (Tetris_collision(COORDINATE_BOTTOM_COLLISION, block, buffer)
         || Tetris_draw_collision(block, buffer)
     ) {
         Block_set_rotate(block, original_rotate);
@@ -296,13 +296,13 @@ int Tetris_draw_collision(Block *block, Buffer *buffer)
     for (i = 0; i < 4; i++) {
         if (Buffer_get_cell(
                 buffer,
-                block->x + Block_get_coord_x(block, MAIN, i),
-                block->y + Block_get_coord_y(block, MAIN, i)
+                block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
+                block->y + Block_get_coord_y(block, COORDINATE_MAIN, i)
             ) != EMPTY
             && Buffer_get_cell(
                 buffer,
-                block->x + Block_get_coord_x(block, MAIN, i),
-                block->y + Block_get_coord_y(block, MAIN, i)
+                block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
+                block->y + Block_get_coord_y(block, COORDINATE_MAIN, i)
             ) != -1
         ) {
             return 1;
@@ -334,7 +334,7 @@ void Tetris_set_ghost_block(Tetris *tetris)
     tetris->ghost_block->y = tetris->current_block->y;
     Block_set_type(tetris->ghost_block, tetris->current_block->type, tetris->current_block->rotate);
     tetris->ghost_block->fill_type = FILL_GHOST;
-    while (!Tetris_collision(BOTTOM_COLLISION, tetris->ghost_block, tetris->renderer->buffer)) {
+    while (!Tetris_collision(COORDINATE_BOTTOM_COLLISION, tetris->ghost_block, tetris->renderer->buffer)) {
         tetris->ghost_block->y++;
     }
 }

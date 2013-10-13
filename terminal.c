@@ -54,7 +54,7 @@ void Terminal_move_cursor(int direction, int delta)
     }
 }
 
-void Terminal_set_color(int color_mode, int text_color, int background_color, int bold)
+void Terminal_set_color(COLOR_MODE color_mode, COLOR_CODE text_color, COLOR_CODE background_color, int bold)
 {
     printf("\033[");
 

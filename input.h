@@ -2,10 +2,7 @@
 #define _input_h
 
 
-int Input_get_key(int *);
-int Input_get_key_alias(int);
-
-enum key_aliases {
+typedef enum {
     KEY_NONE,
     KEY_LEFT,
     KEY_RIGHT,
@@ -17,9 +14,9 @@ enum key_aliases {
     KEY_G,
     KEY_SPACE,
     KEY_CONTROL_C,
-};
+} KEY_ALIAS;
 
-enum key_codes {
+typedef enum {
     ASCII_NULL                = 0x00,
     ASCII_LOWER_Q             = 0x71,
     ASCII_LOWER_P             = 0x70,
@@ -33,6 +30,9 @@ enum key_codes {
     ASCII_ESCAPE              = 0x1B,
     ASCII_SQUARE_BRACKET_LEFT = 0x5B,
     ASCII_CONTROL_C           = 0x03,
-};
+} KEY_CODE;
+
+KEY_CODE Input_get_key(int *);
+KEY_ALIAS Input_get_key_alias(int);
 
 #endif

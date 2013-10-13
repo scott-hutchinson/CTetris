@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 
-int Input_get_key(int *key_sequence) {
+KEY_CODE Input_get_key(int *key_sequence) {
     int i;
     for (i = 0; i < 3; i++) {
         key_sequence[i] = ASCII_NULL;
@@ -34,10 +34,10 @@ int Input_get_key(int *key_sequence) {
         }
     }
 
-    return 0;
+    return KEY_NONE;
 }
 
-int Input_get_key_alias(int key_code)
+KEY_ALIAS Input_get_key_alias(int key_code)
 {
     switch (key_code) {
         case ASCII_LOWER_Q:

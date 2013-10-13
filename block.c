@@ -76,7 +76,7 @@ void Block_set_rotate(Block *block, uint8_t rotate)
     Block_set_type(block, block->type, block->rotate);
 }
 
-void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
+void Block_set_type(Block *block, BLOCK_TYPE type, uint8_t rotate)
 {
     Block_clear_collision_coords(block);
     block->type = type;
@@ -645,29 +645,29 @@ void Block_clear_collision_coords(Block *block)
 {
     int i;
     for (i = 0; i < 4; i++){
-        block->coords[i].x                  = IGNORE;
-        block->coords[i].y                  = IGNORE;
-        block->left_collision_coords[i].x   = IGNORE;
-        block->left_collision_coords[i].y   = IGNORE;
-        block->right_collision_coords[i].x  = IGNORE;
-        block->right_collision_coords[i].y  = IGNORE;
-        block->bottom_collision_coords[i].x = IGNORE;
-        block->bottom_collision_coords[i].y = IGNORE;
+        block->coords[i].x                  = COORDINATE_IGNORE;
+        block->coords[i].y                  = COORDINATE_IGNORE;
+        block->left_collision_coords[i].x   = COORDINATE_IGNORE;
+        block->left_collision_coords[i].y   = COORDINATE_IGNORE;
+        block->right_collision_coords[i].x  = COORDINATE_IGNORE;
+        block->right_collision_coords[i].y  = COORDINATE_IGNORE;
+        block->bottom_collision_coords[i].x = COORDINATE_IGNORE;
+        block->bottom_collision_coords[i].y = COORDINATE_IGNORE;
     }
 }
 
 int Block_get_coord_x(Block *block, int coordinate_type, int part_number)
 {
-    if (coordinate_type == MAIN) {
+    if (coordinate_type == COORDINATE_MAIN) {
         return block->coords[part_number].x;
     }
-    else if (coordinate_type == LEFT_COLLISION) {
+    else if (coordinate_type == COORDINATE_LEFT_COLLISION) {
         return block->left_collision_coords[part_number].x;
     }
-    else if (coordinate_type == RIGHT_COLLISION) {
+    else if (coordinate_type == COORDINATE_RIGHT_COLLISION) {
         return block->right_collision_coords[part_number].x;
     }
-    else if (coordinate_type == BOTTOM_COLLISION) {
+    else if (coordinate_type == COORDINATE_BOTTOM_COLLISION) {
         return block->bottom_collision_coords[part_number].x;
     }
 
@@ -676,16 +676,16 @@ int Block_get_coord_x(Block *block, int coordinate_type, int part_number)
 
 int Block_get_coord_y(Block *block, int coordinate_type, int part_number)
 {
-    if (coordinate_type == MAIN) {
+    if (coordinate_type == COORDINATE_MAIN) {
         return block->coords[part_number].y;
     }
-    else if (coordinate_type == LEFT_COLLISION) {
+    else if (coordinate_type == COORDINATE_LEFT_COLLISION) {
         return block->left_collision_coords[part_number].y;
     }
-    else if (coordinate_type == RIGHT_COLLISION) {
+    else if (coordinate_type == COORDINATE_RIGHT_COLLISION) {
         return block->right_collision_coords[part_number].y;
     }
-    else if (coordinate_type == BOTTOM_COLLISION) {
+    else if (coordinate_type == COORDINATE_BOTTOM_COLLISION) {
         return block->bottom_collision_coords[part_number].y;
     }
 

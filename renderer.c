@@ -230,8 +230,8 @@ void Renderer_draw_block(Renderer *renderer, Block *block)
     for (i = 0; i < 4; i++) {
         Buffer_set_cell(
             renderer->buffer,
-            block->x + Block_get_coord_x(block, MAIN, i),
-            block->y + Block_get_coord_y(block, MAIN, i),
+            block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
+            block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
             block->fill_type
         );
     }
@@ -243,8 +243,8 @@ void Renderer_erase_block(Renderer *renderer, Block *block)
     for (i = 0; i < 4; i++) {
         Buffer_set_cell(
             renderer->buffer,
-            block->x + Block_get_coord_x(block, MAIN, i),
-            block->y + Block_get_coord_y(block, MAIN, i),
+            block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
+            block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
             0
         );
     }

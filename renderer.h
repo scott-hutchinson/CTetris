@@ -16,6 +16,16 @@ typedef struct {
     unsigned int row_floor, row_line_counter, row_score, row_level;
 } Renderer;
 
+typedef enum {
+    EMPTY,
+    FILL_WALL,
+    FILL_FLOOR,
+    GAMEOVER_0 = 101,
+    GAMEOVER_1 = 102,
+    GAMEOVER_2 = 103,
+    GAMEOVER_3 = 104,
+} BUFFER_FILL_TYPE;
+
 Renderer *Renderer_create(unsigned int, unsigned int, unsigned char);
 void Renderer_destroy(Renderer *);
 
@@ -26,15 +36,5 @@ void Renderer_draw_block(Renderer *, Block *);
 void Renderer_erase_block(Renderer *, Block *);
 void Renderer_draw_pause_message(Renderer *);
 void Renderer_erase_pause_message(Renderer *);
-
-enum buffer_fill_types {
-    EMPTY,
-    FILL_WALL,
-    FILL_FLOOR,
-    GAMEOVER_0 = 101,
-    GAMEOVER_1 = 102,
-    GAMEOVER_2 = 103,
-    GAMEOVER_3 = 104,
-};
 
 #endif
