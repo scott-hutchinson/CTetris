@@ -4,7 +4,7 @@
 #include <termios.h>
 
 
-struct termios origTermAttr, rawTermAttr;
+struct termios orig_term_attr, raw_term_attr;
 
 void Terminal_begin_raw_mode(void);
 void Terminal_end_raw_mode(void);
@@ -16,12 +16,12 @@ void Terminal_move_cursor(int, int);
 void Terminal_set_color(int, int, int, int);
 void Terminal_disable_color(void);
 
-enum colorModes {
+enum color_modes {
     XTERM     = 2,
     XTERM_256 = 4,
 };
 
-enum colorsAliases {
+enum color_aliases {
     NONE,
     GRAY,
     RED,
@@ -34,7 +34,7 @@ enum colorsAliases {
     ORANGE,
 };
 
-enum colorCodes {
+enum color_codes {
     XTERM_GRAY       = 30,
     XTERM_RED        = 31,
     XTERM_GREEN      = 32,

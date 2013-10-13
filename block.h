@@ -7,11 +7,11 @@
 
 
 typedef struct {
-    uint8_t x, y, type, rotate, fillType;
+    uint8_t x, y, type, rotate, fill_type;
     Coordinate coords [4];
-    Coordinate leftCollisionCoords [4];
-    Coordinate rightCollisionCoords [4];
-    Coordinate bottomCollisionCoords [4];
+    Coordinate left_collision_coords [4];
+    Coordinate right_collision_coords [4];
+    Coordinate bottom_collision_coords [4];
 } Block;
 
 Block *Block_create(void);
@@ -25,7 +25,7 @@ void Block_clear_collision_coords(Block *);
 int Block_get_coord_x(Block *, int, int);
 int Block_get_coord_y(Block *, int, int);
 
-enum blockType {
+enum block_type {
     BLOCK_I = 1,
     BLOCK_J = 2,
     BLOCK_L = 3,
@@ -35,7 +35,7 @@ enum blockType {
     BLOCK_Z = 7,
 };
 
-enum coordinateTypes {
+enum coordinate_types {
     MAIN,
     LEFT_COLLISION,
     RIGHT_COLLISION,
@@ -43,7 +43,7 @@ enum coordinateTypes {
     IGNORE,
 };
 
-enum fillTypes {
+enum fill_types {
     FILL_1     = 1,
     FILL_2     = 2,
     FILL_3     = 3,

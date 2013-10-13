@@ -4,32 +4,32 @@
 #include <stdio.h>
 
 
-int Input_get_key(int *keySequence) {
+int Input_get_key(int *key_sequence) {
     int i;
     for (i = 0; i < 3; i++) {
-        keySequence[i] = ASCII_NULL;
-        read(0, &keySequence[i], 1);
-        keySequence[i] &= 255;
+        key_sequence[i] = ASCII_NULL;
+        read(0, &key_sequence[i], 1);
+        key_sequence[i] &= 255;
     }
 
-    if (keySequence[1] == ASCII_NULL
-        && keySequence[2] == ASCII_NULL
+    if (key_sequence[1] == ASCII_NULL
+        && key_sequence[2] == ASCII_NULL
     ) {
-        return Input_get_key_alias(keySequence[0]);
+        return Input_get_key_alias(key_sequence[0]);
     }
-    else if (keySequence[0] == ASCII_ESCAPE
-            && keySequence[1] == ASCII_SQUARE_BRACKET_LEFT
+    else if (key_sequence[0] == ASCII_ESCAPE
+            && key_sequence[1] == ASCII_SQUARE_BRACKET_LEFT
     ) {
-        if (keySequence[2] == ASCII_UPPER_D) {
+        if (key_sequence[2] == ASCII_UPPER_D) {
             return KEY_LEFT;
         }
-        else if (keySequence[2] == ASCII_UPPER_C) {
+        else if (key_sequence[2] == ASCII_UPPER_C) {
             return KEY_RIGHT;
         }
-        else if (keySequence[2] == ASCII_UPPER_A) {
+        else if (key_sequence[2] == ASCII_UPPER_A) {
             return KEY_UP;
         }
-        else if (keySequence[2] == ASCII_UPPER_B) {
+        else if (key_sequence[2] == ASCII_UPPER_B) {
             return KEY_DOWN;
         }
     }
@@ -37,9 +37,9 @@ int Input_get_key(int *keySequence) {
     return 0;
 }
 
-int Input_get_key_alias(int keyCode)
+int Input_get_key_alias(int key_code)
 {
-    switch (keyCode) {
+    switch (key_code) {
         case ASCII_LOWER_Q:
             return KEY_Q;
             break;

@@ -23,7 +23,7 @@ void Renderer_erase_block(Buffer *, Block *);
 void Renderer_draw_pause_message(Buffer *);
 void Renderer_erase_pause_message(Buffer *);
 
-enum gameConfig {
+enum game_config {
     LEFT_WALL          = 1,
     RIGHT_WALL         = BUFFER_WIDTH - 2,
     ROW_FLOOR          = BUFFER_HEIGHT - 4,
@@ -32,7 +32,7 @@ enum gameConfig {
     ROW_LEVEL          = BUFFER_HEIGHT - 1,
 };
 
-enum bufferFillTypes {
+enum buffer_fill_types {
     EMPTY,
     FILL_WALL,
     FILL_FLOOR,

@@ -25,12 +25,12 @@ void Renderer_destroy(Renderer *renderer)
     free(renderer);
 }
 
-void Renderer_draw_game(Buffer *buffer, Block *block, Block *ghostBlock, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level, uint8_t enableGhostBlock)
+void Renderer_draw_game(Buffer *buffer, Block *block, Block *ghost_block, int color_mode, unsigned int lines_completed, unsigned int score, unsigned int level, uint8_t enable_ghost_block)
 {
     buffer->dirty = 0;
 
-    if (ghostBlock != NULL && enableGhostBlock == 1) {
-        Renderer_draw_block(buffer, ghostBlock);
+    if (ghost_block != NULL && enable_ghost_block == 1) {
+        Renderer_draw_block(buffer, ghost_block);
     }
 
     if (block != NULL) {
@@ -43,7 +43,7 @@ void Renderer_draw_game(Buffer *buffer, Block *block, Block *ghostBlock, int col
             Terminal_set_color(XTERM, WHITE, 0, 1);
             if (y == ROW_LINE_COUNTER) {
                 if (buffer->data[y][0] == 1) {
-                    printf("Lines: %d       ", linesCompleted);
+                    printf("Lines: %d       ", lines_completed);
                 }
                 else {
                     printf("        Press P  ");
@@ -69,57 +69,57 @@ void Renderer_draw_game(Buffer *buffer, Block *block, Block *ghostBlock, int col
         }
         else {
             for (x = 0; x < BUFFER_WIDTH; x++) {
-                uint8_t currentCell = buffer->data[y][x];
+                uint8_t current_cell = buffer->data[y][x];
                 if ((x == 0 || x == BUFFER_WIDTH-1 || y == ROW_FLOOR)
                     && y <= ROW_FLOOR
                 ) {
                     Terminal_set_color(XTERM_256, GRAY, 0, 1);
                 }
-                else if (currentCell == FILL_GHOST) {
+                else if (current_cell == FILL_GHOST) {
                     Terminal_set_color(XTERM_256, 0, 244, 0);
                     //Terminal_set_color(XTERM_256, 0, GRAY, 0);
                 }
-                else if (currentCell == FILL_1) {
+                else if (current_cell == FILL_1) {
                     Terminal_set_color(XTERM_256, CYAN, CYAN, 0);
                 }
-                else if (currentCell == FILL_2) {
+                else if (current_cell == FILL_2) {
                     Terminal_set_color(XTERM_256, BLUE, BLUE, 0);
                 }
-                else if (currentCell == FILL_3 && colorMode == XTERM) {
+                else if (current_cell == FILL_3 && color_mode == XTERM) {
                     Terminal_set_color(XTERM, WHITE, WHITE, 0);
                 }
-                else if (currentCell == FILL_3 && colorMode == XTERM_256) {
+                else if (current_cell == FILL_3 && color_mode == XTERM_256) {
                     Terminal_set_color(XTERM_256, ORANGE, ORANGE, 0);
                 }
-                else if (currentCell == FILL_4) {
+                else if (current_cell == FILL_4) {
                     Terminal_set_color(XTERM_256, YELLOW, YELLOW, 0);
                 }
-                else if (currentCell == FILL_5) {
+                else if (current_cell == FILL_5) {
                     Terminal_set_color(XTERM_256, RED, RED, 0);
                 }
-                else if (currentCell == FILL_6) {
+                else if (current_cell == FILL_6) {
                     Terminal_set_color(XTERM_256, PURPLE, PURPLE, 0);
                 }
-                else if (currentCell == FILL_7) {
+                else if (current_cell == FILL_7) {
                     Terminal_set_color(XTERM_256, GREEN, GREEN, 0);
                 }
 
-                if (currentCell == FILL_WALL) {
+                if (current_cell == FILL_WALL) {
                     printf("||");
                 }
-                else if (currentCell == FILL_FLOOR) {
+                else if (current_cell == FILL_FLOOR) {
                     printf("::");
                 }
-                else if (currentCell == GAMEOVER_0) {
+                else if (current_cell == GAMEOVER_0) {
                     printf("GA");
                 }
-                else if (currentCell == GAMEOVER_1) {
+                else if (current_cell == GAMEOVER_1) {
                     printf("ME");
                 }
-                else if (currentCell == GAMEOVER_2) {
+                else if (current_cell == GAMEOVER_2) {
                     printf("OV");
                 }
-                else if (currentCell == GAMEOVER_3) {
+                else if (current_cell == GAMEOVER_3) {
                     printf("ER");
                 }
                 else {
@@ -132,8 +132,8 @@ void Renderer_draw_game(Buffer *buffer, Block *block, Block *ghostBlock, int col
 
     }
 
-    if (ghostBlock != NULL && enableGhostBlock == 1) {
-        Renderer_erase_block(buffer, ghostBlock);
+    if (ghost_block != NULL && enable_ghost_block == 1) {
+        Renderer_erase_block(buffer, ghost_block);
     }
     if (block != NULL) {
         Renderer_erase_block(buffer, block);
@@ -155,7 +155,7 @@ void Renderer_draw_game_border(Buffer *buffer)
     }
 }
 
-void Renderer_draw_game_over(Buffer *buffer, int colorMode, unsigned int linesCompleted, unsigned int score, unsigned int level)
+void Renderer_draw_game_over(Buffer *buffer, int color_mode, unsigned int lines_completed, unsigned int score, unsigned int level)
 {
     buffer->dirty = 0;
     Renderer_draw_game_border(buffer);
@@ -171,8 +171,8 @@ void Renderer_draw_game_over(Buffer *buffer, int colorMode, unsigned int linesCo
             buffer,
             NULL,
             NULL,
-            colorMode,
-            linesCompleted,
+            color_mode,
+            lines_completed,
             score,
             level,
             0
@@ -196,8 +196,8 @@ void Renderer_draw_game_over(Buffer *buffer, int colorMode, unsigned int linesCo
             buffer,
             NULL,
             NULL,
-            colorMode,
-            linesCompleted,
+            color_mode,
+            lines_completed,
             score,
             level,
             0
@@ -215,7 +215,6 @@ void Renderer_draw_game_over(Buffer *buffer, int colorMode, unsigned int linesCo
 	Tetris_sleep_ms(800);
 }
 
-
 void Renderer_draw_block(Buffer *buffer, Block *block)
 {
     int i;
@@ -224,7 +223,7 @@ void Renderer_draw_block(Buffer *buffer, Block *block)
             buffer,
             block->x + Block_get_coord_x(block, MAIN, i),
             block->y + Block_get_coord_y(block, MAIN, i),
-            block->fillType
+            block->fill_type
         );
     }
 }

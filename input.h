@@ -5,7 +5,7 @@
 int Input_get_key(int *);
 int Input_get_key_alias(int);
 
-enum keyAliases {
+enum key_aliases {
     KEY_NONE,
     KEY_LEFT,
     KEY_RIGHT,
@@ -19,7 +19,7 @@ enum keyAliases {
     KEY_CONTROL_C,
 };
 
-enum keyCodes {
+enum key_codes {
     ASCII_NULL                = 0x00,
     ASCII_LOWER_Q             = 0x71,
     ASCII_LOWER_P             = 0x70,

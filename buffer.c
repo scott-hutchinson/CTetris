@@ -36,7 +36,7 @@ void Buffer_destroy(Buffer *buffer)
     free(buffer);
 }
 
-void Buffer_fill(Buffer *buffer, uint8_t fillChar)
+void Buffer_fill(Buffer *buffer, uint8_t fill_char)
 {
     int x, y;
     for (y = 0; y < BUFFER_HEIGHT; y++) {
@@ -44,11 +44,11 @@ void Buffer_fill(Buffer *buffer, uint8_t fillChar)
             || y == BUFFER_HEIGHT - 2
             || y == BUFFER_HEIGHT - 1
         ) {
-            buffer->data[y][0] = fillChar;
+            buffer->data[y][0] = fill_char;
         }
         else {
             for (x = 0; x < BUFFER_WIDTH; x++) {
-                buffer->data[y][x] = fillChar;
+                buffer->data[y][x] = fill_char;
             }
         }
     }

@@ -13,13 +13,13 @@
 typedef struct {
     Renderer *renderer;
     Buffer *buffer;
-    Block *currentBlock, *ghostBlock;
-    int currentKey, currentKeySequence [3], blockX, blockY, linesUntilLevelUp;
-    uint32_t linesCompleted, score, level;
-    uint8_t gameState, bufferDirty, colorMode, enableGhostBlock, gravityFrameCounter, movementFrameCounter, gravityFrameDelay, movementFrameDelay;
+    Block *current_block, *ghost_block;
+    int current_key, current_key_sequence [3], block_x, block_y, lines_until_level_up;
+    uint32_t lines_completed, score, level;
+    uint8_t game_state, buffer_dirty, color_mode, enable_ghost_block, gravity_frame_counter, movement_frame_counter, gravity_frame_delay, movement_frame_delay;
 } Tetris;
 
-enum gameStates {
+enum game_states {
     RUNNING,
     PAUSED,
 };

@@ -9,14 +9,14 @@ Block *Block_create(void)
     Block *block = malloc(sizeof(Block));
     int i;
     for (i = 0; i < 4; i++) {
-        block->coords[i].x                = 0;
-        block->coords[i].y                = 0;
-        block->leftCollisionCoords[i].x   = 0;
-        block->leftCollisionCoords[i].y   = 0;
-        block->rightCollisionCoords[i].x  = 0;
-        block->rightCollisionCoords[i].y  = 0;
-        block->bottomCollisionCoords[i].x = 0;
-        block->bottomCollisionCoords[i].y = 0;
+        block->coords[i].x                  = 0;
+        block->coords[i].y                  = 0;
+        block->left_collision_coords[i].x   = 0;
+        block->left_collision_coords[i].y   = 0;
+        block->right_collision_coords[i].x  = 0;
+        block->right_collision_coords[i].y  = 0;
+        block->bottom_collision_coords[i].x = 0;
+        block->bottom_collision_coords[i].y = 0;
     }
     return block;
 }
@@ -83,25 +83,25 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
     block->rotate = rotate;
     switch (type) {
         case BLOCK_I:
-            block->fillType = FILL_1;
+            block->fill_type = FILL_1;
             break;
         case BLOCK_J:
-            block->fillType = FILL_2;
+            block->fill_type = FILL_2;
             break;
         case BLOCK_L:
-            block->fillType = FILL_3;
+            block->fill_type = FILL_3;
             break;
         case BLOCK_O:
-            block->fillType = FILL_4;
+            block->fill_type = FILL_4;
             break;
         case BLOCK_S:
-            block->fillType = FILL_5;
+            block->fill_type = FILL_5;
             break;
         case BLOCK_T:
-            block->fillType = FILL_6;
+            block->fill_type = FILL_6;
             break;
         case BLOCK_Z:
-            block->fillType = FILL_7;
+            block->fill_type = FILL_7;
             break;
         default:
             break;
@@ -116,20 +116,20 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 2;
         block->coords[3].y = 0;
 
-        block->leftCollisionCoords[0].x = -2;
-        block->leftCollisionCoords[0].y = 0;
+        block->left_collision_coords[0].x = -2;
+        block->left_collision_coords[0].y = 0;
 
-        block->rightCollisionCoords[0].x = 3;
-        block->rightCollisionCoords[0].y = 0;
+        block->right_collision_coords[0].x = 3;
+        block->right_collision_coords[0].y = 0;
 
-        block->bottomCollisionCoords[0].x = -1;
-        block->bottomCollisionCoords[0].y = 1;
-        block->bottomCollisionCoords[1].x = 0;
-        block->bottomCollisionCoords[1].y = 1;
-        block->bottomCollisionCoords[2].x = 1;
-        block->bottomCollisionCoords[2].y = 1;
-        block->bottomCollisionCoords[3].x = 2;
-        block->bottomCollisionCoords[3].y = 1;
+        block->bottom_collision_coords[0].x = -1;
+        block->bottom_collision_coords[0].y = 1;
+        block->bottom_collision_coords[1].x = 0;
+        block->bottom_collision_coords[1].y = 1;
+        block->bottom_collision_coords[2].x = 1;
+        block->bottom_collision_coords[2].y = 1;
+        block->bottom_collision_coords[3].x = 2;
+        block->bottom_collision_coords[3].y = 1;
     }
     else if (block->type == BLOCK_I && block->rotate == 1) {
         block->coords[0].x = 0;
@@ -141,26 +141,26 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 0;
         block->coords[3].y = 2;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = -1;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = 0;
-        block->leftCollisionCoords[2].x = -1;
-        block->leftCollisionCoords[2].y = 1;
-        block->leftCollisionCoords[3].x = -1;
-        block->leftCollisionCoords[3].y = 2;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = -1;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = 0;
+        block->left_collision_coords[2].x = -1;
+        block->left_collision_coords[2].y = 1;
+        block->left_collision_coords[3].x = -1;
+        block->left_collision_coords[3].y = 2;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = -1;
-        block->rightCollisionCoords[1].x = 1;
-        block->rightCollisionCoords[1].y = 0;
-        block->rightCollisionCoords[2].x = 1;
-        block->rightCollisionCoords[2].y = 1;
-        block->rightCollisionCoords[3].x = 1;
-        block->rightCollisionCoords[3].y = 2;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = -1;
+        block->right_collision_coords[1].x = 1;
+        block->right_collision_coords[1].y = 0;
+        block->right_collision_coords[2].x = 1;
+        block->right_collision_coords[2].y = 1;
+        block->right_collision_coords[3].x = 1;
+        block->right_collision_coords[3].y = 2;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 3;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 3;
     }
     else if (block->type == BLOCK_J && block->rotate == 0) {
         block->coords[0].x = 0;
@@ -172,22 +172,22 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = -1;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -2;
-        block->leftCollisionCoords[0].y = 0;
-        block->leftCollisionCoords[1].x = -2;
-        block->leftCollisionCoords[1].y = -1;
+        block->left_collision_coords[0].x = -2;
+        block->left_collision_coords[0].y = 0;
+        block->left_collision_coords[1].x = -2;
+        block->left_collision_coords[1].y = -1;
 
-        block->rightCollisionCoords[0].x = 2;
-        block->rightCollisionCoords[0].y = 0;
-        block->rightCollisionCoords[1].x = 0;
-        block->rightCollisionCoords[1].y = -1;
+        block->right_collision_coords[0].x = 2;
+        block->right_collision_coords[0].y = 0;
+        block->right_collision_coords[1].x = 0;
+        block->right_collision_coords[1].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 1;
-        block->bottomCollisionCoords[1].x = 1;
-        block->bottomCollisionCoords[1].y = 1;
-        block->bottomCollisionCoords[2].x = -1;
-        block->bottomCollisionCoords[2].y = 1;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 1;
+        block->bottom_collision_coords[1].x = 1;
+        block->bottom_collision_coords[1].y = 1;
+        block->bottom_collision_coords[2].x = -1;
+        block->bottom_collision_coords[2].y = 1;
     }
     else if (block->type == BLOCK_J && block->rotate == 1) {
         block->coords[0].x = 0;
@@ -199,24 +199,24 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 1;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = 1;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = 0;
-        block->leftCollisionCoords[2].x = -1;
-        block->leftCollisionCoords[2].y = -1;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = 1;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = 0;
+        block->left_collision_coords[2].x = -1;
+        block->left_collision_coords[2].y = -1;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 1;
-        block->rightCollisionCoords[1].x = 1;
-        block->rightCollisionCoords[1].y = 0;
-        block->rightCollisionCoords[2].x = 2;
-        block->rightCollisionCoords[2].y = -1;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 1;
+        block->right_collision_coords[1].x = 1;
+        block->right_collision_coords[1].y = 0;
+        block->right_collision_coords[2].x = 2;
+        block->right_collision_coords[2].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 2;
-        block->bottomCollisionCoords[1].x = 1;
-        block->bottomCollisionCoords[1].y = 0;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 2;
+        block->bottom_collision_coords[1].x = 1;
+        block->bottom_collision_coords[1].y = 0;
     }
     else if (block->type == BLOCK_J && block->rotate == 2) {
         block->coords[0].x = 1;
@@ -228,22 +228,22 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = -1;
         block->coords[3].y = 0;
 
-        block->leftCollisionCoords[0].x = 0;
-        block->leftCollisionCoords[0].y = 1;
-        block->leftCollisionCoords[1].x = -2;
-        block->leftCollisionCoords[1].y = 0;
+        block->left_collision_coords[0].x = 0;
+        block->left_collision_coords[0].y = 1;
+        block->left_collision_coords[1].x = -2;
+        block->left_collision_coords[1].y = 0;
 
-        block->rightCollisionCoords[0].x = 2;
-        block->rightCollisionCoords[0].y = 1;
-        block->rightCollisionCoords[1].x = 2;
-        block->rightCollisionCoords[1].y = 0;
+        block->right_collision_coords[0].x = 2;
+        block->right_collision_coords[0].y = 1;
+        block->right_collision_coords[1].x = 2;
+        block->right_collision_coords[1].y = 0;
 
-        block->bottomCollisionCoords[0].x = 1;
-        block->bottomCollisionCoords[0].y = 2;
-        block->bottomCollisionCoords[1].x = 0;
-        block->bottomCollisionCoords[1].y = 1;
-        block->bottomCollisionCoords[2].x = -1;
-        block->bottomCollisionCoords[2].y = 1;
+        block->bottom_collision_coords[0].x = 1;
+        block->bottom_collision_coords[0].y = 2;
+        block->bottom_collision_coords[1].x = 0;
+        block->bottom_collision_coords[1].y = 1;
+        block->bottom_collision_coords[2].x = -1;
+        block->bottom_collision_coords[2].y = 1;
     }
     else if (block->type == BLOCK_J && block->rotate == 3) {
         block->coords[0].x = 0;
@@ -255,24 +255,24 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 0;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -2;
-        block->leftCollisionCoords[0].y = 1;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = 0;
-        block->leftCollisionCoords[2].x = -1;
-        block->leftCollisionCoords[2].y = -1;
+        block->left_collision_coords[0].x = -2;
+        block->left_collision_coords[0].y = 1;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = 0;
+        block->left_collision_coords[2].x = -1;
+        block->left_collision_coords[2].y = -1;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 1;
-        block->rightCollisionCoords[1].x = 1;
-        block->rightCollisionCoords[1].y = 0;
-        block->rightCollisionCoords[2].x = 1;
-        block->rightCollisionCoords[2].y = -1;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 1;
+        block->right_collision_coords[1].x = 1;
+        block->right_collision_coords[1].y = 0;
+        block->right_collision_coords[2].x = 1;
+        block->right_collision_coords[2].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 2;
-        block->bottomCollisionCoords[1].x = -1;
-        block->bottomCollisionCoords[1].y = 2;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 2;
+        block->bottom_collision_coords[1].x = -1;
+        block->bottom_collision_coords[1].y = 2;
     }
     else if (block->type == BLOCK_L && block->rotate == 0) {
         block->coords[0].x = 0;
@@ -284,22 +284,22 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 1;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -2;
-        block->leftCollisionCoords[0].y = 0;
-        block->leftCollisionCoords[1].x = 0;
-        block->leftCollisionCoords[1].y = -1;
+        block->left_collision_coords[0].x = -2;
+        block->left_collision_coords[0].y = 0;
+        block->left_collision_coords[1].x = 0;
+        block->left_collision_coords[1].y = -1;
 
-        block->rightCollisionCoords[0].x = 2;
-        block->rightCollisionCoords[0].y = 0;
-        block->rightCollisionCoords[1].x = 2;
-        block->rightCollisionCoords[1].y = -1;
+        block->right_collision_coords[0].x = 2;
+        block->right_collision_coords[0].y = 0;
+        block->right_collision_coords[1].x = 2;
+        block->right_collision_coords[1].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 1;
-        block->bottomCollisionCoords[1].x = -1;
-        block->bottomCollisionCoords[1].y = 1;
-        block->bottomCollisionCoords[2].x = 1;
-        block->bottomCollisionCoords[2].y = 1;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 1;
+        block->bottom_collision_coords[1].x = -1;
+        block->bottom_collision_coords[1].y = 1;
+        block->bottom_collision_coords[2].x = 1;
+        block->bottom_collision_coords[2].y = 1;
     }
     else if (block->type == BLOCK_L && block->rotate == 1) {
         block->coords[0].x = 0;
@@ -311,24 +311,24 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 0;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = 0;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = 1;
-        block->leftCollisionCoords[2].x = -1;
-        block->leftCollisionCoords[2].y = -1;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = 0;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = 1;
+        block->left_collision_coords[2].x = -1;
+        block->left_collision_coords[2].y = -1;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 0;
-        block->rightCollisionCoords[1].x = 2;
-        block->rightCollisionCoords[1].y = 1;
-        block->rightCollisionCoords[2].x = 1;
-        block->rightCollisionCoords[2].y = -1;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 0;
+        block->right_collision_coords[1].x = 2;
+        block->right_collision_coords[1].y = 1;
+        block->right_collision_coords[2].x = 1;
+        block->right_collision_coords[2].y = -1;
 
-        block->bottomCollisionCoords[0].x = 1;
-        block->bottomCollisionCoords[0].y = 2;
-        block->bottomCollisionCoords[1].x = 0;
-        block->bottomCollisionCoords[1].y = 2;
+        block->bottom_collision_coords[0].x = 1;
+        block->bottom_collision_coords[0].y = 2;
+        block->bottom_collision_coords[1].x = 0;
+        block->bottom_collision_coords[1].y = 2;
     }
     else if (block->type == BLOCK_L && block->rotate == 2) {
         block->coords[0].x = -1;
@@ -340,22 +340,22 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 1;
         block->coords[3].y = 0;
 
-        block->leftCollisionCoords[0].x = -2;
-        block->leftCollisionCoords[0].y = 1;
-        block->leftCollisionCoords[1].x = -2;
-        block->leftCollisionCoords[1].y = 0;
+        block->left_collision_coords[0].x = -2;
+        block->left_collision_coords[0].y = 1;
+        block->left_collision_coords[1].x = -2;
+        block->left_collision_coords[1].y = 0;
 
-        block->rightCollisionCoords[0].x = 0;
-        block->rightCollisionCoords[0].y = 1;
-        block->rightCollisionCoords[1].x = 2;
-        block->rightCollisionCoords[1].y = 0;
+        block->right_collision_coords[0].x = 0;
+        block->right_collision_coords[0].y = 1;
+        block->right_collision_coords[1].x = 2;
+        block->right_collision_coords[1].y = 0;
 
-        block->bottomCollisionCoords[0].x = -1;
-        block->bottomCollisionCoords[0].y = 2;
-        block->bottomCollisionCoords[1].x = 0;
-        block->bottomCollisionCoords[1].y = 1;
-        block->bottomCollisionCoords[2].x = 1;
-        block->bottomCollisionCoords[2].y = 1;
+        block->bottom_collision_coords[0].x = -1;
+        block->bottom_collision_coords[0].y = 2;
+        block->bottom_collision_coords[1].x = 0;
+        block->bottom_collision_coords[1].y = 1;
+        block->bottom_collision_coords[2].x = 1;
+        block->bottom_collision_coords[2].y = 1;
     }
     else if (block->type == BLOCK_L && block->rotate == 3) {
         block->coords[0].x = 0;
@@ -367,24 +367,24 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = -1;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = 1;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = 0;
-        block->leftCollisionCoords[2].x = -2;
-        block->leftCollisionCoords[2].y = -1;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = 1;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = 0;
+        block->left_collision_coords[2].x = -2;
+        block->left_collision_coords[2].y = -1;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 1;
-        block->rightCollisionCoords[1].x = 1;
-        block->rightCollisionCoords[1].y = 0;
-        block->rightCollisionCoords[2].x = 1;
-        block->rightCollisionCoords[2].y = -1;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 1;
+        block->right_collision_coords[1].x = 1;
+        block->right_collision_coords[1].y = 0;
+        block->right_collision_coords[2].x = 1;
+        block->right_collision_coords[2].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 2;
-        block->bottomCollisionCoords[1].x = -1;
-        block->bottomCollisionCoords[1].y = 0;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 2;
+        block->bottom_collision_coords[1].x = -1;
+        block->bottom_collision_coords[1].y = 0;
     }
     else if (block->type == BLOCK_O && block->rotate == 0) {
         block->coords[0].x = 0;
@@ -396,24 +396,24 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 1;
         block->coords[3].y = 0;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = -1;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = 0;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = -1;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = 0;
 
-        block->rightCollisionCoords[0].x = 2;
-        block->rightCollisionCoords[0].y = -1;
-        block->rightCollisionCoords[1].x = 2;
-        block->rightCollisionCoords[1].y = 0;
+        block->right_collision_coords[0].x = 2;
+        block->right_collision_coords[0].y = -1;
+        block->right_collision_coords[1].x = 2;
+        block->right_collision_coords[1].y = 0;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 0;
-        block->bottomCollisionCoords[1].x = 1;
-        block->bottomCollisionCoords[1].y = 0;
-        block->bottomCollisionCoords[2].x = 0;
-        block->bottomCollisionCoords[2].y = 1;
-        block->bottomCollisionCoords[3].x = 1;
-        block->bottomCollisionCoords[3].y = 1;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 0;
+        block->bottom_collision_coords[1].x = 1;
+        block->bottom_collision_coords[1].y = 0;
+        block->bottom_collision_coords[2].x = 0;
+        block->bottom_collision_coords[2].y = 1;
+        block->bottom_collision_coords[3].x = 1;
+        block->bottom_collision_coords[3].y = 1;
     }
     else if (block->type == BLOCK_S && block->rotate == 0) {
         block->coords[0].x = 0;
@@ -425,22 +425,22 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 1;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -2;
-        block->leftCollisionCoords[0].y = 0;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = -1;
+        block->left_collision_coords[0].x = -2;
+        block->left_collision_coords[0].y = 0;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = -1;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 0;
-        block->rightCollisionCoords[1].x = 2;
-        block->rightCollisionCoords[1].y = -1;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 0;
+        block->right_collision_coords[1].x = 2;
+        block->right_collision_coords[1].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 1;
-        block->bottomCollisionCoords[1].x = -1;
-        block->bottomCollisionCoords[1].y = 1;
-        block->bottomCollisionCoords[2].x = 1;
-        block->bottomCollisionCoords[2].y = 0;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 1;
+        block->bottom_collision_coords[1].x = -1;
+        block->bottom_collision_coords[1].y = 1;
+        block->bottom_collision_coords[2].x = 1;
+        block->bottom_collision_coords[2].y = 0;
     }
     else if (block->type == BLOCK_S && block->rotate == 1) {
         block->coords[0].x = 0;
@@ -452,24 +452,24 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = -1;
         block->coords[3].y = -2;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = 0;
-        block->leftCollisionCoords[1].x = -2;
-        block->leftCollisionCoords[1].y = -1;
-        block->leftCollisionCoords[2].x = -2;
-        block->leftCollisionCoords[2].y = -2;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = 0;
+        block->left_collision_coords[1].x = -2;
+        block->left_collision_coords[1].y = -1;
+        block->left_collision_coords[2].x = -2;
+        block->left_collision_coords[2].y = -2;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 0;
-        block->rightCollisionCoords[1].x = 1;
-        block->rightCollisionCoords[1].y = -1;
-        block->rightCollisionCoords[2].x = 0;
-        block->rightCollisionCoords[2].y = -2;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 0;
+        block->right_collision_coords[1].x = 1;
+        block->right_collision_coords[1].y = -1;
+        block->right_collision_coords[2].x = 0;
+        block->right_collision_coords[2].y = -2;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 1;
-        block->bottomCollisionCoords[1].x = -1;
-        block->bottomCollisionCoords[1].y = 0;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 1;
+        block->bottom_collision_coords[1].x = -1;
+        block->bottom_collision_coords[1].y = 0;
     }
     else if (block->type == BLOCK_T && block->rotate == 0) {
         block->coords[0].x = 0;
@@ -481,22 +481,22 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 0;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -2;
-        block->leftCollisionCoords[0].y = 0;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = -1;
+        block->left_collision_coords[0].x = -2;
+        block->left_collision_coords[0].y = 0;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = -1;
 
-        block->rightCollisionCoords[0].x = 2;
-        block->rightCollisionCoords[0].y = 0;
-        block->rightCollisionCoords[1].x = 1;
-        block->rightCollisionCoords[1].y = -1;
+        block->right_collision_coords[0].x = 2;
+        block->right_collision_coords[0].y = 0;
+        block->right_collision_coords[1].x = 1;
+        block->right_collision_coords[1].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 1;
-        block->bottomCollisionCoords[1].x = -1;
-        block->bottomCollisionCoords[1].y = 1;
-        block->bottomCollisionCoords[2].x = 1;
-        block->bottomCollisionCoords[2].y = 1;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 1;
+        block->bottom_collision_coords[1].x = -1;
+        block->bottom_collision_coords[1].y = 1;
+        block->bottom_collision_coords[2].x = 1;
+        block->bottom_collision_coords[2].y = 1;
     }
     else if (block->type == BLOCK_T && block->rotate == 1) {
         block->coords[0].x = 0;
@@ -508,24 +508,24 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 0;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = 1;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = 0;
-        block->leftCollisionCoords[2].x = -1;
-        block->leftCollisionCoords[2].y = -1;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = 1;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = 0;
+        block->left_collision_coords[2].x = -1;
+        block->left_collision_coords[2].y = -1;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 1;
-        block->rightCollisionCoords[1].x = 2;
-        block->rightCollisionCoords[1].y = 0;
-        block->rightCollisionCoords[2].x = 1;
-        block->rightCollisionCoords[2].y = -1;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 1;
+        block->right_collision_coords[1].x = 2;
+        block->right_collision_coords[1].y = 0;
+        block->right_collision_coords[2].x = 1;
+        block->right_collision_coords[2].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 2;
-        block->bottomCollisionCoords[1].x = 1;
-        block->bottomCollisionCoords[1].y = 1;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 2;
+        block->bottom_collision_coords[1].x = 1;
+        block->bottom_collision_coords[1].y = 1;
     }
     else if (block->type == BLOCK_T && block->rotate == 2) {
         block->coords[0].x = 0;
@@ -537,22 +537,22 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 1;
         block->coords[3].y = 0;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = 1;
-        block->leftCollisionCoords[1].x = -2;
-        block->leftCollisionCoords[1].y = 0;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = 1;
+        block->left_collision_coords[1].x = -2;
+        block->left_collision_coords[1].y = 0;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 1;
-        block->rightCollisionCoords[1].x = 2;
-        block->rightCollisionCoords[1].y = 0;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 1;
+        block->right_collision_coords[1].x = 2;
+        block->right_collision_coords[1].y = 0;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 2;
-        block->bottomCollisionCoords[1].x = -1;
-        block->bottomCollisionCoords[1].y = 1;
-        block->bottomCollisionCoords[2].x = 1;
-        block->bottomCollisionCoords[2].y = 1;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 2;
+        block->bottom_collision_coords[1].x = -1;
+        block->bottom_collision_coords[1].y = 1;
+        block->bottom_collision_coords[2].x = 1;
+        block->bottom_collision_coords[2].y = 1;
     }
     else if (block->type == BLOCK_T && block->rotate == 3) {
         block->coords[0].x = 0;
@@ -564,24 +564,24 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 0;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = 1;
-        block->leftCollisionCoords[1].x = -2;
-        block->leftCollisionCoords[1].y = 0;
-        block->leftCollisionCoords[2].x = -1;
-        block->leftCollisionCoords[2].y = -1;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = 1;
+        block->left_collision_coords[1].x = -2;
+        block->left_collision_coords[1].y = 0;
+        block->left_collision_coords[2].x = -1;
+        block->left_collision_coords[2].y = -1;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 1;
-        block->rightCollisionCoords[1].x = 1;
-        block->rightCollisionCoords[1].y = 0;
-        block->rightCollisionCoords[2].x = 1;
-        block->rightCollisionCoords[2].y = -1;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 1;
+        block->right_collision_coords[1].x = 1;
+        block->right_collision_coords[1].y = 0;
+        block->right_collision_coords[2].x = 1;
+        block->right_collision_coords[2].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 2;
-        block->bottomCollisionCoords[1].x = -1;
-        block->bottomCollisionCoords[1].y = 1;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 2;
+        block->bottom_collision_coords[1].x = -1;
+        block->bottom_collision_coords[1].y = 1;
     }
     else if (block->type == BLOCK_Z && block->rotate == 0) {
         block->coords[0].x = 0;
@@ -593,22 +593,22 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = -1;
         block->coords[3].y = -1;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = 0;
-        block->leftCollisionCoords[1].x = -2;
-        block->leftCollisionCoords[1].y = -1;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = 0;
+        block->left_collision_coords[1].x = -2;
+        block->left_collision_coords[1].y = -1;
 
-        block->rightCollisionCoords[0].x = 2;
-        block->rightCollisionCoords[0].y = 0;
-        block->rightCollisionCoords[1].x = 1;
-        block->rightCollisionCoords[1].y = -1;
+        block->right_collision_coords[0].x = 2;
+        block->right_collision_coords[0].y = 0;
+        block->right_collision_coords[1].x = 1;
+        block->right_collision_coords[1].y = -1;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 1;
-        block->bottomCollisionCoords[1].x = 1;
-        block->bottomCollisionCoords[1].y = 1;
-        block->bottomCollisionCoords[2].x = -1;
-        block->bottomCollisionCoords[2].y = 0;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 1;
+        block->bottom_collision_coords[1].x = 1;
+        block->bottom_collision_coords[1].y = 1;
+        block->bottom_collision_coords[2].x = -1;
+        block->bottom_collision_coords[2].y = 0;
     }
     else if (block->type == BLOCK_Z && block->rotate == 1) {
         block->coords[0].x = 0;
@@ -620,24 +620,24 @@ void Block_set_type(Block *block, uint8_t type, uint8_t rotate)
         block->coords[3].x = 1;
         block->coords[3].y = -2;
 
-        block->leftCollisionCoords[0].x = -1;
-        block->leftCollisionCoords[0].y = 0;
-        block->leftCollisionCoords[1].x = -1;
-        block->leftCollisionCoords[1].y = -1;
-        block->leftCollisionCoords[2].x = 0;
-        block->leftCollisionCoords[2].y = -2;
+        block->left_collision_coords[0].x = -1;
+        block->left_collision_coords[0].y = 0;
+        block->left_collision_coords[1].x = -1;
+        block->left_collision_coords[1].y = -1;
+        block->left_collision_coords[2].x = 0;
+        block->left_collision_coords[2].y = -2;
 
-        block->rightCollisionCoords[0].x = 1;
-        block->rightCollisionCoords[0].y = 0;
-        block->rightCollisionCoords[1].x = 2;
-        block->rightCollisionCoords[1].y = -1;
-        block->rightCollisionCoords[2].x = 2;
-        block->rightCollisionCoords[2].y = -2;
+        block->right_collision_coords[0].x = 1;
+        block->right_collision_coords[0].y = 0;
+        block->right_collision_coords[1].x = 2;
+        block->right_collision_coords[1].y = -1;
+        block->right_collision_coords[2].x = 2;
+        block->right_collision_coords[2].y = -2;
 
-        block->bottomCollisionCoords[0].x = 0;
-        block->bottomCollisionCoords[0].y = 1;
-        block->bottomCollisionCoords[1].x = 1;
-        block->bottomCollisionCoords[1].y = 0;
+        block->bottom_collision_coords[0].x = 0;
+        block->bottom_collision_coords[0].y = 1;
+        block->bottom_collision_coords[1].x = 1;
+        block->bottom_collision_coords[1].y = 0;
     }
 }
 
@@ -645,48 +645,49 @@ void Block_clear_collision_coords(Block *block)
 {
     int i;
     for (i = 0; i < 4; i++){
-        block->coords[i].x                = IGNORE;
-        block->coords[i].y                = IGNORE;
-        block->leftCollisionCoords[i].x   = IGNORE;
-        block->leftCollisionCoords[i].y   = IGNORE;
-        block->rightCollisionCoords[i].x  = IGNORE;
-        block->rightCollisionCoords[i].y  = IGNORE;
-        block->bottomCollisionCoords[i].x = IGNORE;
-        block->bottomCollisionCoords[i].y = IGNORE;
+        block->coords[i].x                  = IGNORE;
+        block->coords[i].y                  = IGNORE;
+        block->left_collision_coords[i].x   = IGNORE;
+        block->left_collision_coords[i].y   = IGNORE;
+        block->right_collision_coords[i].x  = IGNORE;
+        block->right_collision_coords[i].y  = IGNORE;
+        block->bottom_collision_coords[i].x = IGNORE;
+        block->bottom_collision_coords[i].y = IGNORE;
     }
 }
 
-
-int Block_get_coord_x(Block *block, int coordinateType, int partNumber)
+int Block_get_coord_x(Block *block, int coordinate_type, int part_number)
 {
-    if (coordinateType == MAIN) {
-        return block->coords[partNumber].x;
+    if (coordinate_type == MAIN) {
+        return block->coords[part_number].x;
     }
-    else if (coordinateType == LEFT_COLLISION) {
-        return block->leftCollisionCoords[partNumber].x;
+    else if (coordinate_type == LEFT_COLLISION) {
+        return block->left_collision_coords[part_number].x;
     }
-    else if (coordinateType == RIGHT_COLLISION) {
-        return block->rightCollisionCoords[partNumber].x;
+    else if (coordinate_type == RIGHT_COLLISION) {
+        return block->right_collision_coords[part_number].x;
     }
-    else if (coordinateType == BOTTOM_COLLISION) {
-        return block->bottomCollisionCoords[partNumber].x;
+    else if (coordinate_type == BOTTOM_COLLISION) {
+        return block->bottom_collision_coords[part_number].x;
     }
+
     return 0;
 }
 
-int Block_get_coord_y(Block *block, int coordinateType, int partNumber)
+int Block_get_coord_y(Block *block, int coordinate_type, int part_number)
 {
-    if (coordinateType == MAIN) {
-        return block->coords[partNumber].y;
+    if (coordinate_type == MAIN) {
+        return block->coords[part_number].y;
     }
-    else if (coordinateType == LEFT_COLLISION) {
-        return block->leftCollisionCoords[partNumber].y;
+    else if (coordinate_type == LEFT_COLLISION) {
+        return block->left_collision_coords[part_number].y;
     }
-    else if (coordinateType == RIGHT_COLLISION) {
-        return block->rightCollisionCoords[partNumber].y;
+    else if (coordinate_type == RIGHT_COLLISION) {
+        return block->right_collision_coords[part_number].y;
     }
-    else if (coordinateType == BOTTOM_COLLISION) {
-        return block->bottomCollisionCoords[partNumber].y;
+    else if (coordinate_type == BOTTOM_COLLISION) {
+        return block->bottom_collision_coords[part_number].y;
     }
+
     return 0;
 }

@@ -15,4 +15,3 @@ void Coordinate_destroy(Coordinate *block)
 {
     free(block);
 }
-
