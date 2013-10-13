@@ -5,14 +5,12 @@
 
 #include "terminal.h"
 #include "input.h"
-#include "buffer.h"
 #include "block.h"
 #include "renderer.h"
 
 
 typedef struct {
     Renderer *renderer;
-    Buffer *buffer;
     Block *current_block, *ghost_block;
     int current_key, current_key_sequence [3], block_x, block_y, lines_until_level_up;
     uint32_t lines_completed, score, level;
@@ -38,7 +36,7 @@ void Tetris_update(Tetris *);
 void Tetris_draw_frame(Tetris *);
 
 int Tetris_check_complete_lines(Tetris *);
-void Tetris_erase_line(Buffer *, int);
+void Tetris_erase_line(Renderer *, int);
 void Tetris_drop_line(Buffer *, int);
 
 int Tetris_collision(int, Block *, Buffer *);

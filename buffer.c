@@ -21,6 +21,10 @@ Buffer *Buffer_create(unsigned int width, unsigned int height)
             buffer->data[y] = malloc(width * sizeof(uint8_t));
         }
     }
+
+    buffer->width = width;
+    buffer->height = height;
+
     buffer->dirty = 0;
 
     return buffer;
@@ -29,7 +33,7 @@ Buffer *Buffer_create(unsigned int width, unsigned int height)
 void Buffer_destroy(Buffer *buffer)
 {
     int i;
-    for(i = 0; i < BUFFER_HEIGHT; i++) {
+    for(i = 0; i < buffer->height; i++) {
         free(buffer->data[i]);
     }
     free(buffer->data);
@@ -39,15 +43,15 @@ void Buffer_destroy(Buffer *buffer)
 void Buffer_fill(Buffer *buffer, uint8_t fill_char)
 {
     int x, y;
-    for (y = 0; y < BUFFER_HEIGHT; y++) {
-        if (y == BUFFER_HEIGHT - 3
-            || y == BUFFER_HEIGHT - 2
-            || y == BUFFER_HEIGHT - 1
+    for (y = 0; y < buffer->height; y++) {
+        if (y == buffer->height - 3
+            || y == buffer->height - 2
+            || y == buffer->height - 1
         ) {
             buffer->data[y][0] = fill_char;
         }
         else {
-            for (x = 0; x < BUFFER_WIDTH; x++) {
+            for (x = 0; x < buffer->width; x++) {
                 buffer->data[y][x] = fill_char;
             }
         }
@@ -56,7 +60,7 @@ void Buffer_fill(Buffer *buffer, uint8_t fill_char)
 
 int Buffer_get_cell(Buffer *buffer, int x, int y)
 {
-    if (x >= 0 && x < BUFFER_WIDTH && y >= 0 && y < BUFFER_HEIGHT) {
+    if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
         return buffer->data[y][x];
     }
     return -1;
@@ -64,7 +68,7 @@ int Buffer_get_cell(Buffer *buffer, int x, int y)
 
 int Buffer_set_cell(Buffer *buffer, int x, int y, uint8_t data)
 {
-    if (x >= 0 && x < BUFFER_WIDTH && y >= 0 && y < BUFFER_HEIGHT) {
+    if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
         buffer->data[y][x] = data;
         return 1;
     }
