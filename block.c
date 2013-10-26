@@ -84,24 +84,31 @@ void Block_set_type(Block *block, BLOCK_TYPE type, uint8_t rotate)
     switch (type) {
         case BLOCK_I:
             block->fill_type = FILL_1;
+            block->color = COLOR_CYAN;
             break;
         case BLOCK_J:
             block->fill_type = FILL_2;
+            block->color = COLOR_BLUE;
             break;
         case BLOCK_L:
             block->fill_type = FILL_3;
+            block->color = COLOR_ORANGE;
             break;
         case BLOCK_O:
             block->fill_type = FILL_4;
+            block->color = COLOR_YELLOW;
             break;
         case BLOCK_S:
             block->fill_type = FILL_5;
+            block->color = COLOR_RED;
             break;
         case BLOCK_T:
             block->fill_type = FILL_6;
+            block->color = COLOR_PURPLE;
             break;
         case BLOCK_Z:
             block->fill_type = FILL_7;
+            block->color = COLOR_GREEN;
             break;
         default:
             break;

@@ -1,6 +1,7 @@
 #include "tetris.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 
 
@@ -44,6 +45,27 @@ Tetris *Tetris_create(void)
     if (tetris->enable_ghost_block == 1) {
         Tetris_set_ghost_block(tetris);
     }
+
+
+
+
+
+    // Pixel *pixel = Pixel_create(1, 1, XTERM_256_GREEN, XTERM_256_RED, 1);
+
+    // int x, y;
+    // for (y = 0; y < tetris->renderer->buffer->height; y++) {
+    //     for (x = 0; x < tetris->renderer->buffer->width; x++) {
+    //         if ((x % 2 ^ y % 2) == 0) {
+    //             Buffer_set_pixel(tetris->renderer->buffer, x, y, pixel);
+    //         }
+    //     }
+    // }
+
+    // Pixel_destroy(pixel);
+
+
+
+
 
     tetris->renderer->buffer->dirty = 1;
 
@@ -195,15 +217,23 @@ void Tetris_update(Tetris *tetris)
 
 void Tetris_draw_frame(Tetris *tetris)
 {
-    Renderer_draw_game(
-        tetris->renderer,
-        tetris->current_block,
-        tetris->ghost_block,
-        tetris->lines_completed,
-        tetris->score,
-        tetris->level,
-        tetris->enable_ghost_block
-    );
+    // Renderer_draw_game(
+    //     tetris->renderer,
+    //     tetris->current_block,
+    //     tetris->ghost_block,
+    //     tetris->lines_completed,
+    //     tetris->score,
+    //     tetris->level,
+    //     tetris->enable_ghost_block
+    // );
+
+    Renderer_draw_block(tetris->renderer, tetris->ghost_block);
+    Renderer_draw_block(tetris->renderer, tetris->current_block);
+
+    Renderer_present_buffer(tetris->renderer);
+
+    Renderer_erase_block(tetris->renderer, tetris->ghost_block);
+    Renderer_erase_block(tetris->renderer, tetris->current_block);
 }
 
 int Tetris_check_complete_lines(Tetris *tetris)
@@ -217,6 +247,7 @@ int Tetris_check_complete_lines(Tetris *tetris)
                     empty_cell_count++;
                 }
             }
+
             if (empty_cell_count == 0) {
                 line_count++;
                 Tetris_erase_line(tetris->renderer, y);
@@ -248,6 +279,9 @@ void Tetris_drop_line(Buffer *buffer, int line_number)
     for (i = 1; i < buffer->width-1; i++) {
         Buffer_set_cell(buffer, i, line_number+1, buffer->data[line_number][i]);
         Buffer_set_cell(buffer, i, line_number, EMPTY);
+
+        Buffer_set_pixel(buffer, i, line_number+1, buffer->pixel_data[line_number][i]);
+        Buffer_set_pixel_enabled(buffer, i, line_number, 0);
     }
 }
 
@@ -334,6 +368,7 @@ void Tetris_set_ghost_block(Tetris *tetris)
     tetris->ghost_block->y = tetris->current_block->y;
     Block_set_type(tetris->ghost_block, tetris->current_block->type, tetris->current_block->rotate);
     tetris->ghost_block->fill_type = FILL_GHOST;
+    tetris->ghost_block->color = COLOR_GRAY;
     while (!Tetris_collision(COORDINATE_BOTTOM_COLLISION, tetris->ghost_block, tetris->renderer->buffer)) {
         tetris->ghost_block->y++;
     }

@@ -7,6 +7,7 @@
 #include "input.h"
 #include "block.h"
 #include "renderer.h"
+#include "pixel.h"
 
 
 typedef struct {

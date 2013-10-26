@@ -28,12 +28,27 @@ typedef enum {
     FILL_GHOST,
 } FILL_TYPE;
 
+typedef enum {
+    COLOR_NONE,
+    COLOR_GRAY,
+    COLOR_RED,
+    COLOR_GREEN,
+    COLOR_YELLOW,
+    COLOR_BLUE,
+    COLOR_PURPLE,
+    COLOR_CYAN,
+    COLOR_WHITE,
+    COLOR_ORANGE,
+} COLOR;
+
 typedef struct {
     uint8_t x, y, rotate;
 
     BLOCK_TYPE type;
 
     FILL_TYPE fill_type;
+
+    COLOR color;
 
     Coordinate coords [4];
     Coordinate left_collision_coords [4];
