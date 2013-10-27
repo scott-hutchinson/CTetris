@@ -10,6 +10,8 @@
 typedef struct {
     Buffer *buffer;
 
+    const char *fill_types[20];
+
     unsigned char color_mode;
 
     unsigned char color;
@@ -19,9 +21,13 @@ typedef struct {
 } Renderer;
 
 typedef enum {
-    EMPTY,
+    FILL_SOLID,
     FILL_WALL,
     FILL_FLOOR,
+    FILL_GAMEOVER_0,
+    FILL_GAMEOVER_1,
+    FILL_GAMEOVER_2,
+    FILL_GAMEOVER_3,
     GAMEOVER_0 = 101,
     GAMEOVER_1 = 102,
     GAMEOVER_2 = 103,

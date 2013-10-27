@@ -12,6 +12,7 @@ Renderer *Renderer_create(unsigned int width, unsigned int height, unsigned char
     Renderer *renderer = malloc(sizeof(Renderer));
 
     renderer->buffer = Buffer_create(width, height);
+    Buffer_fill(renderer->buffer, 0);
 
     renderer->color_mode = color_mode;
 
@@ -25,12 +26,33 @@ Renderer *Renderer_create(unsigned int width, unsigned int height, unsigned char
     renderer->row_score          = height - 2;
     renderer->row_level          = height - 1;
 
+
+    // renderer->fill_types = malloc(7 * sizeof(char *));
+    // unsigned int i;
+    // for (i = 0; i < 7; i++) {
+    //     renderer->fill_types[i] = malloc(3 * sizeof(char));
+    // }
+
+    renderer->fill_types[FILL_SOLID]           = "  ";
+    renderer->fill_types[FILL_WALL]       = "||";
+    renderer->fill_types[FILL_FLOOR]      = "::";
+    renderer->fill_types[FILL_GAMEOVER_0] = "Ga";
+    renderer->fill_types[FILL_GAMEOVER_1] = "me";
+    renderer->fill_types[FILL_GAMEOVER_2] = "Ov";
+    renderer->fill_types[FILL_GAMEOVER_3] = "er";
+
     return renderer;
 }
 
 void Renderer_destroy(Renderer *renderer)
 {
     Buffer_destroy(renderer->buffer);
+
+    // unsigned int i;
+    // for(i = 0; i < 7; i++) {
+    //     free(renderer->fill_types[i]);
+    // }
+    // free(renderer->fill_types);
 
     free(renderer);
 }
@@ -165,6 +187,7 @@ void Renderer_draw_game_border(Renderer *renderer)
     }
 
 
+    renderer->color = XTERM_256_GRAY;
     for (x = 0; x < renderer->buffer->width; x+= renderer->buffer->width-1) {
         for (y = 0; y < renderer->row_floor; y++) {
             Buffer_set_pixel_enabled(
@@ -179,11 +202,17 @@ void Renderer_draw_game_border(Renderer *renderer)
                 y,
                 renderer->color);
 
-            Buffer_set_pixel_background_color(
+            // Buffer_set_pixel_background_color(
+            //     renderer->buffer,
+            //     x,
+            //     y,
+            //     renderer->color);
+
+            Buffer_set_pixel_value(
                 renderer->buffer,
                 x,
                 y,
-                renderer->color);
+                renderer->fill_types[FILL_WALL]);
         }
     }
     for (x = 0; x < renderer->buffer->width; x++) {
@@ -199,11 +228,17 @@ void Renderer_draw_game_border(Renderer *renderer)
                 y,
                 renderer->color);
 
-            Buffer_set_pixel_background_color(
+            // Buffer_set_pixel_background_color(
+            //     renderer->buffer,
+            //     x,
+            //     y,
+            //     renderer->color);
+
+            Buffer_set_pixel_value(
                 renderer->buffer,
                 x,
                 y,
-                renderer->color);
+                renderer->fill_types[FILL_FLOOR]);
     }
 }
 
@@ -229,8 +264,8 @@ void Renderer_draw_game_over(Renderer *renderer, unsigned int lines_completed, u
             0);
 
         if (y != renderer->row_floor - 1) {
-            Buffer_set_cell(renderer->buffer, x, y, EMPTY);
-            Buffer_set_cell(renderer->buffer, x+1, y, EMPTY);
+            Buffer_set_cell(renderer->buffer, x, y, FILL_SOLID);
+            Buffer_set_cell(renderer->buffer, x+1, y, FILL_SOLID);
         }
 
         Terminal_clear_screen(0);
@@ -253,8 +288,8 @@ void Renderer_draw_game_over(Renderer *renderer, unsigned int lines_completed, u
         );
 
         if (y != renderer->row_floor - 1) {
-            Buffer_set_cell(renderer->buffer, x, y, EMPTY);
-            Buffer_set_cell(renderer->buffer, x+1, y, EMPTY);
+            Buffer_set_cell(renderer->buffer, x, y, FILL_SOLID);
+            Buffer_set_cell(renderer->buffer, x+1, y, FILL_SOLID);
         }
 
 
@@ -293,6 +328,12 @@ void Renderer_draw_block(Renderer *renderer, Block *block)
             block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
             block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
             renderer->color);
+
+        Buffer_set_pixel_value(
+            renderer->buffer,
+            block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
+            block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
+            renderer->fill_types[FILL_SOLID]);
     }
 }
 
@@ -388,8 +429,7 @@ void Renderer_present_buffer(Renderer *renderer)
                                    renderer->buffer->pixel_data[y][x].background_color,
                                    renderer->buffer->pixel_data[y][x].bold);
 
-                printf("  ");
-
+                printf(renderer->buffer->pixel_data[y][x].value);
 
                 Terminal_disable_color();
             }

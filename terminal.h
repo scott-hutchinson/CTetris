@@ -11,40 +11,6 @@ typedef enum {
     XTERM_256 = 4,
 } COLOR_MODE;
 
-// typedef enum {
-//     NONE,
-//     GRAY,
-//     RED,
-//     GREEN,
-//     YELLOW,
-//     BLUE,
-//     PURPLE,
-//     CYAN,
-//     WHITE,
-//     ORANGE,
-// } COLOR_ALIAS;
-
-// typedef enum {
-//     XTERM_GRAY       = 30,
-//     XTERM_RED        = 31,
-//     XTERM_GREEN      = 32,
-//     XTERM_YELLOW     = 33,
-//     XTERM_BLUE       = 34,
-//     XTERM_PURPLE     = 35,
-//     XTERM_CYAN       = 36,
-//     XTERM_WHITE      = 37,
-
-//     XTERM_256_WHITE  = 254,
-//     XTERM_256_GRAY   = 240,
-//     XTERM_256_RED    = 34,
-//     XTERM_256_GREEN  = 112,
-//     XTERM_256_YELLOW = 226,
-//     XTERM_256_BLUE   = 27,
-//     XTERM_256_PURPLE = 129,
-//     XTERM_256_CYAN   = 45,
-//     XTERM_256_ORANGE = 166,
-// } COLOR_CODE;
-
 void Terminal_begin_raw_mode(void);
 void Terminal_end_raw_mode(void);
 

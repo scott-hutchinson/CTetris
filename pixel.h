@@ -6,10 +6,10 @@ typedef struct {
     unsigned char enabled;
     unsigned char bold;
     int background_color, foreground_color;
-    unsigned int value;
+    const char *value;
 } Pixel;
 
-Pixel *Pixel_create(unsigned char, unsigned char, int, int, unsigned int);
+Pixel *Pixel_create(unsigned char, unsigned char, int, int, const char *);
 void Pixel_destroy(Pixel *);
 
 #endif

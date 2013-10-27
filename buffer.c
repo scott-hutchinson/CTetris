@@ -28,17 +28,16 @@ Buffer *Buffer_create(unsigned int width, unsigned int height)
     buffer->pixel_data = malloc(height * sizeof(Pixel *));
     for (y = 0; y < height; y++) {
         buffer->pixel_data[y] = malloc(width * sizeof(Pixel));
-
     }
 
     int x;
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
             buffer->pixel_data[y][x].enabled = 0;
-            buffer->pixel_data[y][x].bold = y%2 ^ x%2;
+            buffer->pixel_data[y][x].bold = 0;
             buffer->pixel_data[y][x].background_color = 0;
             buffer->pixel_data[y][x].foreground_color = 0;
-            buffer->pixel_data[y][x].value = 0;
+            buffer->pixel_data[y][x].value = "..";
         }
     }
 
@@ -160,6 +159,19 @@ int Buffer_set_pixel_background_color(Buffer *buffer, unsigned int x, unsigned i
 {
     if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
         buffer->pixel_data[y][x].background_color = background_color;
+
+        return 1;
+    }
+
+    return 0;
+}
+
+int Buffer_set_pixel_value(Buffer *buffer, unsigned int x, unsigned int y, const char *value)
+{
+    if ((x >= 0 && x < buffer->width && y >= 0 && y < buffer->height)
+        && value != NULL
+    ) {
+        buffer->pixel_data[y][x].value = value;
 
         return 1;
     }

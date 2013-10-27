@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-Pixel *Pixel_create(unsigned char enabled, unsigned char bold, int background_color, int foreground_color, unsigned int value)
+Pixel *Pixel_create(unsigned char enabled, unsigned char bold, int background_color, int foreground_color, const char *value)
 {
     Pixel *pixel = malloc(sizeof(Pixel));
 

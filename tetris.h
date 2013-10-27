@@ -12,10 +12,19 @@
 
 typedef struct {
     Renderer *renderer;
+
     Block *current_block, *ghost_block;
-    int current_key, current_key_sequence [3], block_x, block_y, lines_until_level_up;
-    uint32_t lines_completed, score, level;
-    uint8_t game_state, buffer_dirty, color_mode, enable_ghost_block, gravity_frame_counter, movement_frame_counter, gravity_frame_delay, movement_frame_delay;
+
+    uint32_t score, level, lines_until_level_up, lines_completed;
+
+    uint8_t game_state, buffer_dirty, color_mode, enable_ghost_block;
+
+    uint8_t gravity_frame_counter, movement_frame_counter;
+    uint8_t gravity_frame_delay, movement_frame_delay;
+
+    int current_key, current_key_sequence[3];
+
+    unsigned char key_left, key_right, key_down, key_drop, key_rotate, key_quit, key_pause, key_ghost_block;
 } Tetris;
 
 typedef enum {
