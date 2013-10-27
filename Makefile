@@ -1,4 +1,4 @@
-CFLAGS=-Wall -g
+CFLAGS=-Wall
 CC=gcc
 SOURCES=main.c tetris.c buffer.c input.c terminal.c block.c coordinate.c renderer.c pixel.c
 OBJECTS=$(SOURCES:.c=.o)

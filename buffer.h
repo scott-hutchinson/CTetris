@@ -9,8 +9,6 @@
 typedef struct {
     Pixel **pixel_data;
 
-    uint8_t **data;
-
     unsigned int width, height;
 
     uint8_t dirty;
@@ -21,10 +19,11 @@ void Buffer_destroy(Buffer *);
 
 void Buffer_fill(Buffer *, uint8_t);
 
-int Buffer_get_cell(Buffer *, int, int);
-int Buffer_set_cell(Buffer *, int, int, uint8_t);
-
 Pixel *Buffer_get_pixel(Buffer *, unsigned int, unsigned int);
+
+unsigned char Buffer_get_pixel_enabled(Buffer *, unsigned int, unsigned int);
+
+
 int Buffer_set_pixel(Buffer *, unsigned int, unsigned int, Pixel);
 
 int Buffer_set_pixel_enabled(Buffer *, unsigned int, unsigned int, unsigned char);
