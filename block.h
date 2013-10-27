@@ -50,10 +50,10 @@ typedef struct {
 
     COLOR color;
 
-    Coordinate coords [4];
-    Coordinate left_collision_coords [4];
-    Coordinate right_collision_coords [4];
-    Coordinate bottom_collision_coords [4];
+    Coordinate coords[4];
+    Coordinate left_collision_coords[4];
+    Coordinate right_collision_coords[4];
+    Coordinate bottom_collision_coords[4];
 } Block;
 
 Block *Block_create(void);

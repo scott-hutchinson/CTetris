@@ -7,14 +7,15 @@
 struct termios orig_term_attr, raw_term_attr;
 
 typedef enum {
-    XTERM     = 2,
-    XTERM_256 = 4,
+    XTERM,
+    XTERM_256
 } COLOR_MODE;
 
 void Terminal_begin_raw_mode(void);
 void Terminal_end_raw_mode(void);
 
 void Terminal_clear_screen(int);
+
 void Terminal_set_cursor(int);
 void Terminal_move_cursor(int, int);
 

@@ -7,17 +7,22 @@
 Block *Block_create(void)
 {
     Block *block = malloc(sizeof(Block));
+
     int i;
     for (i = 0; i < 4; i++) {
         block->coords[i].x                  = 0;
         block->coords[i].y                  = 0;
+
         block->left_collision_coords[i].x   = 0;
         block->left_collision_coords[i].y   = 0;
+
         block->right_collision_coords[i].x  = 0;
         block->right_collision_coords[i].y  = 0;
+
         block->bottom_collision_coords[i].x = 0;
         block->bottom_collision_coords[i].y = 0;
     }
+
     return block;
 }
 
@@ -38,16 +43,22 @@ void Block_rotate(Block *block)
     ) {
         if (block->rotate == 1) {
             block->rotate = 0;
+
             Block_set_type(block, block->type, block->rotate);
+
             return;
         }
     }
     else if (block->rotate == 3) {
         block->rotate = 0;
+
         Block_set_type(block, block->type, block->rotate);
+
         return;
     }
+
     block->rotate++;
+
     Block_set_type(block, block->type, block->rotate);
 }
 
@@ -63,16 +74,22 @@ void Block_set_rotate(Block *block, uint8_t rotate)
     ) {
         if (rotate > 1) {
             block->rotate = 0;
+
             Block_set_type(block, block->type, block->rotate);
+
             return;
         }
     }
     else if (rotate > 3) {
         block->rotate = 0;
+
         Block_set_type(block, block->type, block->rotate);
+
         return;
     }
+
     block->rotate = rotate;
+
     Block_set_type(block, block->type, block->rotate);
 }
 
@@ -86,33 +103,41 @@ void Block_set_type(Block *block, BLOCK_TYPE type, uint8_t rotate)
             block->fill_type = FILL_1;
             block->color = COLOR_CYAN;
             break;
+
         case BLOCK_J:
             block->fill_type = FILL_2;
             block->color = COLOR_BLUE;
             break;
+
         case BLOCK_L:
             block->fill_type = FILL_3;
             block->color = COLOR_ORANGE;
             break;
+
         case BLOCK_O:
             block->fill_type = FILL_4;
             block->color = COLOR_YELLOW;
             break;
+
         case BLOCK_S:
             block->fill_type = FILL_5;
             block->color = COLOR_RED;
             break;
+
         case BLOCK_T:
             block->fill_type = FILL_6;
             block->color = COLOR_PURPLE;
             break;
+
         case BLOCK_Z:
             block->fill_type = FILL_7;
             block->color = COLOR_GREEN;
             break;
+
         default:
             break;
     }
+
     if (block->type == BLOCK_I && block->rotate == 0) {
         block->coords[0].x = -1;
         block->coords[0].y = 0;
@@ -654,10 +679,13 @@ void Block_clear_collision_coords(Block *block)
     for (i = 0; i < 4; i++){
         block->coords[i].x                  = COORDINATE_IGNORE;
         block->coords[i].y                  = COORDINATE_IGNORE;
+
         block->left_collision_coords[i].x   = COORDINATE_IGNORE;
         block->left_collision_coords[i].y   = COORDINATE_IGNORE;
+
         block->right_collision_coords[i].x  = COORDINATE_IGNORE;
         block->right_collision_coords[i].y  = COORDINATE_IGNORE;
+
         block->bottom_collision_coords[i].x = COORDINATE_IGNORE;
         block->bottom_collision_coords[i].y = COORDINATE_IGNORE;
     }

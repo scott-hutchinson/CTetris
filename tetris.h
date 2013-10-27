@@ -7,7 +7,6 @@
 #include "input.h"
 #include "block.h"
 #include "renderer.h"
-#include "pixel.h"
 
 
 typedef struct {
@@ -17,7 +16,7 @@ typedef struct {
 
     uint32_t score, level, lines_until_level_up, lines_completed;
 
-    uint8_t game_state, buffer_dirty, color_mode, enable_ghost_block;
+    uint8_t game_state, enable_ghost_block;
 
     uint8_t gravity_frame_counter, movement_frame_counter;
     uint8_t gravity_frame_delay, movement_frame_delay;

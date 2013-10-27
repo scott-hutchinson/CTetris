@@ -3,9 +3,10 @@
 
 
 typedef struct {
-    unsigned char enabled;
-    unsigned char bold;
+    unsigned char enabled, bold;
+
     int background_color, foreground_color;
+
     const char *value;
 } Pixel;
 

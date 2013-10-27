@@ -4,13 +4,6 @@
 #include <stdint.h>
 
 
-typedef struct {
-    int8_t x, y;
-} Coordinate;
-
-Coordinate *Coordinate_create(void);
-void Coordinate_destroy(Coordinate *);
-
 typedef enum {
     COORDINATE_MAIN,
     COORDINATE_LEFT_COLLISION,
@@ -18,5 +11,12 @@ typedef enum {
     COORDINATE_BOTTOM_COLLISION,
     COORDINATE_IGNORE,
 } COORDINATE_TYPE;
+
+typedef struct {
+    int8_t x, y;
+} Coordinate;
+
+Coordinate *Coordinate_create(void);
+void Coordinate_destroy(Coordinate *);
 
 #endif

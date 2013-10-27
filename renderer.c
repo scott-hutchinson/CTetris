@@ -26,14 +26,7 @@ Renderer *Renderer_create(unsigned int width, unsigned int height, unsigned char
     renderer->row_score          = height - 2;
     renderer->row_level          = height - 1;
 
-
-    // renderer->fill_types = malloc(7 * sizeof(char *));
-    // unsigned int i;
-    // for (i = 0; i < 7; i++) {
-    //     renderer->fill_types[i] = malloc(3 * sizeof(char));
-    // }
-
-    renderer->fill_types[FILL_SOLID]           = "  ";
+    renderer->fill_types[FILL_SOLID]      = "  ";
     renderer->fill_types[FILL_WALL]       = "||";
     renderer->fill_types[FILL_FLOOR]      = "::";
     renderer->fill_types[FILL_GAMEOVER_0] = "Ga";
@@ -47,12 +40,6 @@ Renderer *Renderer_create(unsigned int width, unsigned int height, unsigned char
 void Renderer_destroy(Renderer *renderer)
 {
     Buffer_destroy(renderer->buffer);
-
-    // unsigned int i;
-    // for(i = 0; i < 7; i++) {
-    //     free(renderer->fill_types[i]);
-    // }
-    // free(renderer->fill_types);
 
     free(renderer);
 }
@@ -202,12 +189,6 @@ void Renderer_draw_game_border(Renderer *renderer)
                 y,
                 renderer->color);
 
-            // Buffer_set_pixel_background_color(
-            //     renderer->buffer,
-            //     x,
-            //     y,
-            //     renderer->color);
-
             Buffer_set_pixel_value(
                 renderer->buffer,
                 x,
@@ -228,12 +209,6 @@ void Renderer_draw_game_border(Renderer *renderer)
                 y,
                 renderer->color);
 
-            // Buffer_set_pixel_background_color(
-            //     renderer->buffer,
-            //     x,
-            //     y,
-            //     renderer->color);
-
             Buffer_set_pixel_value(
                 renderer->buffer,
                 x,
@@ -245,7 +220,6 @@ void Renderer_draw_game_border(Renderer *renderer)
 void Renderer_draw_game_over(Renderer *renderer, unsigned int lines_completed, unsigned int score, unsigned int level)
 {
     renderer->buffer->dirty = 0;
-    // Renderer_draw_game_border(renderer);
 
     int x, y;
 	for (x = 4, y = 0; y < renderer->row_floor; y++) {

@@ -9,7 +9,9 @@
 Buffer *Buffer_create(unsigned int width, unsigned int height)
 {
     Buffer *buffer = malloc(sizeof(Buffer));
+
     buffer->data = malloc(height * sizeof(uint8_t *));
+
     int y;
     for (y = 0; y < height; y++) {
         if (y == height - 3
@@ -17,6 +19,7 @@ Buffer *Buffer_create(unsigned int width, unsigned int height)
             || y == height - 1
         ) {
             buffer->data[y] = malloc(sizeof(uint8_t));
+
             buffer->data[y][0] = 0;
         }
         else {
@@ -34,10 +37,13 @@ Buffer *Buffer_create(unsigned int width, unsigned int height)
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
             buffer->pixel_data[y][x].enabled = 0;
+
             buffer->pixel_data[y][x].bold = 0;
+
             buffer->pixel_data[y][x].background_color = 0;
             buffer->pixel_data[y][x].foreground_color = 0;
-            buffer->pixel_data[y][x].value = "..";
+
+            buffer->pixel_data[y][x].value = "  ";
         }
     }
 
@@ -57,12 +63,10 @@ void Buffer_destroy(Buffer *buffer)
     }
     free(buffer->data);
 
-
     for(i = 0; i < buffer->height; i++) {
         free(buffer->pixel_data[i]);
     }
     free(buffer->pixel_data);
-
 
     free(buffer);
 }
@@ -90,6 +94,7 @@ int Buffer_get_cell(Buffer *buffer, int x, int y)
     if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
         return buffer->data[y][x];
     }
+
     return -1;
 }
 
@@ -99,6 +104,7 @@ int Buffer_set_cell(Buffer *buffer, int x, int y, uint8_t data)
         buffer->data[y][x] = data;
         return 1;
     }
+
     return 0;
 }
 
