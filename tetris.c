@@ -389,9 +389,30 @@ void Tetris_next_block(Tetris *tetris)
 
 int Tetris_get_random_block_type(void)
 {
-    int min = 1, max = 7;
+    unsigned int min = 1, max = 7;
 
-    return min + (rand() % (int)(max - min + 1));
+    return random_in_range(min, max);
+}
+
+int random_in_range(unsigned int min, unsigned int max)
+{
+    int base_random = rand(); /* in [0, RAND_MAX] */
+
+    if (RAND_MAX == base_random) return random_in_range(min, max);
+
+    /* now guaranteed to be in [0, RAND_MAX) */
+    int range       = max - min,
+        remainder   = RAND_MAX % range,
+        bucket      = RAND_MAX / range;
+
+    /* There are range buckets, plus one smaller interval
+     within remainder of RAND_MAX */
+    if (base_random < RAND_MAX - remainder) {
+        return min + base_random/bucket;
+    }
+    else {
+        return random_in_range (min, max);
+    }
 }
 
 void Tetris_set_ghost_block(Tetris *tetris)

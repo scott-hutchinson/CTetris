@@ -54,6 +54,7 @@ int Tetris_draw_collision(Block *, Buffer *);
 
 void Tetris_next_block(Tetris *);
 int Tetris_get_random_block_type(void);
+int random_in_range(unsigned int, unsigned int);
 void Tetris_set_ghost_block(Tetris *);
 
 void Tetris_update_score(Tetris *, int);
