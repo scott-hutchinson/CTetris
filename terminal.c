@@ -32,7 +32,7 @@ void Terminal_clear_screen(int mode)
     }
 }
 
-void Terminal_set_cursor(int mode)
+void Terminal_reset_cursor(int mode)
 {
     if (mode == 0) {
         printf("\033[?25l");

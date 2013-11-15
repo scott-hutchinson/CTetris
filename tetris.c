@@ -77,13 +77,13 @@ void Tetris_destroy(Tetris *tetris)
 void Tetris_init_screen(void)
 {
     Terminal_begin_raw_mode();
-    Terminal_set_cursor(0);
+    Terminal_reset_cursor(0);
     Terminal_clear_screen(1);
 }
 
 void Tetris_cleanup_screen(void)
 {
-    Terminal_set_cursor(1);
+    Terminal_reset_cursor(1);
     Terminal_end_raw_mode();
     Terminal_clear_screen(1);
 }

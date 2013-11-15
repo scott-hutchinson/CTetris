@@ -23,7 +23,7 @@ void Terminal_end_raw_mode(void);
 
 void Terminal_clear_screen(int);
 
-void Terminal_set_cursor(int);
+void Terminal_reset_cursor(int);
 void Terminal_move_cursor(CURSOR_DIRECTION, int);
 
 void Terminal_set_color(int, int, int);
