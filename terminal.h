@@ -11,13 +11,20 @@ typedef enum {
     XTERM_256
 } COLOR_MODE;
 
+typedef enum {
+    CURSOR_UP,
+    CURSOR_DOWN,
+    CURSOR_RIGHT,
+    CURSOR_LEFT,
+} CURSOR_DIRECTION;
+
 void Terminal_begin_raw_mode(void);
 void Terminal_end_raw_mode(void);
 
 void Terminal_clear_screen(int);
 
 void Terminal_set_cursor(int);
-void Terminal_move_cursor(int, int);
+void Terminal_move_cursor(CURSOR_DIRECTION, int);
 
 void Terminal_set_color(int, int, int);
 void Terminal_disable_color(void);

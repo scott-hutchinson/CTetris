@@ -42,12 +42,31 @@ void Terminal_set_cursor(int mode)
     }
 }
 
-void Terminal_move_cursor(int direction, int delta)
+void Terminal_move_cursor(CURSOR_DIRECTION direction, int delta)
 {
-    char direction_code = ((direction == 0) ? 'A' :
-                         ((direction == 1) ? 'B' :
-                         ((direction == 2) ? 'D' :
-                         ((direction == 3) ? 'C' : 0))));
+    char direction_code;
+
+    switch (direction) {
+        case CURSOR_UP:
+            direction_code = 'A';
+            break;
+
+        case CURSOR_DOWN:
+            direction_code = 'B';
+            break;
+
+        case CURSOR_RIGHT:
+            direction_code = 'C';
+            break;
+
+        case CURSOR_LEFT:
+            direction_code = 'D';
+            break;
+
+        default:
+            direction_code = 0;
+            break;
+    }
 
     if (direction_code != 0) {
         printf("\033[%d%c", delta, direction_code);
