@@ -255,12 +255,16 @@ void Tetris_update(Tetris *tetris)
 
 void Tetris_draw_frame(Tetris *tetris)
 {
-    Renderer_draw_block(tetris->renderer, tetris->ghost_block);
+    if (tetris->enable_ghost_block) {
+        Renderer_draw_block(tetris->renderer, tetris->ghost_block);
+    }
     Renderer_draw_block(tetris->renderer, tetris->current_block);
 
     Renderer_present_buffer(tetris->renderer);
 
-    Renderer_erase_block(tetris->renderer, tetris->ghost_block);
+    if (tetris->enable_ghost_block) {
+        Renderer_erase_block(tetris->renderer, tetris->ghost_block);
+    }
     Renderer_erase_block(tetris->renderer, tetris->current_block);
 }
 
