@@ -16,7 +16,7 @@ typedef struct Coordinate {
     int8_t x, y;
 } Coordinate;
 
-Coordinate *Coordinate_create(void);
-void Coordinate_destroy(Coordinate *);
+extern Coordinate *Coordinate_create(void);
+extern void Coordinate_destroy(Coordinate *);
 
 #endif

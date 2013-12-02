@@ -1,7 +1,7 @@
 #include "terminal.h"
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 void Terminal_begin_raw_mode(void)

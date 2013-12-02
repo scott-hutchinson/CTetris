@@ -31,34 +31,8 @@ typedef enum GAME_STATE {
     PAUSED,
 } GAME_STATE;
 
-Tetris *Tetris_create(void);
-void Tetris_destroy(Tetris *);
-
-void Tetris_init_screen(void);
-void Tetris_cleanup_screen(void);
-
-void Tetris_game_loop(Tetris *);
-
-void Tetris_sleep_ms(unsigned int);
-void Tetris_get_key_input(Tetris *);
-void Tetris_update(Tetris *);
-void Tetris_draw_frame(Tetris *);
-
-int Tetris_check_complete_lines(Tetris *);
-void Tetris_erase_line(Renderer *, int);
-void Tetris_drop_line(Buffer *, int);
-
-int Tetris_collision(int, Block *, Buffer *);
-int Tetris_rotate_collision(Block *, Buffer *);
-int Tetris_draw_collision(Block *, Buffer *);
-
-void Tetris_next_block(Tetris *);
-int Tetris_get_random_block_type(void);
-int random_in_range(unsigned int, unsigned int);
-void Tetris_set_ghost_block(Tetris *);
-
-void Tetris_update_score(Tetris *, int);
-void Tetris_update_level(Tetris *);
-void Tetris_check_game_over(Tetris *);
+extern Tetris *Tetris_create(void);
+extern void Tetris_destroy(Tetris *);
+extern void Tetris_game_loop(Tetris *);
 
 #endif

@@ -55,23 +55,21 @@ typedef enum COLOR_CODE {
     XTERM_256_ORANGE = 166,
 } COLOR_CODE;
 
-Renderer *Renderer_create(unsigned int, unsigned int, unsigned char);
-void Renderer_destroy(Renderer *);
+extern Renderer *Renderer_create(unsigned int, unsigned int, unsigned char);
+extern void Renderer_destroy(Renderer *);
 
-void Renderer_draw_game(Renderer *, Block *, Block *, unsigned int, unsigned int, unsigned int, uint8_t);
+extern void Renderer_draw_game(Renderer *, Block *, Block *, unsigned int, unsigned int, unsigned int, uint8_t);
 
-void Renderer_draw_game_border(Renderer *);
+extern void Renderer_draw_game_border(Renderer *);
 
-void Renderer_draw_game_over(Renderer *, unsigned int, unsigned int, unsigned int);
+extern void Renderer_draw_game_over(Renderer *, unsigned int, unsigned int, unsigned int);
 
-void Renderer_draw_block(Renderer *, Block *);
-void Renderer_erase_block(Renderer *, Block *);
+extern void Renderer_draw_block(Renderer *, Block *);
+extern void Renderer_erase_block(Renderer *, Block *);
 
-void Renderer_draw_pause_message(Renderer *);
-void Renderer_erase_pause_message(Renderer *);
+extern void Renderer_draw_pause_message(Renderer *);
+extern void Renderer_erase_pause_message(Renderer *);
 
-void Renderer_set_color(Renderer *, COLOR);
-
-void Renderer_present_buffer(Renderer *);
+extern void Renderer_present_buffer(Renderer *);
 
 #endif

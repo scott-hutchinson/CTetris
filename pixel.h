@@ -10,7 +10,7 @@ typedef struct Pixel {
     const char *value;
 } Pixel;
 
-Pixel *Pixel_create(unsigned char, unsigned char, int, int, const char *);
-void Pixel_destroy(Pixel *);
+extern Pixel *Pixel_create(unsigned char, unsigned char, int, int, const char *);
+extern void Pixel_destroy(Pixel *);
 
 #endif

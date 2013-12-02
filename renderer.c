@@ -7,6 +7,54 @@
 #include "tetris.h"
 
 
+static void set_color(Renderer *renderer, COLOR color)
+{
+    switch (color) {
+        case COLOR_NONE:
+            renderer->color = 0;
+            break;
+
+        case COLOR_WHITE:
+            renderer->color = XTERM_256_WHITE;
+            break;
+
+        case COLOR_GRAY:
+            renderer->color = XTERM_256_GRAY;
+            break;
+
+        case COLOR_RED:
+            renderer->color = XTERM_256_RED;
+            break;
+
+        case COLOR_GREEN:
+            renderer->color = XTERM_256_GREEN;
+            break;
+
+        case COLOR_YELLOW:
+            renderer->color = XTERM_256_YELLOW;
+            break;
+
+        case COLOR_BLUE:
+            renderer->color = XTERM_256_BLUE;
+            break;
+
+        case COLOR_PURPLE:
+            renderer->color = XTERM_256_PURPLE;
+            break;
+
+        case COLOR_CYAN:
+            renderer->color = XTERM_256_CYAN;
+            break;
+
+        case COLOR_ORANGE:
+            renderer->color = XTERM_256_ORANGE;
+            break;
+
+        default:
+            break;
+    }
+}
+
 Renderer *Renderer_create(unsigned int width, unsigned int height, unsigned char color_mode)
 {
     Renderer *renderer = malloc(sizeof(Renderer));
@@ -266,7 +314,7 @@ void Renderer_draw_game_over(Renderer *renderer, unsigned int lines_completed, u
 
 void Renderer_draw_block(Renderer *renderer, Block *block)
 {
-    Renderer_set_color(renderer, block->color);
+    set_color(renderer, block->color);
 
     int i;
     for (i = 0; i < 4; i++) {
@@ -322,54 +370,6 @@ void Renderer_erase_pause_message(Renderer *renderer)
     // renderer->buffer->data[renderer->row_score][0] = 1;
     // renderer->buffer->data[renderer->row_level][0] = 1;
     // renderer->buffer->dirty = 1;
-}
-
-void Renderer_set_color(Renderer *renderer, COLOR color)
-{
-    switch (color) {
-        case COLOR_NONE:
-            renderer->color = 0;
-            break;
-
-        case COLOR_WHITE:
-            renderer->color = XTERM_256_WHITE;
-            break;
-
-        case COLOR_GRAY:
-            renderer->color = XTERM_256_GRAY;
-            break;
-
-        case COLOR_RED:
-            renderer->color = XTERM_256_RED;
-            break;
-
-        case COLOR_GREEN:
-            renderer->color = XTERM_256_GREEN;
-            break;
-
-        case COLOR_YELLOW:
-            renderer->color = XTERM_256_YELLOW;
-            break;
-
-        case COLOR_BLUE:
-            renderer->color = XTERM_256_BLUE;
-            break;
-
-        case COLOR_PURPLE:
-            renderer->color = XTERM_256_PURPLE;
-            break;
-
-        case COLOR_CYAN:
-            renderer->color = XTERM_256_CYAN;
-            break;
-
-        case COLOR_ORANGE:
-            renderer->color = XTERM_256_ORANGE;
-            break;
-
-        default:
-            break;
-    }
 }
 
 void Renderer_present_buffer(Renderer *renderer)

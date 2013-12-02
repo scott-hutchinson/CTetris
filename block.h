@@ -56,15 +56,14 @@ typedef struct Block {
     Coordinate bottom_collision_coords[4];
 } Block;
 
-Block *Block_create(void);
-void Block_destroy(Block *);
+extern Block *Block_create(void);
+extern void Block_destroy(Block *);
 
-void Block_set_type(Block *, BLOCK_TYPE, uint8_t);
-void Block_rotate(Block *);
-void Block_set_rotate(Block *, uint8_t);
+extern void Block_set_type(Block *, BLOCK_TYPE, uint8_t);
+extern void Block_rotate(Block *);
+extern void Block_set_rotate(Block *, uint8_t);
 
-void Block_clear_collision_coords(Block *);
-int Block_get_coord_x(Block *, int, int);
-int Block_get_coord_y(Block *, int, int);
+extern int Block_get_coord_x(Block *, int, int);
+extern int Block_get_coord_y(Block *, int, int);
 
 #endif

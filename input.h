@@ -32,7 +32,6 @@ typedef enum KEY_CODE {
     ASCII_CONTROL_C           = 0x03,
 } KEY_CODE;
 
-KEY_CODE Input_get_key(int *);
-KEY_ALIAS Input_get_key_alias(int);
+extern KEY_CODE Input_get_key(int *);
 
 #endif

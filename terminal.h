@@ -18,15 +18,15 @@ typedef enum CURSOR_DIRECTION {
     CURSOR_LEFT,
 } CURSOR_DIRECTION;
 
-void Terminal_begin_raw_mode(void);
-void Terminal_end_raw_mode(void);
+extern void Terminal_begin_raw_mode(void);
+extern void Terminal_end_raw_mode(void);
 
-void Terminal_clear_screen(int);
+extern void Terminal_clear_screen(int);
 
-void Terminal_reset_cursor(int);
-void Terminal_move_cursor(CURSOR_DIRECTION, int);
+extern void Terminal_reset_cursor(int);
+extern void Terminal_move_cursor(CURSOR_DIRECTION, int);
 
-void Terminal_set_color(int, int, int);
-void Terminal_disable_color(void);
+extern void Terminal_set_color(int, int, int);
+extern void Terminal_disable_color(void);
 
 #endif
