@@ -7,7 +7,7 @@
 #include "block.h"
 
 
-typedef struct {
+typedef struct Renderer {
     Buffer *buffer;
 
     const char *fill_types[20];
@@ -20,7 +20,7 @@ typedef struct {
     unsigned int row_floor, row_line_counter, row_score, row_level;
 } Renderer;
 
-typedef enum {
+typedef enum BUFFER_FILL_TYPE {
     FILL_SOLID,
     FILL_WALL,
     FILL_FLOOR,
@@ -34,7 +34,7 @@ typedef enum {
     GAMEOVER_3 = 104,
 } BUFFER_FILL_TYPE;
 
-typedef enum {
+typedef enum COLOR_CODE {
     XTERM_GRAY       = 30,
     XTERM_RED        = 31,
     XTERM_GREEN      = 32,

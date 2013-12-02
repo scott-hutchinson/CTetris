@@ -12,7 +12,7 @@ typedef enum COORDINATE_TYPE {
     COORDINATE_IGNORE,
 } COORDINATE_TYPE;
 
-typedef struct {
+typedef struct Coordinate {
     int8_t x, y;
 } Coordinate;
 

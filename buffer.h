@@ -6,7 +6,7 @@
 #include "pixel.h"
 
 
-typedef struct {
+typedef struct Buffer {
     Pixel **pixel_data;
 
     unsigned int width, height;

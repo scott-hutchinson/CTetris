@@ -41,7 +41,7 @@ typedef enum COLOR {
     COLOR_ORANGE,
 } COLOR;
 
-typedef struct {
+typedef struct Block {
     uint8_t x, y, rotate;
 
     BLOCK_TYPE type;

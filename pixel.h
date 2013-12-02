@@ -2,7 +2,7 @@
 #define _pixel_h
 
 
-typedef struct {
+typedef struct Pixel {
     unsigned char enabled, bold;
 
     int background_color, foreground_color;

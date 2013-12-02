@@ -9,7 +9,7 @@
 #include "renderer.h"
 
 
-typedef struct {
+typedef struct Tetris {
     Renderer *renderer;
 
     Block *current_block, *ghost_block;
