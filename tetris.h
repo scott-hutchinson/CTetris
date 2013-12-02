@@ -26,7 +26,7 @@ typedef struct {
     unsigned char key_left, key_right, key_down, key_drop, key_rotate, key_quit, key_pause, key_ghost_block;
 } Tetris;
 
-typedef enum {
+typedef enum GAME_STATE {
     RUNNING,
     PAUSED,
 } GAME_STATE;

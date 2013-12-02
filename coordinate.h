@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 
-typedef enum {
+typedef enum COORDINATE_TYPE {
     COORDINATE_MAIN,
     COORDINATE_LEFT_COLLISION,
     COORDINATE_RIGHT_COLLISION,

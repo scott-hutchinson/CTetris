@@ -5,7 +5,7 @@
 
 #include "coordinate.h"
 
-typedef enum {
+typedef enum BLOCK_TYPE {
     BLOCK_NONE,
     BLOCK_I,
     BLOCK_J,
@@ -16,7 +16,7 @@ typedef enum {
     BLOCK_Z,
 } BLOCK_TYPE;
 
-typedef enum {
+typedef enum FILL_TYPE {
     FILL_NONE,
     FILL_1,
     FILL_2,
@@ -28,7 +28,7 @@ typedef enum {
     FILL_GHOST,
 } FILL_TYPE;
 
-typedef enum {
+typedef enum COLOR {
     COLOR_NONE,
     COLOR_GRAY,
     COLOR_RED,

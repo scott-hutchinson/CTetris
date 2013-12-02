@@ -6,12 +6,12 @@
 
 struct termios orig_term_attr, raw_term_attr;
 
-typedef enum {
+typedef enum COLOR_MODE {
     XTERM,
     XTERM_256
 } COLOR_MODE;
 
-typedef enum {
+typedef enum CURSOR_DIRECTION {
     CURSOR_UP,
     CURSOR_DOWN,
     CURSOR_RIGHT,

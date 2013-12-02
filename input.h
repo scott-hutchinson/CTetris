@@ -2,7 +2,7 @@
 #define _input_h
 
 
-typedef enum {
+typedef enum KEY_ALIAS {
     KEY_NONE,
     KEY_LEFT,
     KEY_RIGHT,
@@ -16,7 +16,7 @@ typedef enum {
     KEY_CONTROL_C,
 } KEY_ALIAS;
 
-typedef enum {
+typedef enum KEY_CODE {
     ASCII_NULL                = 0x00,
     ASCII_LOWER_Q             = 0x71,
     ASCII_LOWER_P             = 0x70,
