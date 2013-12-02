@@ -1,5 +1,5 @@
-#ifndef _renderer_h
-#define _renderer_h
+#ifndef RENDERER_H
+#define RENDERER_H
 
 #include <stdint.h>
 

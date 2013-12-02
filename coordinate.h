@@ -1,5 +1,5 @@
-#ifndef _coordinate_h
-#define _coordinate_h
+#ifndef COORDINATE_H
+#define COORDINATE_H
 
 #include <stdint.h>
 

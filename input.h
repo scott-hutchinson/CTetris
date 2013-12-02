@@ -1,5 +1,5 @@
-#ifndef _input_h
-#define _input_h
+#ifndef INPUT_H
+#define INPUT_H
 
 
 typedef enum KEY_ALIAS {

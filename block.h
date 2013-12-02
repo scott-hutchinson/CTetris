@@ -1,5 +1,5 @@
-#ifndef _block_h
-#define _block_h
+#ifndef BLOCK_H
+#define BLOCK_H
 
 #include <stdint.h>
 

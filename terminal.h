@@ -1,5 +1,5 @@
-#ifndef _terminal_h
-#define _terminal_h
+#ifndef TERMINAL_H
+#define TERMINAL_H
 
 #include <termios.h>
 
