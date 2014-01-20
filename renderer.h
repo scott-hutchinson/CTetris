@@ -18,6 +18,10 @@ typedef struct Renderer {
 
     unsigned int left_wall, right_wall;
     unsigned int row_floor, row_line_counter, row_score, row_level;
+
+    char **panel_buffer_line_counter, **panel_buffer_score, **panel_buffer_level;
+
+    unsigned int panel_label_width, panel_value_width;
 } Renderer;
 
 typedef enum BUFFER_FILL_TYPE {
@@ -58,11 +62,7 @@ typedef enum COLOR_CODE {
 extern Renderer *Renderer_create(unsigned int, unsigned int, unsigned char);
 extern void Renderer_destroy(Renderer *);
 
-extern void Renderer_draw_game(Renderer *, Block *, Block *, unsigned int, unsigned int, unsigned int, uint8_t);
-
-extern void Renderer_draw_game_border(Renderer *);
-
-extern void Renderer_draw_game_over(Renderer *, unsigned int, unsigned int, unsigned int);
+extern void Renderer_present_buffer(Renderer *);
 
 extern void Renderer_draw_block(Renderer *, Block *);
 extern void Renderer_erase_block(Renderer *, Block *);
@@ -70,6 +70,20 @@ extern void Renderer_erase_block(Renderer *, Block *);
 extern void Renderer_draw_pause_message(Renderer *);
 extern void Renderer_erase_pause_message(Renderer *);
 
-extern void Renderer_present_buffer(Renderer *);
+extern void Renderer_draw_panel_labels(Renderer *);
+extern void Renderer_erase_panel_labels(Renderer *);
+
+extern void Renderer_draw_panel_line_counter(Renderer *, uint32_t);
+extern void Renderer_erase_panel_line_counter(Renderer *);
+
+extern void Renderer_draw_panel_score(Renderer *, uint32_t);
+extern void Renderer_erase_panel_score(Renderer *);
+
+extern void Renderer_draw_panel_level(Renderer *, uint32_t);
+extern void Renderer_erase_panel_level(Renderer *);
+
+extern void Renderer_draw_game_border(Renderer *);
+
+extern void Renderer_draw_game_over(Renderer *);
 
 #endif

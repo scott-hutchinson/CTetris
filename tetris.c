@@ -120,6 +120,7 @@ static int check_complete_lines(Tetris *tetris)
                 line_count++;
                 erase_line(tetris->renderer, y);
                 tetris->lines_completed++;
+                Renderer_draw_panel_line_counter(tetris->renderer, tetris->lines_completed);
             }
             empty_cell_count = 0;
         }
@@ -195,12 +196,7 @@ static void next_block(Tetris *tetris)
 static void check_game_over(Tetris *tetris)
 {
     if (draw_collision(tetris->current_block, tetris->renderer->buffer)) {
-        Renderer_draw_game_over(
-            tetris->renderer,
-            tetris->lines_completed,
-            tetris->score,
-            tetris->level
-        );
+        Renderer_draw_game_over(tetris->renderer);
 
         Tetris_destroy(tetris);
 
@@ -300,6 +296,9 @@ static void update(Tetris *tetris)
             update_score(tetris, complete_lines);
             update_level(tetris);
 
+            Renderer_draw_panel_score(tetris->renderer, tetris->score);
+            Renderer_draw_panel_level(tetris->renderer, tetris->level);
+
             tetris->renderer->buffer->dirty = 1;
         }
     }
@@ -311,11 +310,21 @@ static void update(Tetris *tetris)
     else if (tetris->key_pause) {
         if (tetris->game_state == RUNNING) {
             tetris->game_state = PAUSED;
+            Renderer_erase_panel_labels(tetris->renderer);
+            Renderer_erase_panel_line_counter(tetris->renderer);
+            Renderer_erase_panel_score(tetris->renderer);
+            Renderer_erase_panel_level(tetris->renderer);
+
             Renderer_draw_pause_message(tetris->renderer);
         }
         else if (tetris->game_state == PAUSED) {
             tetris->game_state = RUNNING;
             Renderer_erase_pause_message(tetris->renderer);
+
+            Renderer_draw_panel_labels(tetris->renderer);
+            Renderer_draw_panel_line_counter(tetris->renderer, tetris->lines_completed);
+            Renderer_draw_panel_score(tetris->renderer, tetris->score);
+            Renderer_draw_panel_level(tetris->renderer, tetris->level);
         }
     }
     else if (tetris->key_ghost_block) {
@@ -386,6 +395,8 @@ static void update(Tetris *tetris)
 
             tetris->score++;
 
+            Renderer_draw_panel_score(tetris->renderer, tetris->score);
+
             tetris->renderer->buffer->dirty = 1;
         }
     }
@@ -451,25 +462,26 @@ Tetris *Tetris_create(void)
         tetris->gravity_frame_delay = 1;
     }
 
-    tetris->key_left       = 0;
-    tetris->key_right      = 0;
-    tetris->key_down       = 0;
-    tetris->key_drop       = 0;
-    tetris->key_rotate     = 0;
-    tetris->key_quit       = 0;
-    tetris->key_pause      = 0;
+    tetris->key_left        = 0;
+    tetris->key_right       = 0;
+    tetris->key_down        = 0;
+    tetris->key_drop        = 0;
+    tetris->key_rotate      = 0;
+    tetris->key_quit        = 0;
+    tetris->key_pause       = 0;
     tetris->key_ghost_block = 0;
 
     tetris->game_state = RUNNING;
-    // tetris->renderer->buffer->data[tetris->renderer->row_line_counter][0] = 1;
-    // tetris->renderer->buffer->data[tetris->renderer->row_score][0] = 1;
-    // tetris->renderer->buffer->data[tetris->renderer->row_level][0] = 1;
+
     Renderer_draw_game_border(tetris->renderer);
+    Renderer_draw_panel_labels(tetris->renderer);
+    Renderer_draw_panel_line_counter(tetris->renderer, tetris->lines_completed);
+    Renderer_draw_panel_score(tetris->renderer, tetris->score);
+    Renderer_draw_panel_level(tetris->renderer, tetris->level);
 
     if (tetris->enable_ghost_block == 1) {
         set_ghost_block(tetris);
     }
-
 
     tetris->renderer->buffer->dirty = 1;
 
