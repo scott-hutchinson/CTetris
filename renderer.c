@@ -7,52 +7,9 @@
 #include "tetris.h"
 
 
-static void set_color(Renderer *renderer, COLOR color)
+static int get_color_code(Renderer *renderer, COLOR color)
 {
-    switch (color) {
-        case COLOR_NONE:
-            renderer->color = 0;
-            break;
-
-        case COLOR_WHITE:
-            renderer->color = XTERM_256_WHITE;
-            break;
-
-        case COLOR_GRAY:
-            renderer->color = XTERM_256_GRAY;
-            break;
-
-        case COLOR_RED:
-            renderer->color = XTERM_256_RED;
-            break;
-
-        case COLOR_GREEN:
-            renderer->color = XTERM_256_GREEN;
-            break;
-
-        case COLOR_YELLOW:
-            renderer->color = XTERM_256_YELLOW;
-            break;
-
-        case COLOR_BLUE:
-            renderer->color = XTERM_256_BLUE;
-            break;
-
-        case COLOR_PURPLE:
-            renderer->color = XTERM_256_PURPLE;
-            break;
-
-        case COLOR_CYAN:
-            renderer->color = XTERM_256_CYAN;
-            break;
-
-        case COLOR_ORANGE:
-            renderer->color = XTERM_256_ORANGE;
-            break;
-
-        default:
-            break;
-    }
+    return renderer->colors[color];
 }
 
 static void Renderer_draw_panel_value(Renderer *renderer,
@@ -69,14 +26,14 @@ static void Renderer_draw_panel_value(Renderer *renderer,
     char value_formatted[value_width];
     snprintf(value_formatted, renderer->panel_value_width*2, format, value);
 
-    int i;
+    unsigned int i;
     for (i = 0; i < renderer->panel_value_width; i++) {
         sprintf(value_buffer[i],
                 "%c%c",
                 value_formatted[2*i], value_formatted[(2*i)+1]);
     }
 
-    int x, y, value_index;
+    unsigned int x, y, value_index;
 
     value_index = 0;
     y = row;
@@ -95,26 +52,18 @@ static void Renderer_draw_panel_value(Renderer *renderer,
 
 static void Renderer_erase_panel_value(Renderer *renderer, unsigned int row)
 {
-    int x;
+    unsigned int x;
     for (x = renderer->panel_label_width; x < renderer->buffer->width; x++) {
         Buffer_set_pixel_enabled(renderer->buffer, x, row, 0);
     }
 }
 
 Renderer *Renderer_create(unsigned int width,
-                          unsigned int height,
-                          unsigned char color_mode)
+                          unsigned int height)
 {
     Renderer *renderer = malloc(sizeof(Renderer));
 
     renderer->buffer = Buffer_create(width, height);
-
-    renderer->color_mode = color_mode;
-
-    renderer->color = XTERM_256_WHITE;
-
-    renderer->left_wall          = 1;
-    renderer->right_wall         = width - 2;
 
     renderer->row_floor          = height - 4;
     renderer->row_line_counter   = height - 3;
@@ -124,21 +73,26 @@ Renderer *Renderer_create(unsigned int width,
     renderer->panel_label_width = 3;
     renderer->panel_value_width = 9;
 
-    int y;
     renderer->panel_buffer_line_counter = malloc(renderer->panel_value_width * sizeof(char *));
+    renderer->panel_buffer_score = malloc(renderer->panel_value_width * sizeof(char *));
+    renderer->panel_buffer_level = malloc(renderer->panel_value_width * sizeof(char *));
+    unsigned int y;
     for (y = 0; y < renderer->panel_value_width; y++) {
         renderer->panel_buffer_line_counter[y] = malloc(3 * sizeof(char));
-    }
-
-    renderer->panel_buffer_score = malloc(renderer->panel_value_width * sizeof(char *));
-    for (y = 0; y < renderer->panel_value_width; y++) {
         renderer->panel_buffer_score[y] = malloc(3 * sizeof(char));
-    }
-
-    renderer->panel_buffer_level = malloc(renderer->panel_value_width * sizeof(char *));
-    for (y = 0; y < renderer->panel_value_width; y++) {
         renderer->panel_buffer_level[y] = malloc(3 * sizeof(char));
     }
+
+    renderer->colors[COLOR_NONE]   = 0;
+    renderer->colors[COLOR_GRAY]   = 240;
+    renderer->colors[COLOR_RED]    = 34;
+    renderer->colors[COLOR_GREEN]  = 112;
+    renderer->colors[COLOR_YELLOW] = 226;
+    renderer->colors[COLOR_BLUE]   = 27;
+    renderer->colors[COLOR_PURPLE] = 129;
+    renderer->colors[COLOR_CYAN]   = 45;
+    renderer->colors[COLOR_WHITE]  = 254;
+    renderer->colors[COLOR_ORANGE] = 166;
 
     return renderer;
 }
@@ -147,20 +101,14 @@ void Renderer_destroy(Renderer *renderer)
 {
     Buffer_destroy(renderer->buffer);
 
-    int i;
+    unsigned int i;
     for(i = 0; i < renderer->panel_value_width; i++) {
         free(renderer->panel_buffer_line_counter[i]);
-    }
-    free(renderer->panel_buffer_line_counter);
-
-    for(i = 0; i < renderer->panel_value_width; i++) {
         free(renderer->panel_buffer_score[i]);
-    }
-    free(renderer->panel_buffer_score);
-
-    for(i = 0; i < renderer->panel_value_width; i++) {
         free(renderer->panel_buffer_level[i]);
     }
+    free(renderer->panel_buffer_line_counter);
+    free(renderer->panel_buffer_score);
     free(renderer->panel_buffer_level);
 
     free(renderer);
@@ -195,44 +143,30 @@ void Renderer_present_buffer(Renderer *renderer)
 
 void Renderer_draw_block(Renderer *renderer, Block *block)
 {
-    set_color(renderer, block->color);
-
     int i;
     for (i = 0; i < 4; i++) {
         Buffer_set_pixel_enabled(
             renderer->buffer,
-            block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
-            block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
+            block->x + (unsigned int) Block_get_coord_x(block, COORDINATE_MAIN, i),
+            block->y + (unsigned int) Block_get_coord_y(block, COORDINATE_MAIN, i),
             1);
-
-        Buffer_set_pixel_foreground_color(
-            renderer->buffer,
-            block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
-            block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
-            renderer->color);
 
         Buffer_set_pixel_background_color(
             renderer->buffer,
-            block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
-            block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
-            renderer->color);
-
-        // Buffer_set_pixel_value(
-        //     renderer->buffer,
-        //     block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
-        //     block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
-        //     "[]");
+            block->x + (unsigned int) Block_get_coord_x(block, COORDINATE_MAIN, i),
+            block->y + (unsigned int) Block_get_coord_y(block, COORDINATE_MAIN, i),
+            get_color_code(renderer, block->color));
     }
 }
 
 void Renderer_erase_block(Renderer *renderer, Block *block)
 {
-    unsigned int i;
+    int i;
     for (i = 0; i < 4; i++) {
         int x = block->x + Block_get_coord_x(block, COORDINATE_MAIN, i);
         int y = block->y + Block_get_coord_y(block, COORDINATE_MAIN, i);
 
-        Buffer_set_pixel_enabled(renderer->buffer, x, y, 0);
+        Buffer_set_pixel_enabled(renderer->buffer, (unsigned int) x, (unsigned int) y, 0);
     }
 }
 
@@ -244,7 +178,7 @@ void Renderer_draw_pause_message(Renderer *renderer)
         "to", " C", "on", "ti", "nu", "e ",
     };
 
-    int x, y, message_index;
+    unsigned int x, y, message_index;
 
     message_index = 0;
 
@@ -269,7 +203,7 @@ void Renderer_draw_pause_message(Renderer *renderer)
 
 void Renderer_erase_pause_message(Renderer *renderer)
 {
-    int x, y;
+    unsigned int x, y;
 
     y = renderer->row_line_counter;
     for (x = renderer->panel_label_width+1; x < renderer->buffer->width; x++) {
@@ -294,7 +228,7 @@ void Renderer_draw_panel_labels(Renderer *renderer)
         "Le", "ve", "l:",
     };
 
-    int x, y, label_index;
+    unsigned int x, y, label_index;
 
     label_index = 0;
 
@@ -325,7 +259,7 @@ void Renderer_draw_panel_labels(Renderer *renderer)
 
 void Renderer_erase_panel_labels(Renderer *renderer)
 {
-    int x;
+    unsigned int x;
     for (x = 0; x < renderer->panel_label_width; x++) {
         Buffer_set_pixel_enabled(renderer->buffer, x, renderer->row_line_counter, 0);
         Buffer_set_pixel_enabled(renderer->buffer, x, renderer->row_score, 0);
@@ -380,16 +314,15 @@ void Renderer_draw_game_border(Renderer *renderer)
     const char *fill_wall  = "||";
     const char *fill_floor = "::";
 
-    renderer->color = XTERM_256_GRAY;
-
-    int x, y;
+    unsigned int x, y;
     for (x = 0; x < renderer->buffer->width; x+= renderer->buffer->width-1) {
         for (y = 0; y < renderer->row_floor; y++) {
             Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
 
-            Buffer_set_pixel_foreground_color(renderer->buffer,
-                                              x, y,
-                                              renderer->color);
+            Buffer_set_pixel_foreground_color(
+                renderer->buffer,
+                x, y,
+                get_color_code(renderer, COLOR_GRAY));
 
             Buffer_set_pixel_value(renderer->buffer,
                                    x, y,
@@ -400,9 +333,10 @@ void Renderer_draw_game_border(Renderer *renderer)
     for (x = 0; x < renderer->buffer->width; x++) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
 
-        Buffer_set_pixel_foreground_color(renderer->buffer,
-                                          x, y,
-                                          renderer->color);
+        Buffer_set_pixel_foreground_color(
+            renderer->buffer,
+            x, y,
+            get_color_code(renderer, COLOR_GRAY));
 
         Buffer_set_pixel_value(renderer->buffer,
                                x, y,

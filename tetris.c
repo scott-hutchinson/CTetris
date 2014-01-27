@@ -431,7 +431,7 @@ Tetris *Tetris_create(void)
     init_screen();
     Tetris *tetris = malloc(sizeof(Tetris));
 
-    tetris->renderer = Renderer_create(12, 24, XTERM_256);
+    tetris->renderer = Renderer_create(12, 24);
 
     tetris->current_block = Block_create();
     tetris->ghost_block = Block_create();
