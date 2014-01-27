@@ -121,14 +121,6 @@ Renderer *Renderer_create(unsigned int width,
     renderer->row_score          = height - 2;
     renderer->row_level          = height - 1;
 
-    renderer->fill_types[FILL_SOLID]      = "  ";
-    renderer->fill_types[FILL_WALL]       = "||";
-    renderer->fill_types[FILL_FLOOR]      = "::";
-    renderer->fill_types[FILL_GAMEOVER_0] = "Ga";
-    renderer->fill_types[FILL_GAMEOVER_1] = "me";
-    renderer->fill_types[FILL_GAMEOVER_2] = "Ov";
-    renderer->fill_types[FILL_GAMEOVER_3] = "er";
-
     renderer->panel_label_width = 3;
     renderer->panel_value_width = 9;
 
@@ -225,11 +217,11 @@ void Renderer_draw_block(Renderer *renderer, Block *block)
             block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
             renderer->color);
 
-        Buffer_set_pixel_value(
-            renderer->buffer,
-            block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
-            block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
-            renderer->fill_types[FILL_SOLID]);
+        // Buffer_set_pixel_value(
+        //     renderer->buffer,
+        //     block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
+        //     block->y + Block_get_coord_y(block, COORDINATE_MAIN, i),
+        //     "[]");
     }
 }
 
@@ -282,17 +274,11 @@ void Renderer_erase_pause_message(Renderer *renderer)
     y = renderer->row_line_counter;
     for (x = renderer->panel_label_width+1; x < renderer->buffer->width; x++) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
-        Buffer_set_pixel_value(renderer->buffer,
-                               x, y,
-                               renderer->fill_types[FILL_SOLID]);
     }
 
     y = renderer->row_score;
     for (x = renderer->panel_label_width; x < renderer->buffer->width; x++) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
-        Buffer_set_pixel_value(renderer->buffer,
-                               x, y,
-                               renderer->fill_types[FILL_SOLID]);
     }
 
     renderer->buffer->dirty = 1;
@@ -391,6 +377,9 @@ void Renderer_erase_panel_level(Renderer *renderer)
 
 void Renderer_draw_game_border(Renderer *renderer)
 {
+    const char *fill_wall  = "||";
+    const char *fill_floor = "::";
+
     renderer->color = XTERM_256_GRAY;
 
     int x, y;
@@ -404,7 +393,7 @@ void Renderer_draw_game_border(Renderer *renderer)
 
             Buffer_set_pixel_value(renderer->buffer,
                                    x, y,
-                                   renderer->fill_types[FILL_WALL]);
+                                   fill_wall);
         }
     }
 
@@ -417,7 +406,7 @@ void Renderer_draw_game_border(Renderer *renderer)
 
         Buffer_set_pixel_value(renderer->buffer,
                                x, y,
-                               renderer->fill_types[FILL_FLOOR]);
+                               fill_floor);
     }
 }
 

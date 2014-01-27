@@ -16,18 +16,6 @@ typedef enum BLOCK_TYPE {
     BLOCK_Z,
 } BLOCK_TYPE;
 
-typedef enum FILL_TYPE {
-    FILL_NONE,
-    FILL_1,
-    FILL_2,
-    FILL_3,
-    FILL_4,
-    FILL_5,
-    FILL_6,
-    FILL_7,
-    FILL_GHOST,
-} FILL_TYPE;
-
 typedef enum COLOR {
     COLOR_NONE,
     COLOR_GRAY,
@@ -45,8 +33,6 @@ typedef struct Block {
     uint8_t x, y, rotate;
 
     BLOCK_TYPE type;
-
-    FILL_TYPE fill_type;
 
     COLOR color;
 

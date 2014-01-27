@@ -169,8 +169,6 @@ static void set_ghost_block(Tetris *tetris)
                    tetris->current_block->type,
                    tetris->current_block->rotate);
 
-    tetris->ghost_block->fill_type = FILL_GHOST;
-
     tetris->ghost_block->color = COLOR_GRAY;
 
     while (!collision(COORDINATE_BOTTOM_COLLISION,
