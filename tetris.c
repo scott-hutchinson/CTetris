@@ -32,8 +32,8 @@ static int collision(int collision_type, Block *block, Buffer *buffer)
 
         if (Buffer_get_pixel_enabled(
                 buffer,
-                block->x + Block_get_coord_x(block, collision_type, i),
-                block->y + Block_get_coord_y(block, collision_type, i))
+                block->x + (unsigned int) Block_get_coord_x(block, collision_type, i),
+                block->y + (unsigned int) Block_get_coord_y(block, collision_type, i))
         ) {
             return 1;
         }
@@ -48,8 +48,8 @@ static int draw_collision(Block *block, Buffer *buffer)
     for (i = 0; i < 4; i++) {
         if (Buffer_get_pixel_enabled(
                 buffer,
-                block->x + Block_get_coord_x(block, COORDINATE_MAIN, i),
-                block->y + Block_get_coord_y(block, COORDINATE_MAIN, i))
+                block->x + (unsigned int) Block_get_coord_x(block, COORDINATE_MAIN, i),
+                block->y + (unsigned int) Block_get_coord_y(block, COORDINATE_MAIN, i))
         ) {
             return 1;
         }
@@ -64,7 +64,7 @@ static int rotate_collision(Block *block, Buffer *buffer)
         return 0;
     }
 
-    int original_rotate = block->rotate;
+    uint8_t original_rotate = block->rotate;
 
     Block_rotate(block);
 
@@ -83,20 +83,22 @@ static int rotate_collision(Block *block, Buffer *buffer)
 
 static void drop_line(Buffer *buffer, int line_number)
 {
-    int i;
+    unsigned int i;
     for (i = 1; i < buffer->width-1; i++) {
-        Buffer_set_pixel(buffer, i, line_number+1, buffer->pixel_data[line_number][i]);
+        Buffer_set_pixel(buffer,
+                         i, (unsigned int) line_number+1,
+                         buffer->pixel_data[line_number][i]);
     }
 }
 
 static void erase_line(Renderer *renderer, int line_number)
 {
     int i;
-    for (i = 1; i < renderer->buffer->width-1; i++) {
-        Buffer_set_pixel_enabled(renderer->buffer, i, line_number, 0);
+    for (i = 1; i < (int) renderer->buffer->width-1; i++) {
+        Buffer_set_pixel_enabled(renderer->buffer, (unsigned int) i, (unsigned int) line_number, 0);
     }
 
-    for (i = 1; i < renderer->row_floor-1; i++) {
+    for (i = 1; i < (int) renderer->row_floor-1; i++) {
         if (line_number - i > 0) {
             drop_line(renderer->buffer, line_number - i);
         }
@@ -107,20 +109,23 @@ static int check_complete_lines(Tetris *tetris)
 {
     int empty_cell_count = 0, line_count = 0;
 
-    int check_count, x, y;
+    unsigned int check_count, x, y;
     for (check_count = 0; check_count < 4; check_count++) {
         for (y = tetris->renderer->row_floor-1; y > 0; y--) {
             for (x = 1; x < tetris->renderer->buffer->width-1; x++) {
-                if (!Buffer_get_pixel_enabled(tetris->renderer->buffer, x, y)) {
+                if (!Buffer_get_pixel_enabled(tetris->renderer->buffer,
+                                              x, y)
+                ) {
                     empty_cell_count++;
                 }
             }
 
             if (empty_cell_count == 0) {
                 line_count++;
-                erase_line(tetris->renderer, y);
+                erase_line(tetris->renderer, (int) y);
                 tetris->lines_completed++;
-                Renderer_draw_panel_line_counter(tetris->renderer, tetris->lines_completed);
+                Renderer_draw_panel_line_counter(tetris->renderer,
+                                                 tetris->lines_completed);
             }
             empty_cell_count = 0;
         }
@@ -131,31 +136,29 @@ static int check_complete_lines(Tetris *tetris)
     return line_count;
 }
 
-static int random_in_range(unsigned int min, unsigned int max)
+static unsigned int random_in_range(unsigned int min, unsigned int max)
 {
-    int base_random = rand(); /* in [0, RAND_MAX] */
+    int base_random = rand();
 
-    if (RAND_MAX == base_random) return random_in_range(min, max);
-
-    /* now guaranteed to be in [0, RAND_MAX) */
-    int range       = max - min,
-        remainder   = RAND_MAX % range,
-        bucket      = RAND_MAX / range;
-
-    /* There are range buckets, plus one smaller interval
-     within remainder of RAND_MAX */
-    if (base_random < RAND_MAX - remainder) {
-        return min + base_random/bucket;
+    if (RAND_MAX == base_random) {
+        return random_in_range(min, max);
     }
-    else {
-        return random_in_range (min, max);
+
+    unsigned int range     = max - min;
+    unsigned int remainder = RAND_MAX % range;
+    unsigned int bucket    = RAND_MAX / range;
+
+    if ((unsigned int) base_random < RAND_MAX - remainder) {
+        return min + ((unsigned int) base_random / bucket);
     }
+
+    return random_in_range(min, max);
 }
 
 
-static int get_random_block_type(void)
+static unsigned int get_random_block_type(void)
 {
-    unsigned int min = 1, max = 7;
+    unsigned int min = 1, max = 8;
 
     return random_in_range(min, max);
 }
@@ -278,7 +281,10 @@ static void get_key_input(Tetris *tetris)
 
 static void update(Tetris *tetris)
 {
-    if (collision(COORDINATE_BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
+    if (collision(COORDINATE_BOTTOM_COLLISION,
+                  tetris->current_block,
+                  tetris->renderer->buffer)
+    ) {
         tetris->movement_frame_counter++;
         if (tetris->movement_frame_counter == tetris->movement_frame_delay) {
             tetris->movement_frame_counter = 0;
@@ -338,9 +344,11 @@ static void update(Tetris *tetris)
         tetris->renderer->buffer->dirty = 1;
     }
 
-
     if (tetris->game_state != PAUSED) {
-        if (!collision(COORDINATE_BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
+        if (!collision(COORDINATE_BOTTOM_COLLISION,
+                       tetris->current_block,
+                       tetris->renderer->buffer)
+        ) {
             tetris->gravity_frame_counter++;
             if (tetris->gravity_frame_counter == tetris->gravity_frame_delay) {
                 tetris->gravity_frame_counter = 0;
@@ -349,14 +357,19 @@ static void update(Tetris *tetris)
             }
         }
         if (tetris->key_drop) {
-            while (!collision(COORDINATE_BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
+            while (!collision(COORDINATE_BOTTOM_COLLISION,
+                              tetris->current_block,
+                              tetris->renderer->buffer)
+            ) {
                 tetris->current_block->y++;
                 tetris->score += 2;
             }
             tetris->renderer->buffer->dirty = 1;
         }
         else if (tetris->key_rotate
-                 && rotate_collision(tetris->current_block, tetris->renderer->buffer) != 1) {
+                 && rotate_collision(tetris->current_block,
+                                     tetris->renderer->buffer) != 1
+        ) {
             Block_rotate(tetris->current_block);
             if (tetris->enable_ghost_block == 1) {
                 set_ghost_block(tetris);
@@ -364,7 +377,10 @@ static void update(Tetris *tetris)
             tetris->renderer->buffer->dirty = 1;
         }
         else if (tetris->key_left
-                 && !collision(COORDINATE_LEFT_COLLISION, tetris->current_block, tetris->renderer->buffer)) {
+                 && !collision(COORDINATE_LEFT_COLLISION,
+                               tetris->current_block,
+                               tetris->renderer->buffer)
+        ) {
             tetris->current_block->x--;
             if (tetris->enable_ghost_block == 1) {
                 set_ghost_block(tetris);
@@ -372,7 +388,9 @@ static void update(Tetris *tetris)
             tetris->renderer->buffer->dirty = 1;
         }
         else if (tetris->key_right
-                 && !collision(COORDINATE_RIGHT_COLLISION, tetris->current_block, tetris->renderer->buffer)
+                 && !collision(COORDINATE_RIGHT_COLLISION,
+                               tetris->current_block,
+                               tetris->renderer->buffer)
         ) {
             tetris->current_block->x++;
 
@@ -383,7 +401,9 @@ static void update(Tetris *tetris)
             tetris->renderer->buffer->dirty = 1;
         }
         else if (tetris->key_down
-                 && !collision(COORDINATE_BOTTOM_COLLISION, tetris->current_block, tetris->renderer->buffer)
+                 && !collision(COORDINATE_BOTTOM_COLLISION,
+                               tetris->current_block,
+                               tetris->renderer->buffer)
         ) {
             tetris->current_block->y++;
 
@@ -417,17 +437,20 @@ static void draw_frame(Tetris *tetris)
 
 static void sleep_ms(unsigned int milliseconds)
 {
-    struct timespec req = {0};
+    time_t seconds = (int) (milliseconds / 1000);
 
-    req.tv_sec = 0;
-    req.tv_nsec = milliseconds * 1000000L;
+    milliseconds = milliseconds - ((unsigned int) seconds * 1000);
+
+    struct timespec req;
+    req.tv_sec = seconds;
+    req.tv_nsec = (int) milliseconds * 1000000L;
 
     while (nanosleep(&req, &req) == -1);
 }
 
 Tetris *Tetris_create(void)
 {
-    srand(time(NULL));
+    srand((unsigned int) time(NULL));
     init_screen();
     Tetris *tetris = malloc(sizeof(Tetris));
 
@@ -454,7 +477,7 @@ Tetris *Tetris_create(void)
 
     tetris->gravity_frame_counter = 0;
     if (tetris->level < 16) {
-        tetris->gravity_frame_delay = 16 - tetris->level;
+        tetris->gravity_frame_delay = (uint8_t) (16 - tetris->level);
     }
     else {
         tetris->gravity_frame_delay = 1;
@@ -493,6 +516,12 @@ void Tetris_destroy(Tetris *tetris)
     Block_destroy(tetris->ghost_block);
     free(tetris);
     cleanup_screen();
+}
+
+void Tetris_init_options(Tetris *tetris, int option_count, char **options)
+{
+    tetris->option_count = option_count;
+    tetris->options = options;
 }
 
 void Tetris_game_loop(Tetris *tetris)

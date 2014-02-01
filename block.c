@@ -181,6 +181,7 @@ void Block_set_type(Block *block, BLOCK_TYPE type, uint8_t rotate)
             block->color = COLOR_GREEN;
             break;
 
+        case BLOCK_NONE:
         default:
             break;
     }

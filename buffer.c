@@ -10,13 +10,13 @@ Buffer *Buffer_create(unsigned int width, unsigned int height)
 {
     Buffer *buffer = malloc(sizeof(Buffer));
 
-    int y;
+    unsigned int y;
     buffer->pixel_data = malloc(height * sizeof(Pixel *));
     for (y = 0; y < height; y++) {
         buffer->pixel_data[y] = malloc(width * sizeof(Pixel));
     }
 
-    int x;
+    unsigned int x;
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
             buffer->pixel_data[y][x].enabled = 0;
@@ -40,7 +40,7 @@ Buffer *Buffer_create(unsigned int width, unsigned int height)
 
 void Buffer_destroy(Buffer *buffer)
 {
-    int i;
+    unsigned int i;
     for(i = 0; i < buffer->height; i++) {
         free(buffer->pixel_data[i]);
     }
@@ -51,7 +51,7 @@ void Buffer_destroy(Buffer *buffer)
 
 Pixel *Buffer_get_pixel(Buffer *buffer, unsigned int x, unsigned int y)
 {
-    if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
+    if (x < buffer->width && y < buffer->height) {
         return &buffer->pixel_data[y][x];
     }
 
@@ -60,7 +60,7 @@ Pixel *Buffer_get_pixel(Buffer *buffer, unsigned int x, unsigned int y)
 
 unsigned char Buffer_get_pixel_enabled(Buffer *buffer, unsigned int x, unsigned int y)
 {
-    if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
+    if (x < buffer->width && y < buffer->height) {
         return buffer->pixel_data[y][x].enabled;
     }
 
@@ -69,7 +69,7 @@ unsigned char Buffer_get_pixel_enabled(Buffer *buffer, unsigned int x, unsigned 
 
 int Buffer_set_pixel(Buffer *buffer, unsigned int x, unsigned int y, Pixel pixel)
 {
-    if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
+    if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x] = pixel;
 
         return 1;
@@ -80,7 +80,7 @@ int Buffer_set_pixel(Buffer *buffer, unsigned int x, unsigned int y, Pixel pixel
 
 int Buffer_set_pixel_enabled(Buffer *buffer, unsigned int x, unsigned int y, unsigned char enabled)
 {
-    if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
+    if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x].enabled = enabled;
 
         return 1;
@@ -91,7 +91,7 @@ int Buffer_set_pixel_enabled(Buffer *buffer, unsigned int x, unsigned int y, uns
 
 int Buffer_set_pixel_bold(Buffer *buffer, unsigned int x, unsigned int y, unsigned char bold)
 {
-    if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
+    if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x].bold = bold;
 
         return 1;
@@ -102,7 +102,7 @@ int Buffer_set_pixel_bold(Buffer *buffer, unsigned int x, unsigned int y, unsign
 
 int Buffer_set_pixel_foreground_color(Buffer *buffer, unsigned int x, unsigned int y, int foreground_color)
 {
-    if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
+    if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x].foreground_color = foreground_color;
 
         return 1;
@@ -113,7 +113,7 @@ int Buffer_set_pixel_foreground_color(Buffer *buffer, unsigned int x, unsigned i
 
 int Buffer_set_pixel_background_color(Buffer *buffer, unsigned int x, unsigned int y, int background_color)
 {
-    if (x >= 0 && x < buffer->width && y >= 0 && y < buffer->height) {
+    if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x].background_color = background_color;
 
         return 1;
@@ -124,7 +124,7 @@ int Buffer_set_pixel_background_color(Buffer *buffer, unsigned int x, unsigned i
 
 int Buffer_set_pixel_value(Buffer *buffer, unsigned int x, unsigned int y, const char *value)
 {
-    if ((x >= 0 && x < buffer->width && y >= 0 && y < buffer->height)
+    if ((x < buffer->width && y < buffer->height)
         && value != NULL
     ) {
         buffer->pixel_data[y][x].value = value;

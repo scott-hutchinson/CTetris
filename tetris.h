@@ -24,6 +24,9 @@ typedef struct Tetris {
     int current_key, current_key_sequence[3];
 
     unsigned char key_left, key_right, key_down, key_drop, key_rotate, key_quit, key_pause, key_ghost_block;
+
+    int option_count;
+    char **options;
 } Tetris;
 
 typedef enum GAME_STATE {
@@ -33,6 +36,9 @@ typedef enum GAME_STATE {
 
 extern Tetris *Tetris_create(void);
 extern void Tetris_destroy(Tetris *);
+
+extern void Tetris_init_options(Tetris *, int, char **);
+
 extern void Tetris_game_loop(Tetris *);
 
 #endif

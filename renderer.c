@@ -346,5 +346,5 @@ void Renderer_draw_game_border(Renderer *renderer)
 
 void Renderer_draw_game_over(Renderer *renderer)
 {
-
+    Renderer_erase_pause_message(renderer);
 }

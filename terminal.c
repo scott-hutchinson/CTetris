@@ -10,7 +10,7 @@ void Terminal_begin_raw_mode(void)
 
     raw_term_attr = orig_term_attr;
 
-    raw_term_attr.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+    raw_term_attr.c_lflag &= (unsigned int) ~(ECHO | ICANON | IEXTEN | ISIG);
     raw_term_attr.c_cc[VTIME] = 0;
     raw_term_attr.c_cc[VMIN] = 0;
 
