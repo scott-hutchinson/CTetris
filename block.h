@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 
-#include "coordinate.h"
 
 typedef enum BLOCK_TYPE {
     BLOCK_NONE,
@@ -28,6 +27,18 @@ typedef enum COLOR {
     COLOR_WHITE,
     COLOR_ORANGE,
 } COLOR;
+
+typedef enum COORDINATE_TYPE {
+    COORDINATE_MAIN,
+    COORDINATE_LEFT_COLLISION,
+    COORDINATE_RIGHT_COLLISION,
+    COORDINATE_BOTTOM_COLLISION,
+    COORDINATE_IGNORE,
+} COORDINATE_TYPE;
+
+typedef struct Coordinate {
+    int8_t x, y;
+} Coordinate;
 
 typedef struct Block {
     uint8_t x, y, rotate;

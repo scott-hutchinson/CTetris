@@ -1,6 +1,6 @@
-CFLAGS=-Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wstrict-overflow=5 -Wwrite-strings -Waggregate-return -Wcast-qual -Wswitch-default -Wswitch-enum -Wconversion -Wunreachable-code -g
+CFLAGS=-Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wstrict-overflow=5 -Wwrite-strings -Waggregate-return -Wcast-qual -Wswitch-default -Wswitch-enum -Wconversion -Wunreachable-code -std=gnu99 -g
 CC=gcc
-SOURCES=main.c tetris.c buffer.c input.c terminal.c block.c coordinate.c renderer.c pixel.c
+SOURCES=main.c tetris.c input.c block.c renderer.c buffer.c terminal.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=tetris
 

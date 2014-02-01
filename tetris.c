@@ -32,8 +32,10 @@ static int collision(int collision_type, Block *block, Buffer *buffer)
 
         if (Buffer_get_pixel_enabled(
                 buffer,
-                block->x + (unsigned int) Block_get_coord_x(block, collision_type, i),
-                block->y + (unsigned int) Block_get_coord_y(block, collision_type, i))
+                block->x + (unsigned int) Block_get_coord_x(block,
+                                                            collision_type, i),
+                block->y + (unsigned int) Block_get_coord_y(block,
+                                                            collision_type, i))
         ) {
             return 1;
         }
@@ -48,8 +50,10 @@ static int draw_collision(Block *block, Buffer *buffer)
     for (i = 0; i < 4; i++) {
         if (Buffer_get_pixel_enabled(
                 buffer,
-                block->x + (unsigned int) Block_get_coord_x(block, COORDINATE_MAIN, i),
-                block->y + (unsigned int) Block_get_coord_y(block, COORDINATE_MAIN, i))
+                block->x + (unsigned int) Block_get_coord_x(block,
+                                                            COORDINATE_MAIN, i),
+                block->y + (unsigned int) Block_get_coord_y(block,
+                                                            COORDINATE_MAIN, i))
         ) {
             return 1;
         }
@@ -95,7 +99,9 @@ static void erase_line(Renderer *renderer, int line_number)
 {
     int i;
     for (i = 1; i < (int) renderer->buffer->width-1; i++) {
-        Buffer_set_pixel_enabled(renderer->buffer, (unsigned int) i, (unsigned int) line_number, 0);
+        Buffer_set_pixel_enabled(renderer->buffer,
+                                 (unsigned int) i, (unsigned int) line_number,
+                                 0);
     }
 
     for (i = 1; i < (int) renderer->row_floor-1; i++) {
@@ -326,7 +332,8 @@ static void update(Tetris *tetris)
             Renderer_erase_pause_message(tetris->renderer);
 
             Renderer_draw_panel_labels(tetris->renderer);
-            Renderer_draw_panel_line_counter(tetris->renderer, tetris->lines_completed);
+            Renderer_draw_panel_line_counter(tetris->renderer,
+                                             tetris->lines_completed);
             Renderer_draw_panel_score(tetris->renderer, tetris->score);
             Renderer_draw_panel_level(tetris->renderer, tetris->level);
         }
@@ -451,7 +458,9 @@ static void sleep_ms(unsigned int milliseconds)
 Tetris *Tetris_create(void)
 {
     srand((unsigned int) time(NULL));
+
     init_screen();
+
     Tetris *tetris = malloc(sizeof(Tetris));
 
     tetris->renderer = Renderer_create(12, 24);
@@ -515,6 +524,7 @@ void Tetris_destroy(Tetris *tetris)
     Block_destroy(tetris->current_block);
     Block_destroy(tetris->ghost_block);
     free(tetris);
+
     cleanup_screen();
 }
 

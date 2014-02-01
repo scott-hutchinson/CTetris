@@ -58,7 +58,8 @@ Pixel *Buffer_get_pixel(Buffer *buffer, unsigned int x, unsigned int y)
     return 0;
 }
 
-unsigned char Buffer_get_pixel_enabled(Buffer *buffer, unsigned int x, unsigned int y)
+unsigned char Buffer_get_pixel_enabled(Buffer *buffer,
+                                       unsigned int x, unsigned int y)
 {
     if (x < buffer->width && y < buffer->height) {
         return buffer->pixel_data[y][x].enabled;
@@ -67,7 +68,9 @@ unsigned char Buffer_get_pixel_enabled(Buffer *buffer, unsigned int x, unsigned 
     return 0;
 }
 
-int Buffer_set_pixel(Buffer *buffer, unsigned int x, unsigned int y, Pixel pixel)
+int Buffer_set_pixel(Buffer *buffer,
+                     unsigned int x, unsigned int y,
+                     Pixel pixel)
 {
     if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x] = pixel;
@@ -78,7 +81,9 @@ int Buffer_set_pixel(Buffer *buffer, unsigned int x, unsigned int y, Pixel pixel
     return 0;
 }
 
-int Buffer_set_pixel_enabled(Buffer *buffer, unsigned int x, unsigned int y, unsigned char enabled)
+int Buffer_set_pixel_enabled(Buffer *buffer,
+                             unsigned int x, unsigned int y,
+                             unsigned char enabled)
 {
     if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x].enabled = enabled;
@@ -89,7 +94,9 @@ int Buffer_set_pixel_enabled(Buffer *buffer, unsigned int x, unsigned int y, uns
     return 0;
 }
 
-int Buffer_set_pixel_bold(Buffer *buffer, unsigned int x, unsigned int y, unsigned char bold)
+int Buffer_set_pixel_bold(Buffer *buffer,
+                          unsigned int x, unsigned int y,
+                          unsigned char bold)
 {
     if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x].bold = bold;
@@ -100,7 +107,9 @@ int Buffer_set_pixel_bold(Buffer *buffer, unsigned int x, unsigned int y, unsign
     return 0;
 }
 
-int Buffer_set_pixel_foreground_color(Buffer *buffer, unsigned int x, unsigned int y, int foreground_color)
+int Buffer_set_pixel_foreground_color(Buffer *buffer,
+                                      unsigned int x, unsigned int y,
+                                      int foreground_color)
 {
     if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x].foreground_color = foreground_color;
@@ -111,7 +120,9 @@ int Buffer_set_pixel_foreground_color(Buffer *buffer, unsigned int x, unsigned i
     return 0;
 }
 
-int Buffer_set_pixel_background_color(Buffer *buffer, unsigned int x, unsigned int y, int background_color)
+int Buffer_set_pixel_background_color(Buffer *buffer,
+                                      unsigned int x, unsigned int y,
+                                      int background_color)
 {
     if (x < buffer->width && y < buffer->height) {
         buffer->pixel_data[y][x].background_color = background_color;
@@ -122,7 +133,9 @@ int Buffer_set_pixel_background_color(Buffer *buffer, unsigned int x, unsigned i
     return 0;
 }
 
-int Buffer_set_pixel_value(Buffer *buffer, unsigned int x, unsigned int y, const char *value)
+int Buffer_set_pixel_value(Buffer *buffer,
+                           unsigned int x, unsigned int y,
+                           const char *value)
 {
     if ((x < buffer->width && y < buffer->height)
         && value != NULL

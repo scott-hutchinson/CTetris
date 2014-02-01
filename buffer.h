@@ -3,8 +3,14 @@
 
 #include <stdint.h>
 
-#include "pixel.h"
 
+typedef struct Pixel {
+    unsigned char enabled, bold;
+
+    int background_color, foreground_color;
+
+    const char *value;
+} Pixel;
 
 typedef struct Buffer {
     Pixel **pixel_data;
