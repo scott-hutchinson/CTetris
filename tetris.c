@@ -338,18 +338,6 @@ static void update(Tetris *tetris)
             Renderer_draw_panel_level(tetris->renderer, tetris->level);
         }
     }
-    else if (tetris->key_ghost_block) {
-        if (tetris->enable_ghost_block) {
-            tetris->enable_ghost_block = 0;
-        }
-        else {
-            tetris->enable_ghost_block = 1;
-            if (tetris->enable_ghost_block == 1) {
-                set_ghost_block(tetris);
-            }
-        }
-        tetris->renderer->buffer->dirty = 1;
-    }
 
     if (tetris->game_state != PAUSED) {
         if (!collision(COORDINATE_BOTTOM_COLLISION,
@@ -379,6 +367,16 @@ static void update(Tetris *tetris)
         ) {
             Block_rotate(tetris->current_block);
             if (tetris->enable_ghost_block == 1) {
+                set_ghost_block(tetris);
+            }
+            tetris->renderer->buffer->dirty = 1;
+        }
+        else if (tetris->key_ghost_block) {
+            if (tetris->enable_ghost_block) {
+                tetris->enable_ghost_block = 0;
+            }
+            else {
+                tetris->enable_ghost_block = 1;
                 set_ghost_block(tetris);
             }
             tetris->renderer->buffer->dirty = 1;
