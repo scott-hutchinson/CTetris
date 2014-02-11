@@ -287,32 +287,6 @@ static void get_key_input(Tetris *tetris)
 
 static void update(Tetris *tetris)
 {
-    if (collision(COORDINATE_BOTTOM_COLLISION,
-                  tetris->current_block,
-                  tetris->renderer->buffer)
-    ) {
-        tetris->movement_frame_counter++;
-        if (tetris->movement_frame_counter == tetris->movement_frame_delay) {
-            tetris->movement_frame_counter = 0;
-
-            Renderer_draw_block(tetris->renderer, tetris->current_block);
-
-            int complete_lines = check_complete_lines(tetris);
-
-            next_block(tetris);
-
-            check_game_over(tetris);
-
-            update_score(tetris, complete_lines);
-            update_level(tetris);
-
-            Renderer_draw_panel_score(tetris->renderer, tetris->score);
-            Renderer_draw_panel_level(tetris->renderer, tetris->level);
-
-            tetris->renderer->buffer->dirty = 1;
-        }
-    }
-
     if (tetris->key_quit) {
         Tetris_destroy(tetris);
         exit(0);
@@ -340,6 +314,32 @@ static void update(Tetris *tetris)
     }
 
     if (tetris->game_state != PAUSED) {
+        if (collision(COORDINATE_BOTTOM_COLLISION,
+                      tetris->current_block,
+                      tetris->renderer->buffer)
+        ) {
+            tetris->movement_frame_counter++;
+            if (tetris->movement_frame_counter == tetris->movement_frame_delay) {
+                tetris->movement_frame_counter = 0;
+
+                Renderer_draw_block(tetris->renderer, tetris->current_block);
+
+                int complete_lines = check_complete_lines(tetris);
+
+                next_block(tetris);
+
+                check_game_over(tetris);
+
+                update_score(tetris, complete_lines);
+                update_level(tetris);
+
+                Renderer_draw_panel_score(tetris->renderer, tetris->score);
+                Renderer_draw_panel_level(tetris->renderer, tetris->level);
+
+                tetris->renderer->buffer->dirty = 1;
+            }
+        }
+
         if (!collision(COORDINATE_BOTTOM_COLLISION,
                        tetris->current_block,
                        tetris->renderer->buffer)
