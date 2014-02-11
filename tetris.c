@@ -440,7 +440,7 @@ static void draw_frame(Tetris *tetris)
     Renderer_erase_block(tetris->renderer, tetris->current_block);
 }
 
-static void sleep_ms(unsigned int milliseconds)
+void Tetris_sleep_ms(unsigned int milliseconds)
 {
     time_t seconds = (int) (milliseconds / 1000);
 
@@ -543,6 +543,6 @@ void Tetris_game_loop(Tetris *tetris)
             draw_frame(tetris);
         }
 
-        sleep_ms(30);
+        Tetris_sleep_ms(30);
     }
 }

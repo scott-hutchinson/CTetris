@@ -41,4 +41,6 @@ extern void Tetris_init_options(Tetris *, int, char **);
 
 extern void Tetris_game_loop(Tetris *);
 
+extern void Tetris_sleep_ms(unsigned int milliseconds);
+
 #endif

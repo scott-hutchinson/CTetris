@@ -346,5 +346,50 @@ void Renderer_draw_game_border(Renderer *renderer)
 
 void Renderer_draw_game_over(Renderer *renderer)
 {
-    Renderer_erase_pause_message(renderer);
+    unsigned int x, y;
+    for (x = 4, y = 0; y < renderer->row_floor; y++) {
+        Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
+        Buffer_set_pixel_enabled(renderer->buffer, x+1, y, 1);
+
+        Buffer_set_pixel_background_color(renderer->buffer, x, y, get_color_code(renderer, COLOR_NONE));
+        Buffer_set_pixel_background_color(renderer->buffer, x+1, y, get_color_code(renderer, COLOR_NONE));
+
+        Buffer_set_pixel_value(renderer->buffer, x, y, "Ga");
+        Buffer_set_pixel_value(renderer->buffer, x+1, y, "me");
+
+        Renderer_present_buffer(renderer);
+
+        if (y != renderer->row_floor - 1) {
+            Buffer_set_pixel_enabled(renderer->buffer, x, y, 0);
+            Buffer_set_pixel_enabled(renderer->buffer, x+1, y, 0);
+        }
+
+        Terminal_clear_screen(0);
+
+        Tetris_sleep_ms(50);
+    }
+
+    for (x += 2, y = 0; y < renderer->row_floor; y++) {
+        Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
+        Buffer_set_pixel_enabled(renderer->buffer, x+1, y, 1);
+
+        Buffer_set_pixel_background_color(renderer->buffer, x, y, get_color_code(renderer, COLOR_NONE));
+        Buffer_set_pixel_background_color(renderer->buffer, x+1, y, get_color_code(renderer, COLOR_NONE));
+
+        Buffer_set_pixel_value(renderer->buffer, x, y, "Ov");
+        Buffer_set_pixel_value(renderer->buffer, x+1, y, "er");
+
+        Renderer_present_buffer(renderer);
+
+        if (y != renderer->row_floor - 1) {
+            Buffer_set_pixel_enabled(renderer->buffer, x, y, 0);
+            Buffer_set_pixel_enabled(renderer->buffer, x+1, y, 0);
+        }
+
+        Terminal_clear_screen(0);
+
+        Tetris_sleep_ms(50);
+    }
+
+    Tetris_sleep_ms(800);
 }
