@@ -1,7 +1,6 @@
 #include "input.h"
 
 #include <unistd.h>
-#include <stdio.h>
 
 
 static KEY_ALIAS get_key_alias(int key_code)

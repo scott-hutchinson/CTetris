@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "terminal.h"
-
 
 Buffer *Buffer_create(unsigned int width, unsigned int height)
 {

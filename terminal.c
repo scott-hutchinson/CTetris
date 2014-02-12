@@ -2,7 +2,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <termios.h>
 
+
+static struct termios orig_term_attr, raw_term_attr;
 
 void Terminal_begin_raw_mode(void)
 {
