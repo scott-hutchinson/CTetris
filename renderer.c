@@ -346,6 +346,11 @@ void Renderer_draw_game_border(Renderer *renderer)
 
 void Renderer_draw_game_over(Renderer *renderer)
 {
+    const char *fill_game_over[4]  = {
+        "Ga", "me",
+        "Ov", "er",
+    };
+
     unsigned int x, y;
     for (x = 4, y = 0; y < renderer->row_floor; y++) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
@@ -358,8 +363,8 @@ void Renderer_draw_game_over(Renderer *renderer)
                                           x+1, y,
                                           get_color_code(renderer, COLOR_NONE));
 
-        Buffer_set_pixel_value(renderer->buffer, x, y, "Ga");
-        Buffer_set_pixel_value(renderer->buffer, x+1, y, "me");
+        Buffer_set_pixel_value(renderer->buffer, x, y, fill_game_over[0]);
+        Buffer_set_pixel_value(renderer->buffer, x+1, y, fill_game_over[1]);
 
         Renderer_present_buffer(renderer);
 
@@ -384,8 +389,8 @@ void Renderer_draw_game_over(Renderer *renderer)
                                           x+1, y,
                                           get_color_code(renderer, COLOR_NONE));
 
-        Buffer_set_pixel_value(renderer->buffer, x, y, "Ov");
-        Buffer_set_pixel_value(renderer->buffer, x+1, y, "er");
+        Buffer_set_pixel_value(renderer->buffer, x, y, fill_game_over[2]);
+        Buffer_set_pixel_value(renderer->buffer, x+1, y, fill_game_over[3]);
 
         Renderer_present_buffer(renderer);
 
