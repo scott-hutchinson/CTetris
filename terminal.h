@@ -1,15 +1,6 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
-#include <termios.h>
-
-
-struct termios orig_term_attr, raw_term_attr;
-
-typedef enum COLOR_MODE {
-    XTERM,
-    XTERM_256
-} COLOR_MODE;
 
 typedef enum CURSOR_DIRECTION {
     CURSOR_UP,

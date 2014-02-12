@@ -3,20 +3,25 @@
 
 #include <stdint.h>
 
-#include "terminal.h"
-#include "input.h"
 #include "block.h"
 #include "renderer.h"
 
+
+typedef enum GAME_STATE {
+    RUNNING,
+    PAUSED,
+} GAME_STATE;
 
 typedef struct Tetris {
     Renderer *renderer;
 
     Block *current_block, *ghost_block;
 
+    GAME_STATE game_state;
+
     uint32_t score, level, lines_until_level_up, lines_completed;
 
-    uint8_t game_state, enable_ghost_block;
+    uint8_t enable_ghost_block;
 
     uint8_t gravity_frame_counter, movement_frame_counter;
     uint8_t gravity_frame_delay, movement_frame_delay;
@@ -28,11 +33,6 @@ typedef struct Tetris {
     int option_count;
     char **options;
 } Tetris;
-
-typedef enum GAME_STATE {
-    RUNNING,
-    PAUSED,
-} GAME_STATE;
 
 extern Tetris *Tetris_create(void);
 extern void Tetris_destroy(Tetris *);

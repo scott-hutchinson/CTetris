@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <time.h>
 
+#include "terminal.h"
+#include "input.h"
+
 
 static void init_screen(void)
 {

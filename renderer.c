@@ -351,8 +351,12 @@ void Renderer_draw_game_over(Renderer *renderer)
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
         Buffer_set_pixel_enabled(renderer->buffer, x+1, y, 1);
 
-        Buffer_set_pixel_background_color(renderer->buffer, x, y, get_color_code(renderer, COLOR_NONE));
-        Buffer_set_pixel_background_color(renderer->buffer, x+1, y, get_color_code(renderer, COLOR_NONE));
+        Buffer_set_pixel_background_color(renderer->buffer,
+                                          x, y,
+                                          get_color_code(renderer, COLOR_NONE));
+        Buffer_set_pixel_background_color(renderer->buffer,
+                                          x+1, y,
+                                          get_color_code(renderer, COLOR_NONE));
 
         Buffer_set_pixel_value(renderer->buffer, x, y, "Ga");
         Buffer_set_pixel_value(renderer->buffer, x+1, y, "me");
@@ -373,8 +377,12 @@ void Renderer_draw_game_over(Renderer *renderer)
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
         Buffer_set_pixel_enabled(renderer->buffer, x+1, y, 1);
 
-        Buffer_set_pixel_background_color(renderer->buffer, x, y, get_color_code(renderer, COLOR_NONE));
-        Buffer_set_pixel_background_color(renderer->buffer, x+1, y, get_color_code(renderer, COLOR_NONE));
+        Buffer_set_pixel_background_color(renderer->buffer,
+                                          x, y,
+                                          get_color_code(renderer, COLOR_NONE));
+        Buffer_set_pixel_background_color(renderer->buffer,
+                                          x+1, y,
+                                          get_color_code(renderer, COLOR_NONE));
 
         Buffer_set_pixel_value(renderer->buffer, x, y, "Ov");
         Buffer_set_pixel_value(renderer->buffer, x+1, y, "er");
