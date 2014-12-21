@@ -10,13 +10,13 @@ Buffer *Buffer_create(unsigned int width, unsigned int height)
 
     unsigned int y;
     buffer->pixel_data = malloc(height * sizeof(Pixel *));
-    for (y = 0; y < height; y++) {
+    for (y = 0; y < height; ++y) {
         buffer->pixel_data[y] = malloc(width * sizeof(Pixel));
     }
 
     unsigned int x;
-    for (y = 0; y < height; y++) {
-        for (x = 0; x < width; x++) {
+    for (y = 0; y < height; ++y) {
+        for (x = 0; x < width; ++x) {
             buffer->pixel_data[y][x].enabled = 0;
 
             buffer->pixel_data[y][x].bold = 0;
@@ -39,7 +39,7 @@ Buffer *Buffer_create(unsigned int width, unsigned int height)
 void Buffer_destroy(Buffer *buffer)
 {
     unsigned int i;
-    for(i = 0; i < buffer->height; i++) {
+    for (i = 0; i < buffer->height; ++i) {
         free(buffer->pixel_data[i]);
     }
     free(buffer->pixel_data);

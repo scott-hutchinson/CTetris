@@ -31,7 +31,7 @@ static KEY_ALIAS get_key_alias(int key_code)
 
 KEY_CODE Input_get_key(int *key_sequence) {
     int i;
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < 3; ++i) {
         key_sequence[i] = ASCII_NULL;
         read(0, &key_sequence[i], 1);
         key_sequence[i] &= 255;

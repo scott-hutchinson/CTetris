@@ -7,7 +7,7 @@
 static void clear_collision_coords(Block *block)
 {
     int i;
-    for (i = 0; i < 4; i++){
+    for (i = 0; i < 4; ++i){
         block->coords[i].x                  = COORDINATE_IGNORE;
         block->coords[i].y                  = COORDINATE_IGNORE;
 
@@ -27,7 +27,7 @@ Block *Block_create(void)
     Block *block = malloc(sizeof(Block));
 
     int i;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 4; ++i) {
         block->coords[i].x                  = 0;
         block->coords[i].y                  = 0;
 
@@ -106,7 +106,7 @@ void Block_rotate(Block *block)
         return;
     }
 
-    block->rotate++;
+    ++block->rotate;
 
     Block_set_type(block, block->type, block->rotate);
 }

@@ -27,7 +27,7 @@ static void Renderer_draw_panel_value(Renderer *renderer,
     snprintf(value_formatted, renderer->panel_value_width*2, format, value);
 
     unsigned int i;
-    for (i = 0; i < renderer->panel_value_width; i++) {
+    for (i = 0; i < renderer->panel_value_width; ++i) {
         sprintf(value_buffer[i],
                 "%c%c",
                 value_formatted[2*i], value_formatted[(2*i)+1]);
@@ -37,7 +37,7 @@ static void Renderer_draw_panel_value(Renderer *renderer,
 
     value_index = 0;
     y = row;
-    for (x = renderer->panel_label_width; x < renderer->buffer->width; x++) {
+    for (x = renderer->panel_label_width; x < renderer->buffer->width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
 
         if (value_index < renderer->panel_value_width) {
@@ -45,7 +45,7 @@ static void Renderer_draw_panel_value(Renderer *renderer,
                                    x, y,
                                    value_buffer[value_index]);
 
-            value_index++;
+            ++value_index;
         }
     }
 }
@@ -53,7 +53,7 @@ static void Renderer_draw_panel_value(Renderer *renderer,
 static void Renderer_erase_panel_value(Renderer *renderer, unsigned int row)
 {
     unsigned int x;
-    for (x = renderer->panel_label_width; x < renderer->buffer->width; x++) {
+    for (x = renderer->panel_label_width; x < renderer->buffer->width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, row, 0);
     }
 }
@@ -77,7 +77,7 @@ Renderer *Renderer_create(unsigned int width,
     renderer->panel_buffer_score = malloc(renderer->panel_value_width * sizeof(char *));
     renderer->panel_buffer_level = malloc(renderer->panel_value_width * sizeof(char *));
     unsigned int y;
-    for (y = 0; y < renderer->panel_value_width; y++) {
+    for (y = 0; y < renderer->panel_value_width; ++y) {
         renderer->panel_buffer_line_counter[y] = malloc(3 * sizeof(char));
         renderer->panel_buffer_score[y] = malloc(3 * sizeof(char));
         renderer->panel_buffer_level[y] = malloc(3 * sizeof(char));
@@ -102,7 +102,7 @@ void Renderer_destroy(Renderer *renderer)
     Buffer_destroy(renderer->buffer);
 
     unsigned int i;
-    for(i = 0; i < renderer->panel_value_width; i++) {
+    for (i = 0; i < renderer->panel_value_width; ++i) {
         free(renderer->panel_buffer_line_counter[i]);
         free(renderer->panel_buffer_score[i]);
         free(renderer->panel_buffer_level[i]);
@@ -117,8 +117,8 @@ void Renderer_destroy(Renderer *renderer)
 void Renderer_present_buffer(Renderer *renderer)
 {
     unsigned int x, y;
-    for (y = 0; y < renderer->buffer->height; y++) {
-        for (x = 0; x < renderer->buffer->width; x++) {
+    for (y = 0; y < renderer->buffer->height; ++y) {
+        for (x = 0; x < renderer->buffer->width; ++x) {
             Pixel pixel = renderer->buffer->pixel_data[y][x];
 
             if (pixel.enabled) {
@@ -144,7 +144,7 @@ void Renderer_present_buffer(Renderer *renderer)
 void Renderer_draw_block(Renderer *renderer, Block *block)
 {
     int i;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 4; ++i) {
         Buffer_set_pixel_enabled(
             renderer->buffer,
             block->x + (unsigned int) Block_get_coord_x(block, COORDINATE_MAIN, i),
@@ -162,7 +162,7 @@ void Renderer_draw_block(Renderer *renderer, Block *block)
 void Renderer_erase_block(Renderer *renderer, Block *block)
 {
     int i;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 4; ++i) {
         int x = block->x + Block_get_coord_x(block, COORDINATE_MAIN, i);
         int y = block->y + Block_get_coord_y(block, COORDINATE_MAIN, i);
 
@@ -183,19 +183,19 @@ void Renderer_draw_pause_message(Renderer *renderer)
     message_index = 0;
 
     y = renderer->row_line_counter;
-    for (x = renderer->panel_label_width+1; x < renderer->panel_value_width-1; x++) {
+    for (x = renderer->panel_label_width+1; x < renderer->panel_value_width-1; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
         Buffer_set_pixel_value(renderer->buffer, x, y, pause_message[message_index]);
 
-        message_index++;
+        ++message_index;
     }
 
     y = renderer->row_score;
-    for (x = renderer->panel_label_width; x < renderer->panel_value_width; x++) {
+    for (x = renderer->panel_label_width; x < renderer->panel_value_width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
         Buffer_set_pixel_value(renderer->buffer, x, y, pause_message[message_index]);
 
-        message_index++;
+        ++message_index;
     }
 
     renderer->buffer->dirty = 1;
@@ -206,12 +206,12 @@ void Renderer_erase_pause_message(Renderer *renderer)
     unsigned int x, y;
 
     y = renderer->row_line_counter;
-    for (x = renderer->panel_label_width+1; x < renderer->buffer->width; x++) {
+    for (x = renderer->panel_label_width+1; x < renderer->buffer->width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
     }
 
     y = renderer->row_score;
-    for (x = renderer->panel_label_width; x < renderer->buffer->width; x++) {
+    for (x = renderer->panel_label_width; x < renderer->buffer->width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
     }
 
@@ -233,34 +233,34 @@ void Renderer_draw_panel_labels(Renderer *renderer)
     label_index = 0;
 
     y = renderer->row_line_counter;
-    for (x = 0; x < renderer->panel_label_width; x++) {
+    for (x = 0; x < renderer->panel_label_width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
         Buffer_set_pixel_value(renderer->buffer, x, y, panel_labels[label_index]);
 
-        label_index++;
+        ++label_index;
     }
 
     y = renderer->row_score;
-    for (x = 0; x < renderer->panel_label_width; x++) {
+    for (x = 0; x < renderer->panel_label_width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
         Buffer_set_pixel_value(renderer->buffer, x, y, panel_labels[label_index]);
 
-        label_index++;
+        ++label_index;
     }
 
     y = renderer->row_level;
-    for (x = 0; x < renderer->panel_label_width; x++) {
+    for (x = 0; x < renderer->panel_label_width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
         Buffer_set_pixel_value(renderer->buffer, x, y, panel_labels[label_index]);
 
-        label_index++;
+        ++label_index;
     }
 }
 
 void Renderer_erase_panel_labels(Renderer *renderer)
 {
     unsigned int x;
-    for (x = 0; x < renderer->panel_label_width; x++) {
+    for (x = 0; x < renderer->panel_label_width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, renderer->row_line_counter, 0);
         Buffer_set_pixel_enabled(renderer->buffer, x, renderer->row_score, 0);
         Buffer_set_pixel_enabled(renderer->buffer, x, renderer->row_level, 0);
@@ -316,7 +316,7 @@ void Renderer_draw_game_border(Renderer *renderer)
 
     unsigned int x, y;
     for (x = 0; x < renderer->buffer->width; x+= renderer->buffer->width-1) {
-        for (y = 0; y < renderer->row_floor; y++) {
+        for (y = 0; y < renderer->row_floor; ++y) {
             Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
 
             Buffer_set_pixel_foreground_color(
@@ -330,7 +330,7 @@ void Renderer_draw_game_border(Renderer *renderer)
         }
     }
 
-    for (x = 0; x < renderer->buffer->width; x++) {
+    for (x = 0; x < renderer->buffer->width; ++x) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
 
         Buffer_set_pixel_foreground_color(
@@ -352,7 +352,7 @@ void Renderer_draw_game_over(Renderer *renderer)
     };
 
     unsigned int x, y;
-    for (x = 4, y = 0; y < renderer->row_floor; y++) {
+    for (x = 4, y = 0; y < renderer->row_floor; ++y) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
         Buffer_set_pixel_enabled(renderer->buffer, x+1, y, 1);
 
@@ -378,7 +378,7 @@ void Renderer_draw_game_over(Renderer *renderer)
         Tetris_sleep_ms(50);
     }
 
-    for (x += 2, y = 0; y < renderer->row_floor; y++) {
+    for (x += 2, y = 0; y < renderer->row_floor; ++y) {
         Buffer_set_pixel_enabled(renderer->buffer, x, y, 1);
         Buffer_set_pixel_enabled(renderer->buffer, x+1, y, 1);
 
