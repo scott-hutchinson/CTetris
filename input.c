@@ -2,6 +2,22 @@
 
 #include <unistd.h>
 
+typedef enum KEY_CODE {
+    ASCII_NULL                = 0x00,
+    ASCII_LOWER_Q             = 0x71,
+    ASCII_LOWER_P             = 0x70,
+    ASCII_LOWER_R             = 0x72,
+    ASCII_LOWER_G             = 0x67,
+    ASCII_UPPER_A             = 0x41,
+    ASCII_UPPER_B             = 0x42,
+    ASCII_UPPER_C             = 0x43,
+    ASCII_UPPER_D             = 0x44,
+    ASCII_SPACE               = 0x20,
+    ASCII_ESCAPE              = 0x1B,
+    ASCII_SQUARE_BRACKET_LEFT = 0x5B,
+    ASCII_CONTROL_C           = 0x03,
+} KEY_CODE;
+
 
 static KEY_ALIAS get_key_alias(int key_code)
 {
@@ -29,7 +45,7 @@ static KEY_ALIAS get_key_alias(int key_code)
     }
 }
 
-KEY_CODE Input_get_key(int *key_sequence) {
+KEY_ALIAS Input_get_key(int *key_sequence) {
     int i;
     for (i = 0; i < 3; ++i) {
         key_sequence[i] = ASCII_NULL;
